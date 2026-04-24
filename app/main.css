@@ -7,6 +7,7 @@
     font-style: normal;
   }
 html {font-size: 100%;} /* 16px */
+
 @theme {
       --color-text-50: #eef9eb;
       --color-text-100: #ddf4d7;
@@ -81,7 +82,7 @@ html {font-size: 100%;} /* 16px */
     --color-text-900: #ddf4d7;
     --color-text-950: #eef9eb;
     
-    --color-background-50: #071307;
+    --color-background-50: #416941;
     --color-background-100: #0e250e;
     --color-background-200: #1b4b1b;
     --color-background-300: #297029;
