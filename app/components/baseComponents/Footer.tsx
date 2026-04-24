@@ -11,7 +11,7 @@ export default function Footer() {
         <div className="grid gap-10 md:grid-cols-3">
           {/* Brand Section */}
           <div className="flex flex-col gap-4">
-            <Link href="/" className="relative block w-28 h-28 sm:w-32 sm:h-32">
+            <Link href="/" className="relative block w-20 h-20 sm:w-28 sm:h-28">
               <Image
                 src="/logo/nexus-logo.png"
                 alt="Nexus Logo"

@@ -5,8 +5,9 @@ import { motion, Variants, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
+import ThemeToggler from "./ThemeToggler";
 
-export default function Sidebar() {
+export default function Navbar() {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -33,10 +34,10 @@ export default function Sidebar() {
   return (
     <>
       {/* Desktop Navigation */}
-      <nav className="hidden sm:block px-6 m-6 bg-background-100 rounded-xl shadow-sm">
-        <div className="flex items-center justify-between">
+      <nav className="hidden sm:block sticky top-0 z-50 mx-6 mt-4 px-6 bg-background-100/80 backdrop-blur-md rounded-xl shadow-sm border border-primary-900/10">
+        <div className="flex items-center justify-between space-x-6">
           {/* Logo */}
-          <Link href="/" className="relative block w-24 h-24">
+          <Link href="/" className="relative block w-28 h-28">
             <Image
               src="/logo/nexus-logo.png"
               alt="Nexus Logo"
@@ -57,7 +58,7 @@ export default function Sidebar() {
                   </motion.span>
                 <AnimatePresence>
                   {open && (
-                <motion.div initial={{opacity: 0, y:10, scale: 0.95}} animate={{opacity:1, y:0, scale:1 }} exit={{opacity: 0, y:10, scale:0.95}} transition={{duration: 0.2}}             className="absolute top-8 left-0 w-64 bg-primary-200 p-4 rounded-xl shadow-lg z-50">
+                <motion.div initial={{opacity: 0, y:0, scale: 0.95}} animate={{opacity:1, y:10, scale:1 }} exit={{opacity: 0, y:0, scale:0.95}} transition={{duration: 0.2}}             className="absolute top-8 left-0 w-64 bg-primary-200 p-4 rounded-xl shadow-lg z-50">
                   <div className="flex flex-col gap-3 text-sm">
                   <span className="font-medium text-primary-900">Messaging</span>
                   <span className="text-primary-900/70">Real-time chat with seamless delivery</span>
@@ -81,6 +82,7 @@ export default function Sidebar() {
               <div className="w-0 h-0.5 bg-primary-300 transition-all duration-300 group-hover:w-full"></div>
             </li>
           </ul>
+        <div className="hidden sm:block"><ThemeToggler /></div>
         </div>
       </nav>
 
