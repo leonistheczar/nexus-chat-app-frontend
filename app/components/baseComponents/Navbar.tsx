@@ -1,12 +1,34 @@
 "use client";
 
 import { ChevronDown, Menu, X } from "lucide-react";
+import { motion, Variants, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 
 export default function Sidebar() {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15
+      }
+    }
+  };
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, x:-20 },
+    visible: {
+      opacity: 1,
+      x:0,
+      transition: {
+        duration: 0.1,
+        ease: "easeIn"
+      }
+    }
+  }
   const [mobileNav, setMobileNav] = useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
     <>
@@ -27,10 +49,24 @@ export default function Sidebar() {
 
           {/* Links */}
           <ul className="flex gap-x-6 items-center">
-            <li className="group cursor-pointer">
-              <div className="flex items-center gap-1">
+            <li className="group cursor-pointer" onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
+              <div className="flex items-center gap-1 relative group">
                 <Link href="/features">Features</Link>
+                <motion.span animate={{rotate: open ? 180 : 0}} transition={{duration: 0.2}}>
                 <ChevronDown size={16} />
+                  </motion.span>
+                <AnimatePresence>
+                  {open && (
+                <motion.div initial={{opacity: 0, y:10, scale: 0.95}} animate={{opacity:1, y:0, scale:1 }} exit={{opacity: 0, y:10, scale:0.95}} transition={{duration: 0.2}}             className="absolute top-8 left-0 w-64 bg-primary-200 p-4 rounded-xl shadow-lg z-50">
+                  <div className="flex flex-col gap-3 text-sm">
+                  <span className="font-medium text-primary-900">Messaging</span>
+                  <span className="text-primary-900/70">Real-time chat with seamless delivery</span>
+                  <span className="font-medium text-primary-900 mt-2">Security</span>
+                  <span className="text-primary-900/70">End-to-end encrypted conversations</span>
+                  </div>
+                </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
               <div className="w-0 h-0.5 bg-primary-300 transition-all duration-300 group-hover:w-full"></div>
             </li>
@@ -65,7 +101,7 @@ export default function Sidebar() {
         {/* Menu Button */}
         <button
           aria-label="Toggle menu"
-          className="bg-background-400 text-slate-50 p-2 rounded-md w-10 h-10 flex items-center justify-center relative"
+          className="bg-background-400 cursor-pointer text-slate-50 p-2 rounded-md w-10 h-10 flex items-center justify-center relative transition hover:bg-background-500"
           onClick={() => setMobileNav(!mobileNav)}
         >
           <Menu
@@ -108,28 +144,28 @@ export default function Sidebar() {
         </div>
 
         {/* Links */}
-        <ul className="flex flex-col gap-y-6 px-6 mt-6">
-          <li>
+        <motion.ul variants={containerVariants} initial="hidden" animate={mobileNav ? "visible" : "hidden"} className="flex flex-col gap-y-6 px-6 mt-6">
+          <motion.li variants={itemVariants}>
             <Link className="transition-all hover:text-text-600" onClick={() => setMobileNav(false)} href="/">
               Home
             </Link>
-          </li>
-          <li>
+          </motion.li>
+          <motion.li variants={itemVariants}>
             <Link className="transition-all hover:text-text-600" onClick={() => setMobileNav(false)} href="/features">
               Features
             </Link>
-          </li>
-          <li>
+          </motion.li>
+          <motion.li variants={itemVariants}>
             <Link className="transition-all hover:text-text-600" onClick={() => setMobileNav(false)} href="/about">
               About Us
             </Link>
-          </li>
-          <li>
+          </motion.li>
+          <motion.li variants={itemVariants}>
             <Link className="transition-all hover:text-text-600" onClick={() => setMobileNav(false)} href="/contact">
               Contact Us
             </Link>
-          </li>
-        </ul>
+          </motion.li>
+        </motion.ul >
       </nav>
     </>
   );
