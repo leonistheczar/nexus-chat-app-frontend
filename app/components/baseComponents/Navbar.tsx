@@ -4,7 +4,7 @@ import { ChevronDown, Menu, X } from "lucide-react";
 import { motion, Variants, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ThemeToggler from "./ThemeToggler";
 
 export default function Navbar() {
@@ -30,12 +30,32 @@ export default function Navbar() {
   }
   const [mobileNav, setMobileNav] = useState(false);
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <>
       {/* Desktop Navigation */}
-      <div className="mx-16">
-      <nav className="hidden sm:block sticky top-4 z-50 mx-6 mt-4 px-6 bg-primary-100 backdrop-blur-md rounded-xl shadow-md">
+      <div className="hidden sm:block sticky top-0.5 z-50 mx-16 ">
+      <nav
+        className={`
+          mx-6 mt-4 px-6 rounded-xl shadow-lg backdrop-blur-md
+          transition-all duration-300
+          ${
+            scrolled
+              ? "bg-primary-100/70"
+              : "bg-primary-100"
+          }
+        `}
+      >
         <div className="flex items-center justify-between space-x-6">
           {/* Logo */}
           <Link href="/" className="relative block w-28 h-28">
@@ -89,7 +109,18 @@ export default function Navbar() {
       </div>
 
       {/* Mobile Top Bar */}
-      <div className="flex items-center justify-between sm:hidden px-6 m-6 max-w-xl bg-primary-100 rounded-xl shadow-sm relative z-30">
+      <div className="block sm:hidden sticky top-0.5 z-50 mx-10 ">
+      <nav
+        className={`flex items-center justify-between
+          mx-6 mt-4 px-6 rounded-xl shadow-lg backdrop-blur-md
+          transition-all duration-300
+          ${
+            scrolled
+              ? "bg-primary-100/70"
+              : "bg-primary-100"
+          }
+        `}
+      >
         {/* Logo */}
         <Link href="/" className="relative block w-20 h-20">
           <Image
@@ -127,6 +158,7 @@ export default function Navbar() {
           />
         </button>
         </div>
+        </nav>
       </div>
 
       {/* Overlay */}
