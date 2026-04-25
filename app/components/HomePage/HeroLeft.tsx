@@ -1,0 +1,91 @@
+"use client";
+
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useTypewriter } from "@/app/hooks/useTypeWriter";
+
+const PHRASES = [
+  "Connect instantly.\nTalk without limits.",
+  "Private conversations.\nBuilt for trust.",
+  "Fast messaging.\nBuilt to scale.",
+  "Modern messaging.\nPowered by simplicity.",
+  "Built for speed.\nDesigned for humans.",
+  "End-to-end encrypted.\nYour privacy first.",
+  "Real-time messaging.\nEngineered for scale.",
+];
+
+export function HeroLeft() {
+  const { displayed, isDone } = useTypewriter({ phrases: PHRASES });
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    if (isDone) setVisible(true);
+  }, [isDone]);
+
+  const [line1 = "", line2 = ""] = displayed.split("\n");
+
+  return (
+      //* ── Left: content ── */
+      <div className="flex flex-col gap-6">
+        {/* Heading */}
+        <h1 className="text-4xl md:text-5xl font-semibold leading-tight tracking-tight text-text-700 min-h-28 md:min-h-32">
+          {line1}
+          {line2 && (
+            <>
+              <br />
+              <span className="text-primary-500 ">{line2}</span>
+            </>
+          )}
+
+          {/* Cursor */}
+          <span className="inline-block w-0.5 h-[0.85em] bg-primary-500 ml-1 align-middle rounded-sm animate-[blink_0.9s_step-end_infinite]" />
+        </h1>
+
+        {/* Subtitle */}
+        <p
+          className={`text-base leading-relaxed text-text-800 max-w-md transition-all duration-500 ${
+            visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+          }`}
+        >
+          A modern messaging platform built for speed, privacy, and real-time
+          collaboration. Chat securely, scale effortlessly.
+        </p>
+
+        {/* CTA */}
+        <div
+          className={`flex items-center gap-3 transition-all duration-500 delay-100 ${
+            visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+          }`}
+        >
+          <Link
+            href="/signup"
+            className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary-500 hover:bg-primary-600 text-primary-50 text-sm font-medium  transition-all"
+          >
+            Get started free
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 16 16"
+              fill="none"
+              className="transition-transform duration-200 group-hover:translate-x-1"
+            >
+              <path
+                d="M3 8h10M9 4l4 4-4 4"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </Link>
+
+          <Link
+            href="/signin"
+            className="inline-flex items-center px-5 py-2.5 rounded-lg border bg-secondary-600 hover:bg-secondary-500 text-white border-primary-200 text-sm transition-colors"
+          >
+            Sign in
+          </Link>
+        </div>
+      </div>
+  );
+}

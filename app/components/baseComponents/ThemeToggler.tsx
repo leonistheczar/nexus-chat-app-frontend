@@ -21,7 +21,7 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="relative w-10 h-10 flex items-center justify-center rounded-full bg-background-100 overflow-hidden transition-all hover:cursor-pointer hover:bg-background-200"
+      className="relative w-10 h-10 flex items-center justify-center rounded-full bg-primary-200 overflow-hidden transition-all hover:cursor-pointer hover:bg-primary-300"
     >
       {/* Sun Icon */}
       <Sun

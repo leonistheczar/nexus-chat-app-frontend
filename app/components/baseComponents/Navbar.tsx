@@ -34,7 +34,7 @@ export default function Navbar() {
   return (
     <>
       {/* Desktop Navigation */}
-      <nav className="hidden sm:block sticky top-0 z-50 mx-6 mt-4 px-6 bg-background-100/80 backdrop-blur-md rounded-xl shadow-sm border border-primary-900/10">
+      <nav className="hidden sm:block sticky top-4 z-50 mx-6 mt-4 px-6 bg-primary-100 backdrop-blur-md rounded-xl shadow-sm border border-primary-900/10">
         <div className="flex items-center justify-between space-x-6">
           {/* Logo */}
           <Link href="/" className="relative block w-28 h-28">
@@ -49,7 +49,7 @@ export default function Navbar() {
           </Link>
 
           {/* Links */}
-          <ul className="flex gap-x-6 items-center">
+          <ul className="flex gap-x-8 items-center ">
             <li className="group cursor-pointer" onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
               <div className="flex items-center gap-1 relative group">
                 <Link href="/features">Features</Link>
@@ -58,7 +58,7 @@ export default function Navbar() {
                   </motion.span>
                 <AnimatePresence>
                   {open && (
-                <motion.div initial={{opacity: 0, y:0, scale: 0.95}} animate={{opacity:1, y:10, scale:1 }} exit={{opacity: 0, y:0, scale:0.95}} transition={{duration: 0.2}}             className="absolute top-8 left-0 w-64 bg-primary-200 p-4 rounded-xl shadow-lg z-50">
+                <motion.div initial={{opacity: 0, y:0, scale: 0.95}} animate={{opacity:1, y:8, scale:1 }} exit={{opacity: 0, y:0, scale:0.95}} transition={{duration: 0.2}}             className="absolute top-8 left-0 w-64 bg-primary-200 p-4 rounded-xl shadow-lg z-50">
                   <div className="flex flex-col gap-3 text-sm">
                   <span className="font-medium text-primary-900">Messaging</span>
                   <span className="text-primary-900/70">Real-time chat with seamless delivery</span>
