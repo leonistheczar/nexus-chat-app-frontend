@@ -26,9 +26,9 @@ export function HeroLeft() {
 
   return (
       //* ── Left: content ── */
-      <div className="flex flex-col gap-6">
+      <div id="hero-content" className="flex flex-col gap-6">
         {/* Heading */}
-        <h1 className="text-4xl md:text-5xl font-semibold leading-tight tracking-tight text-text-700 min-h-28 md:min-h-32">
+        <h1 className="text-3xl sm:text-5xl font-semibold leading-tight tracking-tight text-text-700 min-h-28 md:min-h-32 ">
           {line1}
           {line2 && (
             <>

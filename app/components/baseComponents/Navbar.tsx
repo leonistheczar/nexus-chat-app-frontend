@@ -34,7 +34,8 @@ export default function Navbar() {
   return (
     <>
       {/* Desktop Navigation */}
-      <nav className="hidden sm:block sticky top-4 z-50 mx-6 mt-4 px-6 bg-primary-100 backdrop-blur-md rounded-xl shadow-sm border border-primary-900/10">
+      <div className="mx-16">
+      <nav className="hidden sm:block sticky top-4 z-50 mx-6 mt-4 px-6 bg-primary-100 backdrop-blur-md rounded-xl shadow-md">
         <div className="flex items-center justify-between space-x-6">
           {/* Logo */}
           <Link href="/" className="relative block w-28 h-28">
@@ -85,9 +86,10 @@ export default function Navbar() {
         <div className="hidden sm:block"><ThemeToggler /></div>
         </div>
       </nav>
+      </div>
 
       {/* Mobile Top Bar */}
-      <div className="flex items-center justify-between sm:hidden px-6 m-6 max-w-xl bg-background-100 rounded-xl shadow-sm relative z-30">
+      <div className="flex items-center justify-between sm:hidden px-6 m-6 max-w-xl bg-primary-100 rounded-xl shadow-sm relative z-30">
         {/* Logo */}
         <Link href="/" className="relative block w-20 h-20">
           <Image
@@ -100,14 +102,16 @@ export default function Navbar() {
           />
         </Link>
 
-        {/* Menu Button */}
+        <div className="flex gap-x-4">
+        <div className="block sm:hidden"><ThemeToggler /></div>
+        {/* Menu Buttons */}
         <button
           aria-label="Toggle menu"
-          className="bg-background-400 cursor-pointer text-slate-50 p-2 rounded-md w-10 h-10 flex items-center justify-center relative transition hover:bg-background-500"
+          className="bg-primary-300 cursor-pointer text-slate-50 p-2 rounded-md w-10 h-10 flex items-center justify-center relative transition hover:bg-primary-400"
           onClick={() => setMobileNav(!mobileNav)}
         >
           <Menu
-            className={`absolute transition-all duration-300 ${
+            className={`absolute transition-all du  ration-300 ${
               mobileNav
                 ? "opacity-0 rotate-90 scale-75"
                 : "opacity-100 rotate-0 scale-100"
@@ -122,6 +126,7 @@ export default function Navbar() {
             }`}
           />
         </button>
+        </div>
       </div>
 
       {/* Overlay */}
@@ -134,7 +139,7 @@ export default function Navbar() {
 
       {/* Mobile Sidebar */}
       <nav
-        className={`fixed top-0 left-0 sm:hidden w-1/2 h-dvh bg-background-100 z-50 transform transition-transform duration-300 ${
+        className={`fixed top-0 left-0 sm:hidden w-1/2 h-dvh bg-primary-100 z-50 transform transition-transform duration-300 ${
           mobileNav ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -148,22 +153,22 @@ export default function Navbar() {
         {/* Links */}
         <motion.ul variants={containerVariants} initial="hidden" animate={mobileNav ? "visible" : "hidden"} className="flex flex-col gap-y-6 px-6 mt-6">
           <motion.li variants={itemVariants}>
-            <Link className="transition-all hover:text-text-600" onClick={() => setMobileNav(false)} href="/">
+            <Link className="transition-all hover:text-secondary-600" onClick={() => setMobileNav(false)} href="/">
               Home
             </Link>
           </motion.li>
           <motion.li variants={itemVariants}>
-            <Link className="transition-all hover:text-text-600" onClick={() => setMobileNav(false)} href="/features">
+            <Link className="transition-all hover:text-secondary-600" onClick={() => setMobileNav(false)} href="/features">
               Features
             </Link>
           </motion.li>
           <motion.li variants={itemVariants}>
-            <Link className="transition-all hover:text-text-600" onClick={() => setMobileNav(false)} href="/about">
+            <Link className="transition-all hover:text-secondary-600" onClick={() => setMobileNav(false)} href="/about">
               About Us
             </Link>
           </motion.li>
           <motion.li variants={itemVariants}>
-            <Link className="transition-all hover:text-text-600" onClick={() => setMobileNav(false)} href="/contact">
+            <Link className="transition-all hover:text-secondary-600" onClick={() => setMobileNav(false)} href="/contact">
               Contact Us
             </Link>
           </motion.li>
