@@ -65,31 +65,31 @@ export default function Footer() {
             </p>
 
             <ul className="flex gap-4 text-3xl">
-              <li>
+              <li className="transition-all hover:-translate-y-1">
                 <Link
                   href="https://facebook.com"
                   target="_blank"
-                  className=" transition-transform hover:text-blue-600"
+                  className=" transition-transform"
                 >
                   <FaFacebook />
                 </Link>
               </li>
 
-              <li>
+              <li className="transition-all hover:-translate-y-1">
                 <Link
                   href="https://twitter.com"
                   target="_blank"
-                  className=" transition-transform text-slate-800 hover:text-slate-900"
+                  className=" transition-transform"
                 >
                   <FaSquareXTwitter />
                 </Link>
               </li>
 
-              <li>
+              <li className="transition-all hover:-translate-y-1">
                 <Link
                   href="https://linkedin.com"
                   target="_blank"
-                  className=" transition-transform hover:text-blue-700"
+                  className=""
                 >
                   <FaLinkedin />
                 </Link>
