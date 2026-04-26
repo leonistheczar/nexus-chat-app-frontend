@@ -79,14 +79,90 @@ export default function Navbar() {
                   </motion.span>
                 <AnimatePresence>
                   {open && (
-                <motion.div initial={{opacity: 0, y:0, scale: 0.95}} animate={{opacity:1, y:8, scale:1 }} exit={{opacity: 0, y:0, scale:0.95}} transition={{duration: 0.2}}             className="absolute top-8 left-0 w-64 bg-primary-200 p-4 rounded-xl shadow-lg z-50">
-                  <div className="flex flex-col gap-3 text-sm">
-                  <span className="font-medium text-primary-900">Messaging</span>
-                  <span className="text-primary-900/70">Real-time chat with seamless delivery</span>
-                  <span className="font-medium text-primary-900 mt-2">Security</span>
-                  <span className="text-primary-900/70">End-to-end encrypted conversations</span>
-                  </div>
-                </motion.div>
+               <motion.div
+               initial={{ opacity: 0, y: 4, scale: 0.96 }}
+               animate={{ opacity: 1, y: 10, scale: 1 }}
+               exit={{ opacity: 0, y: 4, scale: 0.96 }}
+               transition={{ duration: 0.18, ease: "easeOut" }}
+               className="absolute top-10 left-0 w-72 bg-primary-200 backdrop-blur-xl p-4 rounded-2xl shadow-xl border border-primary-100 z-50"
+             >
+               <div className="flex flex-col gap-4 text-sm">
+             
+                 {/* Messaging */}
+                 <Link href="/features">
+                 <div className="group flex items-start gap-3 p-2 rounded-lg hover:bg-primary-100/60 transition cursor-pointer">
+                   <div className="w-9 h-9 flex items-center justify-center rounded-lg bg-primary-100 group-hover:scale-110 transition">
+                     {/* icon */}
+                     <span className="text-primary-700">💬</span>
+                   </div>
+             
+                   <div>
+                     <p className="font-medium text-primary-900">
+                       Real-Time Messaging
+                     </p>
+                     <p className="text-primary-900/70 text-xs">
+                       Instant delivery with typing indicators
+                     </p>
+                   </div>
+                 </div>
+                 </Link>
+             
+                 {/* Encryption */}
+                 <Link href="/features">
+                 <div className="group flex items-start gap-3 p-2 rounded-lg hover:bg-primary-100/60 transition cursor-pointer">
+                   <div className="w-9 h-9 flex items-center justify-center rounded-lg bg-primary-100 group-hover:scale-110 transition">
+                     <span className="text-primary-700">🔐</span>
+                   </div>
+             
+                   <div>
+                     <p className="font-medium text-primary-900">
+                       End-to-End Encryption
+                     </p>
+                     <p className="text-primary-900/70 text-xs">
+                       Client-side encryption with secure keys
+                     </p>
+                   </div>
+                 </div>
+                 </Link>
+             
+                 {/* Groups */}
+                 <Link href="/features">
+                 <div className="group flex items-start gap-3 p-2 rounded-lg hover:bg-primary-100/60 transition cursor-pointer">
+                   <div className="w-9 h-9 flex items-center justify-center rounded-lg bg-primary-100 group-hover:scale-110 transition">
+                     <span className="text-primary-700">👥</span>
+                   </div>
+             
+                   <div>
+                     <p className="font-medium text-primary-900">
+                       Smart Conversations
+                     </p>
+                     <p className="text-primary-900/70 text-xs">
+                       P2P and mini-group chat architecture
+                     </p>
+                   </div>
+                 </div>
+                 </Link>
+             
+                 <Link href="/features">
+                 {/* Analytics */}
+                 <div className="group flex items-start gap-3 p-2 rounded-lg hover:bg-primary-100/60 transition cursor-pointer">
+                   <div className="w-9 h-9 flex items-center justify-center rounded-lg bg-primary-100 group-hover:scale-110 transition">
+                     <span className="text-primary-700">📊</span>
+                   </div>
+             
+                   <div>
+                     <p className="font-medium text-primary-900">
+                       Analytics Dashboard
+                     </p>
+                     <p className="text-primary-900/70 text-xs">
+                       Monitor activity and usage insights
+                     </p>
+                   </div>
+                 </div>
+                 </Link>
+             
+               </div>
+             </motion.div>
                   )}
                 </AnimatePresence>
               </div>

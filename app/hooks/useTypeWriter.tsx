@@ -10,7 +10,7 @@ interface UseTypewriterOptions {
 
 export function useTypewriter({
   phrases,
-  typingSpeed = 15,
+  typingSpeed = 35,
   deletingSpeed = 50,
   pauseAfter = 1200,
   pauseBefore = 400,
