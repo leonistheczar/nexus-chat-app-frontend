@@ -17,13 +17,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className="h-full antialiased scroll-smooth"
+      data-scroll-behavior="smooth"
+      className="h-full antialiased"
       suppressHydrationWarning
     >
       <body className="geist-font min-h-screen flex flex-col bg-primary-200/20 text-primary-900 antialiased">
         <ThemeProviderWrapper>
           <Navbar />
-          <main className="flex-1 flex flex-col min-h-0 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <main className="flex-1 flex flex-col min-h-0 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8  ">
             {children}
           </main>
           <Footer />

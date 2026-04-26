@@ -11,7 +11,7 @@ export default function Home() {
       <HeroRight />
       </section>
       {/* Features */}
-      <section className="w-full py-20 px-6 bg-background-50 rounded-xl shadow-lg">
+      <section className="w-full py-12 px-6 bg-background-50 rounded-lg shadow-lg">
         <Features />
       </section>
     </>
