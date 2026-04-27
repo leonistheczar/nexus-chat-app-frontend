@@ -141,3 +141,11 @@ html {font-size: 100%;} /* 16px */
   --color-accent-900: #ffedc8;
   --color-accent-950: #fff8ec;
 }
+/* auth/?mode=? */
+.input {
+  @apply w-full px-4 py-2 rounded-lg border border-primary-100 bg-transparent focus:outline-none focus:ring-2 focus:ring-primary-300;
+}
+
+.btn-primary {
+  @apply w-full bg-primary-500 text-white py-2 rounded-lg hover:bg-primary-600 transition;
+}
