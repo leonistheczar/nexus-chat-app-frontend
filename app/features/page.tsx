@@ -71,7 +71,7 @@ export default function FeaturesPage() {
             Start chatting securely and instantly today.
           </p>
 
-          <button className="px-8 py-3 rounded-xl bg-primary-700 text-white font-medium hover:bg-primary-800 transition hover:cursor-pointer">
+          <button className="px-8 py-3 rounded-xl bg-primary-400/90 hover:bg-primary-300 text-white font-medium transition hover:cursor-pointer">
             Get Started
           </button>
         </section>

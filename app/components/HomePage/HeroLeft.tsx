@@ -53,14 +53,14 @@ export function HeroLeft() {
 
         {/* CTA */}
         <div
-          className={`flex items-center gap-3 transition-all duration-500 delay-100 ${
+          className={`flex items-center gap-3 transition-all duration-500 ${
             visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
           }`}
         >
-          <Link
-            href="/signup"
-            className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary-500 hover:bg-primary-600 text-primary-50 text-sm font-medium  transition-all"
-          >
+            <Link
+              href="/auth?mode=signup"
+              className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary-500 hover:bg-primary-600 text-primary-50 text-sm font-medium  transition-all"
+            >
             Get started free
             <svg
               width="14"
@@ -80,7 +80,7 @@ export function HeroLeft() {
           </Link>
 
           <Link
-            href="/signin"
+            href="/auth?mode=signin"
             className="inline-flex items-center px-5 py-2.5 rounded-lg border bg-secondary-600 hover:bg-secondary-500 text-white border-primary-200 text-sm transition-colors"
           >
             Sign in

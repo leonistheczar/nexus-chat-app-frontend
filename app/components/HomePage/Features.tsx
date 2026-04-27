@@ -56,6 +56,7 @@ export default function FeaturesSection() {
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
+          viewport={{once: true}}
           transition={{ duration: 0.5 }}
           className="text-3xl sm:text-4xl font-bold text-primary-900"
         >
@@ -65,6 +66,7 @@ export default function FeaturesSection() {
         <motion.p
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
+          viewport={{once: true}}
           transition={{ delay: 0.1 }}
           className="mt-4 text-primary-700 max-w-2xl mx-auto"
         >
@@ -82,6 +84,7 @@ export default function FeaturesSection() {
                 key={index}
                 initial={{ opacity: 0, y: 25 }}
                 whileInView={{ opacity: 1, y: 0 }}
+                viewport={{once: true}}
                 transition={{ delay: index * 0.1 }}
                 className="flex flex-col items-center p-6 rounded-2xl bg-accent-50 backdrop-blur-md hover:shadow-md hover:-translate-y-1 transition-all border border-primary-100"
               >
