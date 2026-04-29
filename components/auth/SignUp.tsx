@@ -17,8 +17,7 @@ export default function SignUp() {
         <input type="text" placeholder="Full Name" className="input" />
         <input type="email" placeholder="Email" className="input" />
         <input type="password" placeholder="Password" className="input" />
-
-        <button className="btn-primary">Sign Up</button>
+        <button className="btn-primary hover:cursor-pointer">Sign Up</button>
       </div>
     </motion.form>
   );

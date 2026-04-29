@@ -1,10 +1,9 @@
 "use client";
 
-import ScrollRevealSection from "../components/baseComponents/ScrollRevelation";
-import AdvancedFeatures from "../components/FeaturesPage/AdvancedFeatures";
-import ChatSimulation from "../components/FeaturesPage/ChatSimulation";
-import FeatureTabs from "../components/FeaturesPage/FeaturesTab";
-
+import ScrollRevealSection from "@/components/baseComponents/ScrollRevelation";
+import AdvancedFeatures from "@/components/FeaturesPage/AdvancedFeatures";
+import ChatSimulation from "@/components/FeaturesPage/ChatSimulation";
+import FeatureTabs from "@/components/FeaturesPage/FeaturesTab";
 export default function FeaturesPage() {
   return (
     <div className="flex flex-col gap-y-12">
@@ -48,7 +47,7 @@ export default function FeaturesPage() {
       </ScrollRevealSection>
       {/* 🔹 ADVANCED CORE FEATURES */}
       <ScrollRevealSection>
-        <section className="max-w-6xl mx-auto text-center space-y-10 bg-background-50 p-6 rounded-lg">
+        <section className="max-w-6xl mx-auto text-center space-y-10 bg-background-50 p-6 rounded-lg shadow-sm">
           <div>
             <h2 className="text-3xl font-semibold">
               Engineered for Modern Messaging
