@@ -3,6 +3,8 @@ import "./main.css";
 import Navbar from "./components/baseComponents/Navbar";
 import Footer from "./components/baseComponents/Footer";
 import ThemeProviderWrapper from "./providers/ThemeProvider";
+import { ErrorBoundary } from "next/dist/client/components/error-boundary";
+import ErrorPage from "./not-found"
 export const metadata: Metadata = {
   title: "Nexus - A Modern Real-time Messaging Platform",
   description:
@@ -14,6 +16,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
   return (
     <html
       lang="en"

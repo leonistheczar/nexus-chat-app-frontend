@@ -48,7 +48,7 @@ export default function FeaturesPage() {
       </ScrollRevealSection>
       {/* 🔹 ADVANCED CORE FEATURES */}
       <ScrollRevealSection>
-        <section className="max-w-6xl mx-auto text-center space-y-10 bg-background-50 p-6 rounded-lg">
+        <section className="max-w-6xl mx-auto text-center space-y-10 bg-background-50 p-6 rounded-lg shadow-sm">
           <div>
             <h2 className="text-3xl font-semibold">
               Engineered for Modern Messaging
