@@ -1,6 +1,6 @@
-import Features from "./components/HomePage/Features";
-import { HeroLeft } from "./components/HomePage/HeroLeft";
-import HeroRight from "./components/HomePage/HeroRight";
+import Features from "@/components/HomePage/Features";
+import { HeroLeft } from "@/components/HomePage/HeroLeft";
+import HeroRight from "@/components/HomePage/HeroRight";
 
 export default function Home() {
   return (

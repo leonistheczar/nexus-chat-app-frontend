@@ -1,8 +1,8 @@
 "use client";
 
+import { useTypewriter } from "@/hooks/useTypeWriter";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useTypewriter } from "@/app/hooks/useTypeWriter";
 
 const PHRASES = [
   "Connect instantly.\nTalk without limits.",

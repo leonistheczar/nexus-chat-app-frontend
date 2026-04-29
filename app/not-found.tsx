@@ -7,11 +7,6 @@ import { Home } from "lucide-react";
 export default function NotFound() {
   return (
     <div className="flex flex-col items-center justify-center p-12 text-text-900 w-full text-center rounded-2xl bg-background-50 shadow-lg">
-      {/* Icon */}
-        {/* <div className="flex justify-center mb-4">
-          <Image src="/logo/nexus-logo.png" alt="Nexus Logo" className="w-12 h-12 text-primary-500 animate-pulse" />
-        </div> */}
-
         {/* 404 Code */}
         <h1 className="text-6xl font-black tracking-tight text-secondary-700 select-none mb-2">
           404

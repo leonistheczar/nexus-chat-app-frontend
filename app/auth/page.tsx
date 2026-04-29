@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import SignIn from "../components/auth/SignIn";
-import SignUp from "../components/auth/SignUp";
+import SignIn from "@/components/auth/SignIn";
+import SignUp from "@/components/auth/SignUp";
 
 export default function AuthPage() {
   const [mode, setMode] = useState<"signin" | "signup">("signin");

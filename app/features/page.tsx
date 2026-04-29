@@ -1,10 +1,9 @@
 "use client";
 
-import ScrollRevealSection from "../components/baseComponents/ScrollRevelation";
-import AdvancedFeatures from "../components/FeaturesPage/AdvancedFeatures";
-import ChatSimulation from "../components/FeaturesPage/ChatSimulation";
-import FeatureTabs from "../components/FeaturesPage/FeaturesTab";
-
+import ScrollRevealSection from "@/components/baseComponents/ScrollRevelation";
+import AdvancedFeatures from "@/components/FeaturesPage/AdvancedFeatures";
+import ChatSimulation from "@/components/FeaturesPage/ChatSimulation";
+import FeatureTabs from "@/components/FeaturesPage/FeaturesTab";
 export default function FeaturesPage() {
   return (
     <div className="flex flex-col gap-y-12">
