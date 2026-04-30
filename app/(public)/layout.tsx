@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import "./main.css";
+import "@/app/main.css"
+import Navbar from "@/components/baseComponents/Navbar";
+import Footer from "@/components/baseComponents/Footer";
 import ThemeProviderWrapper from "@/lib/providers/ThemeProvider";
 
 export const metadata: Metadata = {
@@ -68,7 +70,11 @@ export default function RootLayout({
     >
       <body className="geist-font min-h-screen flex flex-col bg-primary-200/20 text-primary-900 antialiased">
           <ThemeProviderWrapper>
+          <Navbar />
+          <main className="flex-1 flex flex-col min-h-0 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             {children}
+          </main>
+          <Footer />
         </ThemeProviderWrapper>
       </body>
     </html>
