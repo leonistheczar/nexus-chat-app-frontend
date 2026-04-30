@@ -47,7 +47,7 @@ export default function Navbar() {
       <div className="hidden sm:block sticky top-0.5 z-50 mx-16 ">
         <nav
           className={`
-          mx-6 mt-4 px-6 rounded-xl shadow-lg backdrop-blur-md
+          mx-6 mt-4 px-6 rounded-xl shadow-sm backdrop-blur-md
           transition-all duration-300
           ${scrolled ? "bg-primary-100/70" : "bg-primary-100"}
         `}
@@ -191,7 +191,7 @@ export default function Navbar() {
       <div className="block sm:hidden sticky top-0.5 z-50 mx-10 ">
         <nav
           className={`flex items-center justify-between
-          mx-6 mt-4 px-6 rounded-xl shadow-lg backdrop-blur-md
+          mx-6 mt-4 px-6 rounded-xl shadow-sm
           transition-all duration-300
           ${scrolled ? "bg-primary-100/70" : "bg-primary-100"}
         `}
