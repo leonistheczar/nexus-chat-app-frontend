@@ -41,4 +41,4 @@ yarn-error.log*
 next-env.d.ts
 
 # Mock DB
-public/test-json-data/mock_db.json
+/public/test-json-data/mock_db.json
