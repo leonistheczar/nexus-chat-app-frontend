@@ -3,7 +3,6 @@
 import ContactLeft from "@/components/ChatPage/ContactLeft";
 import MainChat from "@/components/ChatPage/MainChat";
 import UserProfileRight from "@/components/ChatPage/UserProfileRight";
-
 export default function Chat() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 h-full">
