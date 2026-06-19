@@ -11,7 +11,7 @@ export default function HomeClient () {
         <HeroRight />
         </section>
         {/* Features */}
-        <section className="w-full py-12 px-6 bg-background-50 rounded-lg shadow-lg">
+        <section className="w-full py-12 px-6 bg-primary-200/10 rounded-lg shadow-lg">
           <Features />
         </section>
         </>
