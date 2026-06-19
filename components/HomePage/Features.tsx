@@ -86,7 +86,7 @@ export default function FeaturesSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{once: true}}
                 transition={{ delay: index * 0.1 }}
-                className="flex flex-col items-center p-6 rounded-2xl bg-accent-50 backdrop-blur-md hover:shadow-md hover:-translate-y-1 transition-all border border-primary-100"
+                className="flex flex-col items-center p-6 rounded-2xl bg-accent-50/90 backdrop-blur-md hover:shadow-md hover:-translate-y-1 transition-all border border-primary-100"
               >
                 <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-primary-100 mb-4">
                   <Icon className="w-6 h-6 text-primary-700" />
