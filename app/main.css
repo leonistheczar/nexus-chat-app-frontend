@@ -143,7 +143,7 @@ html {font-size: 100%;} /* 16px */
 }
 /* auth/?mode=? */
 .input {
-  @apply w-full px-4 py-2 rounded-lg border border-primary-100 bg-transparent focus:outline-none focus:ring-2 focus:ring-primary-300;
+  @apply w-full px-4 py-2 rounded-lg border border-primary-200 bg-transparent focus:outline-none focus:ring-2 focus:ring-primary-300;
 }
 
 .btn-primary {

@@ -11,12 +11,6 @@ export default function Chat() {
   const contacts = useChatContacts();
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
 
-    // useEffect(() => {
-    //   if (contacts.length > 0 && !selectedContact) {
-    //     setSelectedContact(contacts[0]);
-    //   }
-    // }, [contacts, selectedContact]);
-
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 h-full">
       <section className="lg:col-span-1">

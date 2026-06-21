@@ -65,7 +65,9 @@ export default function MainChat({ selectedContact }: MainChatProps) {
             {selectedContact.message}
           </div>
         </div>
-        <form className="bg-secondary-100 mb-2 mx-2 rounded-2xl flex items-center justify-between gap-x-2">
+        <form 
+          className="bg-secondary-100 mb-2 mx-2 rounded-2xl flex items-center justify-between gap-x-2"
+          onSubmit={(e) => e.preventDefault()}>
           <textarea
             name="message"
             id="message"
