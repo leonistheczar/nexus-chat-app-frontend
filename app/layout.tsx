@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./main.css";
+import QueryProvider from "@/lib/providers/QueryProvider";
 import ThemeProviderWrapper from "@/lib/providers/ThemeProvider";
 
 export const metadata: Metadata = {
@@ -67,9 +68,11 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="geist-font min-h-screen flex flex-col bg-primary-200/20 text-primary-900 antialiased">
-          <ThemeProviderWrapper>
-            {children}
-        </ThemeProviderWrapper>
+          <QueryProvider>
+            <ThemeProviderWrapper>
+              {children}
+            </ThemeProviderWrapper>
+          </QueryProvider>
       </body>
     </html>
   );

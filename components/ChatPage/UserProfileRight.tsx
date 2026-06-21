@@ -29,11 +29,11 @@ export default function UserProfileRight({
   }
 
   return (
-    <div className="container h-dvh p-4">
-      <div id="user-profile" className="flex flex-col items-center gap-4">
+    <div className="container h-dvh flex items-center justify-center">
+      <div id="user-profile" className="flex flex-col items-center gap-6">
         <div
           id="user-avatar"
-          className="relative w-24 h-24 overflow-hidden rounded-full shadow-sm"
+          className="relative w-24 h-24 overflow-hidden rounded-full shadow-md shadow-background-50"
         >
           <Image
             src={selectedContact.profile_pic}
@@ -50,10 +50,10 @@ export default function UserProfileRight({
           <p className="text-sm text-text-600">{selectedContact.contact}</p>
         </div>
         <div id="profile-fns" className="flex gap-2">
-          <button className="rounded-lg bg-primary-200 px-4 py-2 text-sm hover:bg-primary-300 transition-colors">
+          <button className="rounded-lg bg-primary-200 px-4 py-2 text-sm hover:bg-primary-300 transition-colors hover:cursor-pointer">
             Chat
           </button>
-          <button className="rounded-lg bg-primary-200 px-4 py-2 text-sm hover:bg-primary-300 transition-colors">
+          <button className="rounded-lg bg-primary-200 px-4 py-2 text-sm hover:bg-primary-300 transition-colors hover:cursor-pointer">
             Media
           </button>
         </div>
