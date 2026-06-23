@@ -1,17 +1,29 @@
 "use client";
 
 import { Contact } from "@/app/types/types";
-import { SendHorizontal } from "lucide-react";
+import { PanelLeftOpen, SendHorizontal } from "lucide-react";
 import Image from "next/image";
 
 type MainChatProps = {
   selectedContact: Contact | null;
+  showContacts: boolean;
+  setShowContacts: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function MainChat({ selectedContact }: MainChatProps) {
+export default function MainChat({
+  selectedContact,
+  showContacts,
+  setShowContacts,
+}: MainChatProps) {
   if (!selectedContact) {
     return (
-      <div className="container h-dvh flex flex-col items-center justify-center border-r border-background-400 text-text-600 gap-4">
+      <div className="relative container h-dvh flex flex-col items-center justify-center border-r border-background-400 text-text-600 gap-4">
+        <button
+          onClick={() => setShowContacts(!showContacts)}
+          className="absolute top-4 left-4 md:hidden bg-primary-200 p-1.5 rounded-lg"
+        >
+          <PanelLeftOpen size={22} />
+        </button>
         <div className="relative h-32 w-32 opacity-90">
           <Image
             src="/logo/nexus-logo.png"
@@ -40,6 +52,12 @@ export default function MainChat({ selectedContact }: MainChatProps) {
         id="profile-top-bar"
         className="border-b border-background-400 p-4 flex items-center gap-3"
       >
+        <button
+          onClick={() => setShowContacts(!showContacts)}
+          className="md:hidden bg-primary-200 p-1.5 rounded-lg"
+        >
+          <PanelLeftOpen size={22} />
+        </button>
         <div className="relative w-10 h-10 shrink-0 overflow-hidden rounded-full">
           <Image
             src={selectedContact.profile_pic}
@@ -65,9 +83,10 @@ export default function MainChat({ selectedContact }: MainChatProps) {
             {selectedContact.message}
           </div>
         </div>
-        <form 
+        <form
           className="bg-secondary-100 mb-2 mx-2 rounded-2xl flex items-center justify-between gap-x-2"
-          onSubmit={(e) => e.preventDefault()}>
+          onSubmit={(e) => e.preventDefault()}
+        >
           <textarea
             name="message"
             id="message"

@@ -1,9 +1,18 @@
 "use client";
 
 import { Contact } from "@/app/types/types";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 
-const ChatContactsContext = createContext<Contact[]>([]);
+type ChatContactType = {
+  contacts: Contact[];
+  showContacts: boolean;
+  setShowContacts: React.Dispatch<
+    React.SetStateAction<boolean>
+  >;
+};
+
+const ChatContactsContext =
+  createContext<ChatContactType | null>(null);
 
 export function ChatContactsProvider({
   contacts,
@@ -12,13 +21,30 @@ export function ChatContactsProvider({
   contacts: Contact[];
   children: React.ReactNode;
 }) {
+
+  const [showContacts, setShowContacts] = useState(false);
+
   return (
-    <ChatContactsContext.Provider value={contacts}>
+    <ChatContactsContext.Provider
+      value={{
+        contacts,
+        showContacts,
+        setShowContacts,
+      }}
+    >
       {children}
     </ChatContactsContext.Provider>
   );
 }
 
 export function useChatContacts() {
-  return useContext(ChatContactsContext);
+  const context = useContext(ChatContactsContext);
+
+  if (!context) {
+    throw new Error(
+      "useChatContacts must be used inside ChatContactsProvider"
+    );
+  }
+
+  return context;
 }
