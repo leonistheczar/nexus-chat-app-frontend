@@ -1,5 +1,6 @@
 import AuthClient from "@/components/AuthPage/AuthClient";
 import { Metadata } from "next";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Authentication", 
@@ -8,6 +9,8 @@ export const metadata: Metadata = {
 };
 export default function AuthPage() {
   return (
-    <AuthClient />
+    <Suspense>
+      <AuthClient />
+    </Suspense>
   );
 }
