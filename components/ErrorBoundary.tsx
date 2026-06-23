@@ -3,8 +3,6 @@
 import React, { Component, ReactNode } from "react";
 import { AlertTriangle, RefreshCcw } from "lucide-react";
 
-// ─── Types ─────────────────────────────────────────────────────────────
-
 interface Props {
   children: ReactNode;
   fallback?: ReactNode;
@@ -14,8 +12,6 @@ interface State {
   hasError: boolean;
   error: Error | null;
 }
-
-// ─── Component ─────────────────────────────────────────────────────────
 
 class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
