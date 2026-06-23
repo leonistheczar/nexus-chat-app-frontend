@@ -6,26 +6,31 @@ import UserProfileRight from "@/components/ChatPage/UserProfileRight";
 import { useChatContacts } from "@/components/ChatPage/ChatContactsProvider";
 import { Contact } from "@/app/types/types";
 import { useEffect, useState } from "react";
+import { X } from "lucide-react";
 
 export default function Chat() {
-  const contacts = useChatContacts();
+  const {contacts, showContacts, setShowContacts} = useChatContacts();
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
-
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-4 h-full">
-      <section className="lg:col-span-1">
+    <div className="relative grid grid-cols-1 lg:grid-cols-4 h-full">
+      <section className="md:col-span-1">
         <ContactLeft
           contacts={contacts}
           selectedContact={selectedContact}
           onSelectContact={setSelectedContact}
+          showContacts={showContacts}
+          setShowContacts={setShowContacts}
         />
       </section>
 
-      <section className="lg:col-span-2">
-        <MainChat selectedContact={selectedContact} />
+      <section className="md:col-span-2">
+        <MainChat 
+          selectedContact={selectedContact}
+          showContacts={showContacts}
+          setShowContacts={setShowContacts} />
       </section>
 
-      <section className="lg:col-span-1">
+      <section className="hidden md:block col-span-1">
         <UserProfileRight selectedContact={selectedContact} />
       </section>
     </div>
