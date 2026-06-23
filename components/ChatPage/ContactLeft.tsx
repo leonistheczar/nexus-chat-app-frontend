@@ -12,13 +12,14 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import ThemeToggler from "../baseComponents/ThemeToggler";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import ContactDropDown from "./ContactsLeft/ContactDropDown";
 
 type ContactLeftProps = {
   contacts: Contact[];
   selectedContact: Contact | null;
   onSelectContact: (contact: Contact) => void;
-  showContacts: boolean, 
-  setShowContacts: React.Dispatch<React.SetStateAction<boolean>>
+  showContacts: boolean;
+  setShowContacts: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function ContactLeft({
@@ -26,7 +27,7 @@ export default function ContactLeft({
   selectedContact,
   onSelectContact,
   showContacts,
-  setShowContacts
+  setShowContacts,
 }: ContactLeftProps) {
   const [search, setSearch] = useState("");
   // Checking for outside click(event listener) for dropdown and sidebar (contacts) to close
@@ -39,10 +40,12 @@ export default function ContactLeft({
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setOpen(false);
       }
-      if (sideBarRef.current && !sideBarRef.current.contains(event.target as Node)) {
+      if (
+        sideBarRef.current &&
+        !sideBarRef.current.contains(event.target as Node)
+      ) {
         setShowContacts(false);
       }
-      
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -62,7 +65,7 @@ export default function ContactLeft({
     });
   }, [contacts, search]);
 
-  return (
+  return (  
     <>
       <div className="hidden container bg-primary-100 md:flex flex-col border-r border-primary-200 h-screen">
         <div
@@ -84,65 +87,7 @@ export default function ContactLeft({
               >
                 <EllipsisVertical />
               </motion.button>
-              <AnimatePresence>
-                {open && (
-                  <motion.div
-                    key="menu"
-                    initial={{
-                      opacity: 0,
-                      y: -8,
-                    }}
-                    animate={{
-                      opacity: 1,
-                      y: 0,
-                      scale: 1,
-                    }}
-                    exit={{
-                      opacity: 0,
-                      y: -8,
-                      scale: 0.95,
-                    }}
-                    transition={{
-                      duration: 0.15,
-                      ease: "easeOut",
-                    }}
-                    className="absolute left-0 mt-2 w-48 bg-secondary-100 px-3 py-4 rounded-xl flex flex-col gap-y-1 shadow-md"
-                  >
-                    <motion.button
-                      whileTap={{ scale: 0.97 }}
-                      className="p-2 flex gap-x-2 items-center hover:cursor-pointer hover:bg-primary-300/50 rounded-lg transition"
-                    >
-                      <Settings size={20} />
-                      <span>Settings</span>
-                    </motion.button>
-
-                    <motion.button
-                      whileTap={{ scale: 0.97 }}
-                      className="p-2 flex gap-x-2 items-center hover:cursor-pointer hover:bg-primary-300/50 rounded-lg transition"
-                    >
-                      <MessageSquare size={20} />
-                      <span>Mark all as read</span>
-                    </motion.button>
-
-                    <div className="w-full h-px bg-slate-800/40 my-1" />
-
-                    <motion.button
-                      whileTap={{
-                        scale: 0.97,
-                      }}
-                      className="group hover:bg-red-500/40 p-2 flex gap-x-2 items-center rounded-lg transition cursor-pointer"
-                    >
-                      <LogOut
-                        size={20}
-                        className="group-hover:text-red-500 transition-colors"
-                      />
-                      <span className="group-hover:text-red-500 transition-colors">
-                        Logout
-                      </span>
-                    </motion.button>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              <ContactDropDown open={open}/>
             </div>
           </div>
         </div>
@@ -166,7 +111,10 @@ export default function ContactLeft({
               <li key={contact.id}>
                 <button
                   type="button"
-                  onClick={() => { onSelectContact(contact); setShowContacts(false)}}
+                  onClick={() => {
+                    onSelectContact(contact);
+                    setShowContacts(false);
+                  }}
                   className={`flex items-center text-left w-full gap-3 p-2 rounded-xl transition-colors cursor-pointer hover:bg-secondary-100/90 ${
                     selectedContact?.id === contact.id
                       ? "bg-secondary-100/90"
@@ -215,7 +163,7 @@ export default function ContactLeft({
               <button className="hover:cursor-pointer hover:bg-primary-200 p-1.5 rounded-full transition-all">
                 <CirclePlus />
               </button>
-              <div className="relative" ref={menuRef}>
+              <div className="relative" ref={sideBarRef}>
                 <motion.button
                   onClick={() => setOpen(!open)}
                   whileHover={{ scale: 1.05 }}
@@ -224,65 +172,7 @@ export default function ContactLeft({
                 >
                   <EllipsisVertical />
                 </motion.button>
-                <AnimatePresence>
-                  {open && (
-                    <motion.div
-                      key="menu"
-                      initial={{
-                        opacity: 0,
-                        y: -8,
-                      }}
-                      animate={{
-                        opacity: 1,
-                        y: 0,
-                        scale: 1,
-                      }}
-                      exit={{
-                        opacity: 0,
-                        y: -8,
-                        scale: 0.95,
-                      }}
-                      transition={{
-                        duration: 0.15,
-                        ease: "easeOut",
-                      }}
-                      className="absolute left-0 mt-2 w-48 bg-secondary-100 px-3 py-4 rounded-xl flex flex-col gap-y-1 shadow-md"
-                    >
-                      <motion.button
-                        whileTap={{ scale: 0.97 }}
-                        className="p-2 flex gap-x-2 items-center hover:cursor-pointer hover:bg-primary-300/50 rounded-lg transition"
-                      >
-                        <Settings size={20} />
-                        <span>Settings</span>
-                      </motion.button>
-
-                      <motion.button
-                        whileTap={{ scale: 0.97 }}
-                        className="p-2 flex gap-x-2 items-center hover:cursor-pointer hover:bg-primary-300/50 rounded-lg transition"
-                      >
-                        <MessageSquare size={20} />
-                        <span>Mark all as read</span>
-                      </motion.button>
-
-                      <div className="w-full h-px bg-slate-800/40 my-1" />
-
-                      <motion.button
-                        whileTap={{
-                          scale: 0.97,
-                        }}
-                        className="group hover:bg-red-500/40 p-2 flex gap-x-2 items-center rounded-lg transition cursor-pointer"
-                      >
-                        <LogOut
-                          size={20}
-                          className="group-hover:text-red-500 transition-colors"
-                        />
-                        <span className="group-hover:text-red-500 transition-colors">
-                          Logout
-                        </span>
-                      </motion.button>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                <ContactDropDown open={open}/>
               </div>
             </div>
           </div>
