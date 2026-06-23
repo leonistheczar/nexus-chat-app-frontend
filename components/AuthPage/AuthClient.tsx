@@ -1,12 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import SignIn from "@/components/AuthPage/SignIn";
 import SignUp from "@/components/AuthPage/SignUp";
+
+function modeFromParam(value: string | null): "signin" | "signup" {
+  return value === "signup" ? "signup" : "signin";
+}
+
 export default function AuthClient() {
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const searchParams = useSearchParams();
+  const [mode, setMode] = useState<"signin" | "signup">(() =>
+    modeFromParam(searchParams.get("mode"))
+  );
+
+  useEffect(() => {
+    const param = searchParams.get("mode");
+    if (param === "signup" || param === "signin") {
+      setMode(param);
+    }
+  }, [searchParams]);
 
   return (
     <section className="h-fit sm:min-h-screen bg-background-50 block sm:flex items-center p-10 shadow-md rounded-lg">

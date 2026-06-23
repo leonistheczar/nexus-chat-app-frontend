@@ -1,3 +1,4 @@
+import Link from "next/link";
 import ScrollRevealSection from "../baseComponents/ScrollRevelation";
 import AdvancedFeatures from "./AdvancedFeatures";
 import ChatSimulation from "./ChatSimulation";
@@ -69,9 +70,9 @@ export default function FeaturesClient(){
             Start chatting securely and instantly today.
           </p>
 
-          <button className="px-8 py-3 rounded-xl bg-primary-400/90 hover:bg-primary-300 text-white font-medium transition hover:cursor-pointer">
+          <Link href="/auth?mode=signup" className="px-8 py-3 rounded-xl bg-primary-400/90 hover:bg-primary-300 text-white font-medium transition hover:cursor-pointer">
             Get Started
-          </button>
+          </Link>
         </section>
       </ScrollRevealSection>
     </div>
