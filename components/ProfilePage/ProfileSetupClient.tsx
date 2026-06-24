@@ -1,6 +1,7 @@
 "use client";
 
 import ThemeToggler from "../baseComponents/ThemeToggler";
+import ConfirmationDialog from "../shared/ConfirmationDialog";
 import { PROFILE_STEPS } from "./constants/profileSteps";
 import ProfileSetupComplete from "./ProfileSetupComplete";
 import ProfileSetupForm from "./ProfileSetupForm";
