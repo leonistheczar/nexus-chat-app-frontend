@@ -1,18 +1,20 @@
 "use client";
 
 import { Contact } from "@/app/types/types";
-import { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 
-type ChatContactType = {
+type ChatType = {
   contacts: Contact[];
   showContacts: boolean;
   setShowContacts: React.Dispatch<
     React.SetStateAction<boolean>
   >;
+  open: boolean, 
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
 };
 
 const ChatContactsContext =
-  createContext<ChatContactType | null>(null);
+  createContext<ChatType | null>(null);
 
 export function ChatContactsProvider({
   contacts,
@@ -23,6 +25,7 @@ export function ChatContactsProvider({
 }) {
 
   const [showContacts, setShowContacts] = useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
     <ChatContactsContext.Provider
@@ -30,6 +33,8 @@ export function ChatContactsProvider({
         contacts,
         showContacts,
         setShowContacts,
+        open,
+        setOpen
       }}
     >
       {children}

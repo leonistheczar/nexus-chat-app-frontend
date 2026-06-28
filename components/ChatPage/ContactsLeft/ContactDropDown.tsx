@@ -2,11 +2,12 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { Settings, MessageSquare, LogOut } from "lucide-react";
+import React from "react";
 
-export default function ContactDropDown({open}: {open: boolean}){
+export default function ContactDropDown({openDrop, setOpen}: {openDrop: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>>}){
     return(
         <AnimatePresence>
-        {open && (
+        {openDrop && (
           <motion.div
             key="menu"
             initial={{
@@ -52,6 +53,7 @@ export default function ContactDropDown({open}: {open: boolean}){
                 scale: 0.97,
               }}
               className="group hover:cursor-pointer p-2 flex gap-x-2 items-center rounded-lg transition"
+              onClick={()=>setOpen(true)}
             >
               <LogOut
                 size={20}

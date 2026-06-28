@@ -78,13 +78,6 @@ export function HeroLeft() {
               />
             </svg>
           </Link>
-
-          <Link
-            href="/auth?mode=signin"
-            className="inline-flex items-center px-5 py-2.5 rounded-lg border bg-secondary-600 hover:bg-secondary-500 text-white border-primary-200 text-sm transition-colors"
-          >
-            Sign in
-          </Link>
         </div>
       </div>
   );
