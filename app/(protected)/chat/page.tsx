@@ -40,7 +40,7 @@ export default function Chat() {
           setShowContacts={setShowContacts} />
       </section>
 
-      <section className="hidden md:block col-span-1">
+      <section className="hidden md:col-span-1">
         <UserProfileRight selectedContact={selectedContact} />
       </section>
     </div>

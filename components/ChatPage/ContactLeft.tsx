@@ -37,21 +37,40 @@ export default function ContactLeft({
   const menuRef = useRef<HTMLDivElement>(null);
   const sideBarRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (!open && !showContacts) return;
-    const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setOpenDrop(false);
-      }
+    if (!openDrop) return;
+
+    function handleClick(e: MouseEvent) {
+        if (
+            menuRef.current &&
+            !menuRef.current.contains(e.target as Node)
+        ) {
+            setOpenDrop(false);
+        }
+    }
+
+    document.addEventListener("mousedown", handleClick);
+
+    return () =>
+        document.removeEventListener("mousedown", handleClick);
+}, [openDrop]);
+
+useEffect(() => {
+  if (!showContacts) return;
+
+  function handleClick(e: MouseEvent) {
       if (
-        sideBarRef.current &&
-        !sideBarRef.current.contains(event.target as Node)
+          sideBarRef.current &&
+          !sideBarRef.current.contains(e.target as Node)
       ) {
-        setShowContacts(false);
+          setShowContacts(false);
       }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [openDrop, showContacts]);
+  }
+
+  document.addEventListener("mousedown", handleClick);
+
+  return () =>
+      document.removeEventListener("mousedown", handleClick);
+}, [showContacts]);
 
   const filteredContacts = useMemo(() => {
     const query = search.trim().toLowerCase();
@@ -82,14 +101,14 @@ export default function ContactLeft({
             </button>
             <div className="relative" ref={menuRef}>
               <motion.button
-                onClick={() => setOpenDrop(!openDrop)}
+                onClick={() => setOpenDrop(prev => !prev)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.9 }}
                 className="hover:cursor-pointer hover:bg-primary-200 p-1.5 rounded-full transition-all"
               >
                 <EllipsisVertical />
               </motion.button>
-              <ContactDropDown openDrop={openDrop} setOpen={setOpen}/>
+              <ContactDropDown openDrop={openDrop} setOpen={setOpen} setOpenDrop={setOpenDrop}/>
             </div>
           </div>
         </div>
@@ -97,7 +116,6 @@ export default function ContactLeft({
           <input
             type="text"
             name="contact-search"
-            id="contact-search"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="bg-primary-200 w-full text-sm p-1.5 rounded-md outline-0 outline-primary-300 focus:outline-none focus:ring-1 focus:ring-primary-300 transition-all"
@@ -150,7 +168,7 @@ export default function ContactLeft({
       {/* Mobile Sidebar */}
       <div
         ref={sideBarRef}
-        className={`fixed text-sm inset-y-0 left-0 z-50 w-72 bg-background transition-transform duration-300 lg:hidden ${
+        className={`fixed text-sm inset-y-0 left-0 z-50 w-72 bg-background transition-transform duration-300 md:hidden ${
           showContacts ? "translate-0" : "-translate-x-full"
         }`}
       >
@@ -165,7 +183,7 @@ export default function ContactLeft({
               <button className="hover:cursor-pointer hover:bg-primary-200 p-1.5 rounded-full transition-all">
                 <CirclePlus />
               </button>
-              <div className="relative" ref={sideBarRef}>
+              <div className="relative">
                 <motion.button
                   onClick={() => setOpenDrop(!openDrop)}
                   whileHover={{ scale: 1.05 }}
@@ -174,7 +192,7 @@ export default function ContactLeft({
                 >
                   <EllipsisVertical />
                 </motion.button>
-                <ContactDropDown openDrop={openDrop} setOpen={setOpen}/>
+                <ContactDropDown openDrop={openDrop} setOpen={setOpen} setOpenDrop={setOpenDrop}/>
               </div>
             </div>
           </div>
@@ -182,7 +200,6 @@ export default function ContactLeft({
             <input
               type="text"
               name="contact-search"
-              id="contact-search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="bg-primary-200 w-full text-sm p-1.5 rounded-md outline-0 outline-primary-300 focus:outline-none focus:ring-1 focus:ring-primary-300 transition-all"
