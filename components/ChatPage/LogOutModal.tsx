@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion, Variant, VariantLabels, Variants } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 type LogoutModalProps = {
   open: boolean;
@@ -62,30 +62,31 @@ export default function LogoutModal({
   onClose,
   onLogout,
 }: LogoutModalProps) {
-  useEffect(() => {
-    if (!open) return;
+  const modalRef = useRef<HTMLDivElement>(null);
 
-    document.body.style.overflow = "hidden";
+useEffect(() => {
+  if (!open) return;
 
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        onClose();
-      }
-    };
+  document.body.style.overflow = "hidden";
 
-    window.addEventListener("keydown", handleEscape);
+  const handleEscape = (e: KeyboardEvent) => {
+    if (e.key === "Escape") {
+      onClose();
+    }
+  };
 
-    return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", handleEscape);
-    };
-  }, [open, onClose]);
+  window.addEventListener("keydown", handleEscape);
+  return () => {
+    document.body.style.overflow = "";
+    window.removeEventListener("keydown", handleEscape);
+  };
+}, [open, onClose]);
 
   return (
     <AnimatePresence mode="wait">
       {open && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4"
+          className="fixed inset-0 z-99 flex items-center justify-center bg-black/60 px-4"
           variants={backdropVariants}
           initial="hidden"
           animate="visible"

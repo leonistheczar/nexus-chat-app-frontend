@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Settings, MessageSquare, LogOut } from "lucide-react";
 import React from "react";
 
-export default function ContactDropDown({openDrop, setOpen}: {openDrop: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>>}){
+export default function ContactDropDown({openDrop, setOpen, setOpenDrop}: {openDrop: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>>, setOpenDrop: React.Dispatch<React.SetStateAction<boolean>>}){
     return(
         <AnimatePresence>
         {openDrop && (
@@ -28,11 +28,12 @@ export default function ContactDropDown({openDrop, setOpen}: {openDrop: boolean,
               duration: 0.15,
               ease: "easeOut",
             }}
-            className="absolute z-50 left-0 mt-2 w-48 bg-secondary-100 px-3 py-4 rounded-xl flex flex-col gap-y-1 shadow-md"
+            className="absolute z-99 left-0 mt-2 w-48 bg-secondary-100 px-3 py-4 rounded-xl flex flex-col gap-y-1 shadow-md"
           >
             <motion.button
               whileTap={{ scale: 0.97 }}
               className="p-2 flex gap-x-2 items-center hover:cursor-pointer hover:bg-primary-300/50 rounded-lg transition"
+              onClick={() => setOpenDrop(prev => !prev)}
             >
               <Settings size={20} />
               <span>Settings</span>
@@ -41,6 +42,7 @@ export default function ContactDropDown({openDrop, setOpen}: {openDrop: boolean,
             <motion.button
               whileTap={{ scale: 0.97 }}
               className="p-2 flex gap-x-2 items-center hover:cursor-pointer hover:bg-primary-300/50 rounded-lg transition"
+              onClick={() => setOpenDrop(prev => !prev)}
             >
               <MessageSquare size={20} />
               <span>Mark all as read</span>
@@ -53,7 +55,7 @@ export default function ContactDropDown({openDrop, setOpen}: {openDrop: boolean,
                 scale: 0.97,
               }}
               className="group hover:cursor-pointer p-2 flex gap-x-2 items-center rounded-lg transition"
-              onClick={()=>setOpen(true)}
+              onClick={()=>{ setOpen(true); setOpenDrop(prev => !prev) }}
             >
               <LogOut
                 size={20}
