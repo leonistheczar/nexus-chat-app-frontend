@@ -20,6 +20,7 @@ type ContactLeftProps = {
   onSelectContact: (contact: Contact) => void;
   showContacts: boolean;
   setShowContacts: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
 };
 
 export default function ContactLeft({
@@ -28,17 +29,18 @@ export default function ContactLeft({
   onSelectContact,
   showContacts,
   setShowContacts,
+  setOpen,
 }: ContactLeftProps) {
   const [search, setSearch] = useState("");
   // Checking for outside click(event listener) for dropdown and sidebar (contacts) to close
-  const [open, setOpen] = useState(false);
+  const [openDrop, setOpenDrop] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const sideBarRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!open && !showContacts) return;
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setOpen(false);
+        setOpenDrop(false);
       }
       if (
         sideBarRef.current &&
@@ -49,7 +51,7 @@ export default function ContactLeft({
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [open, showContacts]);
+  }, [openDrop, showContacts]);
 
   const filteredContacts = useMemo(() => {
     const query = search.trim().toLowerCase();
@@ -80,14 +82,14 @@ export default function ContactLeft({
             </button>
             <div className="relative" ref={menuRef}>
               <motion.button
-                onClick={() => setOpen(!open)}
+                onClick={() => setOpenDrop(!openDrop)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.9 }}
                 className="hover:cursor-pointer hover:bg-primary-200 p-1.5 rounded-full transition-all"
               >
                 <EllipsisVertical />
               </motion.button>
-              <ContactDropDown open={open}/>
+              <ContactDropDown openDrop={openDrop} setOpen={setOpen}/>
             </div>
           </div>
         </div>
@@ -165,14 +167,14 @@ export default function ContactLeft({
               </button>
               <div className="relative" ref={sideBarRef}>
                 <motion.button
-                  onClick={() => setOpen(!open)}
+                  onClick={() => setOpenDrop(!openDrop)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.9 }}
                   className="hover:cursor-pointer hover:bg-primary-200 p-1.5 rounded-full transition-all"
                 >
                   <EllipsisVertical />
                 </motion.button>
-                <ContactDropDown open={open}/>
+                <ContactDropDown openDrop={openDrop} setOpen={setOpen}/>
               </div>
             </div>
           </div>
