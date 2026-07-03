@@ -62,9 +62,8 @@ export default function LogoutModal({
   onClose,
   onLogout,
 }: LogoutModalProps) {
-  const modalRef = useRef<HTMLDivElement>(null);
 
-useEffect(() => {
+  useEffect(() => {
   if (!open) return;
 
   document.body.style.overflow = "hidden";

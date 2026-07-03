@@ -3,8 +3,15 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { Settings, MessageSquare, LogOut } from "lucide-react";
 import React from "react";
-
-export default function ContactDropDown({openDrop, setOpen, setOpenDrop}: {openDrop: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>>, setOpenDrop: React.Dispatch<React.SetStateAction<boolean>>}){
+import { useChatContacts } from "../../ChatProvider";
+type DropDownTypes = {
+  openDrop: boolean, 
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>, 
+  setOpenDrop: React.Dispatch<React.SetStateAction<boolean>>,
+}
+export default function ContactDropDown({openDrop, setOpen, setOpenDrop}: DropDownTypes){
+    // Contact Provider
+    const {setOpenSettings} = useChatContacts();
     return(
         <AnimatePresence>
         {openDrop && (
@@ -33,7 +40,7 @@ export default function ContactDropDown({openDrop, setOpen, setOpenDrop}: {openD
             <motion.button
               whileTap={{ scale: 0.97 }}
               className="p-2 flex gap-x-2 items-center hover:cursor-pointer hover:bg-primary-300/50 rounded-lg transition"
-              onClick={() => setOpenDrop(prev => !prev)}
+              onClick={() => {setOpenDrop(prev => !prev); setOpenSettings(prev => !prev);}}
             >
               <Settings size={20} />
               <span>Settings</span>

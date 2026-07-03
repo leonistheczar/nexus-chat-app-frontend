@@ -11,6 +11,8 @@ type ChatType = {
   >;
   open: boolean, 
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  openSettings: boolean, 
+  setOpenSettings: React.Dispatch<React.SetStateAction<boolean>>
 };
 
 const ChatContactsContext =
@@ -26,6 +28,7 @@ export function ChatContactsProvider({
 
   const [showContacts, setShowContacts] = useState(false);
   const [open, setOpen] = useState(false);
+  const [openSettings, setOpenSettings] = useState(false);
 
   return (
     <ChatContactsContext.Provider
@@ -34,7 +37,9 @@ export function ChatContactsProvider({
         showContacts,
         setShowContacts,
         open,
-        setOpen
+        setOpen,
+        openSettings,
+        setOpenSettings
       }}
     >
       {children}
