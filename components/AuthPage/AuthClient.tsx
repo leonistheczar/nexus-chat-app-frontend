@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
@@ -10,19 +10,14 @@ import SignUp from "@/components/AuthPage/SignUp";
 function modeFromParam(value: string | null): "signin" | "signup" {
   return value === "signup" ? "signup" : "signin";
 }
-
 export default function AuthClient() {
   const searchParams = useSearchParams();
-  const [mode, setMode] = useState<"signin" | "signup">(() =>
-    modeFromParam(searchParams.get("mode"))
-  );
+  const currentMode = modeFromParam(searchParams.get("mode"));
+  return <AuthFormContent key={currentMode} defaultMode={currentMode} />;
+}
 
-  useEffect(() => {
-    const param = searchParams.get("mode");
-    if (param === "signup" || param === "signin") {
-      setMode(param);
-    }
-  }, [searchParams]);
+function AuthFormContent({ defaultMode }: { defaultMode: "signin" | "signup" }) {
+  const [mode, setMode] = useState<"signin" | "signup">(defaultMode);
 
   return (
     <section className="h-fit sm:min-h-screen bg-background-50 block sm:flex items-center p-10 shadow-md rounded-lg">
@@ -51,7 +46,7 @@ export default function AuthClient() {
               <motion.div
                 layout
                 transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                className={`absolute top-1 bottom-1 w-24 rounded-md bg-secondary-300/50 shadow`}
+                className="absolute top-1 bottom-1 w-24 rounded-md bg-secondary-300/50 shadow"
                 style={{
                   left: mode === "signin" ? "4px" : "50%",
                 }}
@@ -59,7 +54,7 @@ export default function AuthClient() {
 
               <button
                 onClick={() => setMode("signin")}
-                className={`relative z-10 px-4 py-1 text-sm w-24 transition hover:cursor-pointer`}
+                className="relative z-10 px-4 py-1 text-sm w-24 transition hover:cursor-pointer"
               >
                 Sign In
               </button>
@@ -76,7 +71,7 @@ export default function AuthClient() {
           {/* Animated Forms */}
           <div className="relative h-fit sm:h-[calc(70dvh-2rem)] p-4 ">
             <AnimatePresence mode="wait">
-              {mode === "signin" ? <SignIn /> : <SignUp />}
+              {mode === "signin" ? <SignIn key="signin" /> : <SignUp key="signup" />}
             </AnimatePresence>
           </div>
 

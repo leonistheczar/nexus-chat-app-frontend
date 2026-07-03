@@ -6,26 +6,15 @@ import { Sun, Moon } from "lucide-react";
 
 export default function ThemeToggle() {
   const { setTheme, resolvedTheme } = useTheme();
-
   const [mounted, setMounted] = useState(false);
-  const [isDark, setIsDark] = useState(false);
 
+  // Guard against SSR hydration mismatches
   useEffect(() => {
     setMounted(true);
-  }, []);
-
-  // Sync theme → local state (with slight delay for smooth animation)
-  useEffect(() => {
-    if (!mounted) return;
-
-    const t = setTimeout(() => {
-      setIsDark(resolvedTheme === "dark");
-    }, 400); // small delay smooths transition
-
-    return () => clearTimeout(t);
-  }, [resolvedTheme, mounted]);
+  }, []); 
 
   if (!mounted) return null;
+  const isDark = resolvedTheme === "dark";
 
   const toggleTheme = () => {
     setTheme(isDark ? "light" : "dark");
@@ -44,7 +33,7 @@ export default function ThemeToggle() {
       <Sun
         size={18}
         className={`
-          absolute transition-all duration-500 ease-in-out
+          absolute transition-all duration-500 ease-in-out delay-150
           ${isDark
             ? "opacity-0 rotate-90 scale-75"
             : "opacity-100 rotate-0 scale-100"}
@@ -55,7 +44,7 @@ export default function ThemeToggle() {
       <Moon
         size={18}
         className={`
-          absolute transition-all duration-500 ease-in-out
+          absolute transition-all duration-500 ease-in-out delay-150
           ${isDark
             ? "opacity-100 rotate-0 scale-100"
             : "opacity-0 -rotate-90 scale-75"}

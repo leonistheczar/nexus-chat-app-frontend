@@ -19,7 +19,8 @@ export default function Settings() {
   const { openSettings, setOpenSettings } = useChatContacts();
   const settingsRef = useRef<HTMLDivElement>(null);
 
-  const closeSettings = () => {
+  // Simple handler for explicit click events
+  const handleExplicitClose = () => {
     setActiveTab("profile");
     setOpenSettings(false);
   };
@@ -28,10 +29,14 @@ export default function Settings() {
     if (!openSettings) return;
 
     document.body.style.overflow = "hidden";
+    const closeAndReset = () => {
+      setActiveTab("profile");
+      setOpenSettings(false);
+    };
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        closeSettings();
+        closeAndReset();
       }
     };
 
@@ -40,7 +45,7 @@ export default function Settings() {
         settingsRef.current &&
         !settingsRef.current.contains(e.target as Node)
       ) {
-        closeSettings();
+        closeAndReset();
       }
     };
 
@@ -52,7 +57,7 @@ export default function Settings() {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("mousedown", handleMouseDown);
     };
-  }, [openSettings, closeSettings]);
+  }, [openSettings, setActiveTab, setOpenSettings]);
 
   const tabs = [
     { id: "profile", label: "Profile", icon: User },
@@ -79,8 +84,8 @@ export default function Settings() {
             initial={{ translateX: "-100%" }}
             animate={{ translateX: 0 }}
             exit={{ translateX: "-100%" }}
-            transition={{ type: "spring", damping: 30, stiffness: 300 }} // Optimized performance spring
-            style={{ willChange: "transform" }} // Forces GPU acceleration
+            transition={{ type: "spring", damping: 30, stiffness: 300 }}
+            style={{ willChange: "transform" }}
             className="w-full max-w-2xl h-full bg-primary-100 shadow-2xl flex border-r border-slate-200/20"
           >
             {/* Sidebar Navigation */}
@@ -89,7 +94,7 @@ export default function Settings() {
                 <div className="flex items-center justify-between m-2 mb-6">
                   <h2 className="text-xl font-bold tracking-tight">Settings</h2>
                   <button 
-                    onClick={closeSettings}
+                    onClick={handleExplicitClose}
                     className="p-1.5 rounded-lg hover:bg-slate-200/20 transition-colors cursor-pointer"
                   >
                     <X className="w-5 h-5" />
