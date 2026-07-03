@@ -10,6 +10,19 @@ export default function ChatSimulation() {
   const [typing, setTyping] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const hasRun = useRef(false);
+  // ✅ Scroll the container div
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTop =
+        scrollContainerRef.current.scrollHeight;
+    }
+  }, [messages, typing]);
+
+  const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
+  const addMessage = (text: string, sender: Message["sender"]) => {
+    setMessages((prev) => [...prev, { id: crypto.randomUUID(), text, sender }]);
+  };
 
   useEffect(() => {
     if (hasRun.current) return;
@@ -39,19 +52,6 @@ export default function ChatSimulation() {
     sequence();
   }, []);
 
-  // ✅ Scroll the container div, not the page
-  useEffect(() => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollTop =
-        scrollContainerRef.current.scrollHeight;
-    }
-  }, [messages, typing]);
-
-  const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
-
-  const addMessage = (text: string, sender: Message["sender"]) => {
-    setMessages((prev) => [...prev, { id: crypto.randomUUID(), text, sender }]);
-  };
 
   return (
     <div className="max-w-md mx-auto bg-primary-200/40 backdrop-blur-xl rounded-2xl p-4 shadow-lg border border-primary-700/30">

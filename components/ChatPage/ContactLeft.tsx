@@ -4,16 +4,12 @@ import { Contact } from "@/app/types/types";
 import {
   CirclePlus,
   EllipsisVertical,
-  LogOut,
-  MessageSquare,
-  Settings,
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import ThemeToggler from "../baseComponents/ThemeToggler";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import ContactDropDown from "./ContactsLeft/DropDown/ContactDropDown";
-import { useChatContacts } from "./ChatProvider";
 
 type ContactLeftProps = {
   contacts: Contact[];

@@ -1,7 +1,7 @@
 "use client";
 
-import { AnimatePresence, motion, Variant, VariantLabels, Variants } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { AnimatePresence, motion, Variants } from "framer-motion";
+import { useEffect} from "react";
 
 type LogoutModalProps = {
   open: boolean;

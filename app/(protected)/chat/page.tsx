@@ -5,12 +5,12 @@ import MainChat from "@/components/ChatPage/MainChat";
 import UserProfileRight from "@/components/ChatPage/UserProfileRight";
 import { useChatContacts } from "@/components/ChatPage/ChatProvider";
 import { Contact } from "@/app/types/types";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import LogoutModal from "@/components/ChatPage/LogOutModal";
 import Settings from "@/components/ChatPage/ContactsLeft/DropDown/DropDownSettings/Settings";
 
 export default function Chat() {
-  const {contacts, showContacts, setShowContacts, open, setOpen, openSettings, setOpenSettings} = useChatContacts();
+  const {contacts, showContacts, setShowContacts, open, setOpen, setOpenSettings} = useChatContacts();
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
 
   const onClose = () => {

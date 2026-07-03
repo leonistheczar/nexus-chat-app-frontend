@@ -39,7 +39,7 @@ export default function ContactDropDown({openDrop, setOpen, setOpenDrop}: DropDo
           >
             <motion.button
               whileTap={{ scale: 0.97 }}
-              className="p-2 flex gap-x-2 items-center hover:cursor-pointer hover:bg-primary-300/50 rounded-lg transition"
+              className="p-2 flex gap-x-2 items-center hover:cursor-pointer hover:bg-primary-300/50 rounded-lg"
               onClick={() => {setOpenDrop(prev => !prev); setOpenSettings(prev => !prev);}}
             >
               <Settings size={20} />
@@ -48,7 +48,7 @@ export default function ContactDropDown({openDrop, setOpen, setOpenDrop}: DropDo
 
             <motion.button
               whileTap={{ scale: 0.97 }}
-              className="p-2 flex gap-x-2 items-center hover:cursor-pointer hover:bg-primary-300/50 rounded-lg transition"
+              className="p-2 flex gap-x-2 items-center hover:cursor-pointer hover:bg-primary-300/50 rounded-lg"
               onClick={() => setOpenDrop(prev => !prev)}
             >
               <MessageSquare size={20} />
@@ -61,7 +61,7 @@ export default function ContactDropDown({openDrop, setOpen, setOpenDrop}: DropDo
               whileTap={{
                 scale: 0.97,
               }}
-              className="group hover:cursor-pointer p-2 flex gap-x-2 items-center rounded-lg transition"
+              className="group hover:bg-red-100 hover:cursor-pointer p-2 flex gap-x-2 items-center rounded-lg"
               onClick={()=>{ setOpen(true); setOpenDrop(prev => !prev) }}
             >
               <LogOut

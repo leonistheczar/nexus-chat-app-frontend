@@ -43,7 +43,7 @@ export default function AdvancedFeatures() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
-            className="flex flex-col items-center p-6 rounded-xl bg-accent-50 backdrop-blur shadow-sm hover:shadow-lg transition"
+            className="flex flex-col items-center p-6 rounded-xl bg-accent-50 shadow-sm hover:shadow-lg transition"
           >
             <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-primary-100 mb-4">
               <Icon className="w-6 h-6 text-primary-700" />

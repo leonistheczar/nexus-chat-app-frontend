@@ -52,7 +52,7 @@ export default function Settings() {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("mousedown", handleMouseDown);
     };
-  }, [openSettings]);
+  }, [openSettings, closeSettings]);
 
   const tabs = [
     { id: "profile", label: "Profile", icon: User },
