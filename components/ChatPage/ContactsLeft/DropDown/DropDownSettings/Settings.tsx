@@ -3,65 +3,146 @@
 import { useChatContacts } from "@/components/ChatPage/ChatProvider";
 import { useEffect, useRef } from "react";
 import { useSettings } from "./SettingsStore";
-export default function Settings(){
-    const {activeTab, setActiveTab} = useSettings();
-      // Contact Provider
-      const { openSettings, setOpenSettings } = useChatContacts();
-      const settingsRef = useRef<HTMLDivElement>(null);
-      
-      useEffect(() => {
-          if (!openSettings) return;
-      
-          document.body.style.overflow = "hidden";
-      
-          const handleKeyDown = (e: KeyboardEvent) => {
-              if (e.key === "Escape") {
-                  setActiveTab("profile");
-                  setOpenSettings(false);
-              }
-          };
-      
-          const handleMouseDown = (e: MouseEvent) => {
-              if (
-                  settingsRef.current &&
-                  !settingsRef.current.contains(e.target as Node)
-              ) {
-                  setActiveTab("profile");
-                  setOpenSettings(false);
-              }
-          };
-      
-          window.addEventListener("keydown", handleKeyDown);
-          window.addEventListener("mousedown", handleMouseDown);
-      
-          return () => {
-              document.body.style.overflow = "";
-              window.removeEventListener("keydown", handleKeyDown);
-              window.removeEventListener("mousedown", handleMouseDown);
-          };
-      }, [openSettings, setOpenSettings]);
-    return (
-         openSettings && (
-            <div className="absolute top-0 left-0 w-full h-full bg-slate-950/10 z-99">
-                <div ref={settingsRef} className="bg-primary-100">
-                    <div className="flex flex-col gap-y-4">
-                        <button onClick={() => setActiveTab("profile")} className="hover:cursor-pointer">Profile</button>
-                        <button onClick={() => setActiveTab("account")} className="hover:cursor-pointer">Account</button>
-                        <button onClick={() => setActiveTab("chats")} className="hover:cursor-pointer">Chats</button>
-                        <button onClick={() => setActiveTab("privacy")} className="hover:cursor-pointer">Privacy</button>
-                        <button onClick={() => setActiveTab("notifications")} className="hover:cursor-pointer">Notifications</button>
-                        <button onClick={() => setActiveTab("feedback")} className="hover:cursor-pointer">Help & Feedback</button>
-                    </div>
-                    <div>
-                        {activeTab === "profile" && (<div>Profile</div>)}
-                        {activeTab === "account" && (<div>Account</div>)}
-                        {activeTab === "chats" && (<div>Chats</div>)}
-                        {activeTab === "privacy" && (<div>Privacy</div>)}
-                        {activeTab === "notifications" && (<div>Notifications</div>)}
-                        {activeTab === "feedback" && (<div>Help & Feedback</div>)}
-                    </div>
+import { motion, AnimatePresence } from "framer-motion";
+import { 
+  User, 
+  ShieldAlert, 
+  MessageSquare, 
+  Lock, 
+  Bell, 
+  HelpCircle, 
+  X 
+} from "lucide-react";
+
+export default function Settings() {
+  const { activeTab, setActiveTab } = useSettings();
+  const { openSettings, setOpenSettings } = useChatContacts();
+  const settingsRef = useRef<HTMLDivElement>(null);
+
+  const closeSettings = () => {
+    setActiveTab("profile");
+    setOpenSettings(false);
+  };
+
+  useEffect(() => {
+    if (!openSettings) return;
+
+    document.body.style.overflow = "hidden";
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        closeSettings();
+      }
+    };
+
+    const handleMouseDown = (e: MouseEvent) => {
+      if (
+        settingsRef.current &&
+        !settingsRef.current.contains(e.target as Node)
+      ) {
+        closeSettings();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("mousedown", handleMouseDown);
+
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("mousedown", handleMouseDown);
+    };
+  }, [openSettings]);
+
+  const tabs = [
+    { id: "profile", label: "Profile", icon: User },
+    { id: "account", label: "Account", icon: ShieldAlert },
+    { id: "chats", label: "Chats", icon: MessageSquare },
+    { id: "privacy", label: "Privacy", icon: Lock },
+    { id: "notifications", label: "Notifications", icon: Bell },
+    { id: "feedback", label: "Help & Feedback", icon: HelpCircle },
+  ] as const;
+
+  return (
+    <AnimatePresence>
+      {openSettings && (
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.15, ease: "linear" }}
+          style={{ willChange: "opacity" }}
+          className="absolute top-0 left-0 w-full h-full bg-slate-950/40 z-50 flex justify-start"
+        >
+          <motion.div
+            ref={settingsRef}
+            initial={{ translateX: "-100%" }}
+            animate={{ translateX: 0 }}
+            exit={{ translateX: "-100%" }}
+            transition={{ type: "spring", damping: 30, stiffness: 300 }} // Optimized performance spring
+            style={{ willChange: "transform" }} // Forces GPU acceleration
+            className="w-full max-w-2xl h-full bg-primary-100 shadow-2xl flex border-r border-slate-200/20"
+          >
+            {/* Sidebar Navigation */}
+            <div className="w-64 border-r border-slate-200/20 p-4 flex flex-col gap-y-1 justify-between">
+              <div className="flex flex-col gap-y-1">
+                <div className="flex items-center justify-between m-2 mb-6">
+                  <h2 className="text-xl font-bold tracking-tight">Settings</h2>
+                  <button 
+                    onClick={closeSettings}
+                    className="p-1.5 rounded-lg hover:bg-slate-200/20 transition-colors cursor-pointer"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
                 </div>
+
+                {tabs.map((tab) => {
+                  const Icon = tab.icon;
+                  const isActive = activeTab === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => setActiveTab(tab.id)}
+                      className={`flex items-center gap-x-3 px-4 py-3 rounded-xl font-medium text-sm transition-all cursor-pointer ${
+                        isActive
+                          ? "bg-slate-200/30 shadow-sm"
+                          : "hover:bg-slate-200/10 opacity-70 hover:opacity-100"
+                      }`}
+                    >
+                      <Icon className="w-5 h-5" />
+                      <span>{tab.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-        )
-    )
+
+            {/* Content Pane */}
+            <div className="flex-1 p-8 overflow-y-auto">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeTab}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.12, ease: "easeOut" }}
+                  style={{ willChange: "transform, opacity" }}
+                  className="h-full"
+                >
+                  <h3 className="text-2xl font-bold mb-6 capitalize">{activeTab}</h3>
+                  
+                  {activeTab === "profile" && <div className="text-sm">Profile Configuration Panel</div>}
+                  {activeTab === "account" && <div className="text-sm">Account Security and Setup</div>}
+                  {activeTab === "chats" && <div className="text-sm">Chat Customization and History</div>}
+                  {activeTab === "privacy" && <div className="text-sm">Privacy Options and Visibility</div>}
+                  {activeTab === "notifications" && <div className="text-sm">Alerts and Notification Adjustments</div>}
+                  {activeTab === "feedback" && <div className="text-sm">Support Queries and Bug Feedback</div>}
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
 }
