@@ -75,7 +75,7 @@ export default function Settings() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.15, ease: "linear" }}
+          transition={{ duration: 0.05, ease: "linear" }}
           style={{ willChange: "opacity" }}
           className="absolute top-0 left-0 w-full h-full bg-slate-950/40 z-50 flex justify-start"
         >
@@ -83,8 +83,8 @@ export default function Settings() {
             ref={settingsRef}
             initial={{ translateX: "-100%" }}
             animate={{ translateX: 0 }}
+            transition={{type: "tween", ease:"linear", duration:0.1}}
             exit={{ translateX: "-100%" }}
-            transition={{ type: "spring", damping: 30, stiffness: 300 }}
             style={{ willChange: "transform" }}
             className="w-full max-w-2xl h-full bg-primary-100 shadow-2xl flex border-r border-slate-200/20"
           >

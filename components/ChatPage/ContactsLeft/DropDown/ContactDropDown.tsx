@@ -61,14 +61,14 @@ export default function ContactDropDown({openDrop, setOpen, setOpenDrop}: DropDo
               whileTap={{
                 scale: 0.97,
               }}
-              className="group hover:bg-red-100 hover:cursor-pointer p-2 flex gap-x-2 items-center rounded-lg"
-              onClick={()=>{ setOpen(true); setOpenDrop(prev => !prev) }}
+              className="group hover:cursor-pointer p-2 flex gap-x-2 items-center rounded-lg"
+              onClick={()=>{ setOpen(true); setOpenDrop(false) }}
             >
               <LogOut
                 size={20}
-                className="group-hover:text-red-500 transition-colors"
+                className="group-hover:text-red-500"
               />
-              <span className="group-hover:text-red-500 transition-colors">
+              <span className="group-hover:text-red-500">
                 Logout
               </span>
             </motion.button>
