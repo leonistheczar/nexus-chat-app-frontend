@@ -1,5 +1,5 @@
 import Link from "next/link";
-import ScrollRevealSection from "../baseComponents/ScrollRevelation";
+import ScrollRevealSection from "../SharedComponents/ScrollRevelation";
 import AdvancedFeatures from "./AdvancedFeatures";
 import ChatSimulation from "./ChatSimulation";
 import FeatureTabs from "./FeaturesTab";

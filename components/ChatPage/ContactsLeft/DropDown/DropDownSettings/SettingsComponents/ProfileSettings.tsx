@@ -1,10 +1,18 @@
 'use client'
-import { Copy, Pencil, UserRound } from "lucide-react"
+import AlertDialog from "@/components/SharedComponents/AlertDialog";
+import { Copy, CopyCheck, Pencil, UserRound } from "lucide-react"
 import { useState } from "react";
 
 export default function ProfileSettings() {
-    const [isEditingName, setIsEditingName] = useState(false);
+  const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingPhone, setIsEditingPhone] = useState(false);
+  const [copyClicked, setCopyClicked] = useState(false);
+  const handleClick = () => {
+    setCopyClicked(true);
+    setTimeout(() => {
+      setCopyClicked(false)
+    }, 4000)
+  }
     return (
         <div className="text-sm">
                       <div className="flex justify-center flex-col">
@@ -77,9 +85,10 @@ export default function ProfileSettings() {
                               </div>
 
                               <button
-                                className="p-2 text-text-900/50 transition hover:text-text-900 cursor-pointer"
+                                className={`p-2 transition hover:text-text-900 cursor-pointer ${copyClicked ? "text-text-900" : "text-text-900/50" }`}
+                                onClick={handleClick}
                               >
-                                <Copy strokeWidth={1} />
+                                {copyClicked ? <CopyCheck strokeWidth={1.25} /> : <Copy strokeWidth={1} />}
                               </button>
                               <button
                                 onClick={() =>
@@ -102,6 +111,9 @@ export default function ProfileSettings() {
                         </div>
                         {/* Save */}
                         <button className="px-4 py-2 bg-text-300 mt-6 rounded-lg transition duration-100 cursor-pointer hover:bg-text-400">Save</button>
+                      </div>
+                      <div className="mt-8">
+                      {copyClicked ? <AlertDialog title="" message="Phone Number Copied!" /> : ""}
                       </div>
                     </div>
     )
