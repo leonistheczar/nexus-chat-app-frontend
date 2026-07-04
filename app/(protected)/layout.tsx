@@ -1,4 +1,4 @@
-import { ChatContactsProvider } from "@/components/ChatPage/ChatProvider";
+import { ChatContactsProvider } from "@/lib/providers/ChatProvider";
 import { getContacts } from "@/lib/getContacts";
 import { Metadata } from "next";
 

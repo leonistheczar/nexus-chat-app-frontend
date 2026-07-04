@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { Settings, MessageSquare, LogOut } from "lucide-react";
 import React from "react";
-import { useChatContacts } from "../../ChatProvider";
+import { useChatContacts } from "../../../../lib/providers/ChatProvider";
 type DropDownTypes = {
   openDrop: boolean, 
   setOpen: React.Dispatch<React.SetStateAction<boolean>>, 

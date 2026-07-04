@@ -3,7 +3,7 @@
 import ContactLeft from "@/components/ChatPage/ContactLeft";
 import MainChat from "@/components/ChatPage/MainChat";
 import UserProfileRight from "@/components/ChatPage/UserProfileRight";
-import { useChatContacts } from "@/components/ChatPage/ChatProvider";
+import { useChatContacts } from "@/lib/providers/ChatProvider";
 import { Contact } from "@/app/types/types";
 import { useState } from "react";
 import LogoutModal from "@/components/ChatPage/LogOutModal";

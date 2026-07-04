@@ -1,6 +1,6 @@
 "use client";
 
-import { useChatContacts } from "@/components/ChatPage/ChatProvider";
+import { useChatContacts } from "@/lib/providers/ChatProvider";
 import { useEffect, useRef } from "react";
 import { useSettings } from "./SettingsStore";
 import { motion, AnimatePresence } from "framer-motion";
