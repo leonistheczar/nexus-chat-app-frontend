@@ -1,6 +1,7 @@
 "use client";
 
 import { Contact } from "@/app/types/types";
+import { Search, Image as ImageIcon } from "lucide-react";
 import Image from "next/image";
 
 type UserProfileRightProps = {
@@ -50,11 +51,11 @@ export default function UserProfileRight({
           <p className="text-sm text-text-600">{selectedContact.contact}</p>
         </div>
         <div id="profile-fns" className="flex gap-2">
-          <button className="rounded-lg bg-primary-200 px-4 py-2 text-sm hover:bg-primary-300 transition-colors hover:cursor-pointer">
-            Chat
+          <button className="flex items-center gap-x-1 rounded-lg bg-primary-200 px-4 py-2 text-sm hover:bg-primary-300 transition-colors hover:cursor-pointer">
+            <div><Search  size={22} /></div><span>Search</span>
           </button>
-          <button className="rounded-lg bg-primary-200 px-4 py-2 text-sm hover:bg-primary-300 transition-colors hover:cursor-pointer">
-            Media
+          <button className="flex items-center gap-x-1 rounded-lg bg-primary-200 px-4 py-2 text-sm hover:bg-primary-300 transition-colors hover:cursor-pointer">
+          <div><ImageIcon size={22}  /></div><span>Media</span>
           </button>
         </div>
       </div>

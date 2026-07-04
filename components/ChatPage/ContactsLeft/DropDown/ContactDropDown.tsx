@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { Settings, MessageSquare, LogOut } from "lucide-react";
 import React from "react";
-import { useChatContacts } from "../../ChatProvider";
+import { useChatContacts } from "../../../../lib/providers/ChatProvider";
 type DropDownTypes = {
   openDrop: boolean, 
   setOpen: React.Dispatch<React.SetStateAction<boolean>>, 
@@ -61,14 +61,14 @@ export default function ContactDropDown({openDrop, setOpen, setOpenDrop}: DropDo
               whileTap={{
                 scale: 0.97,
               }}
-              className="group hover:bg-red-100 hover:cursor-pointer p-2 flex gap-x-2 items-center rounded-lg"
-              onClick={()=>{ setOpen(true); setOpenDrop(prev => !prev) }}
+              className="group hover:cursor-pointer p-2 flex gap-x-2 items-center rounded-lg"
+              onClick={()=>{ setOpen(true); setOpenDrop(false) }}
             >
               <LogOut
                 size={20}
-                className="group-hover:text-red-500 transition-colors"
+                className="group-hover:text-red-500"
               />
-              <span className="group-hover:text-red-500 transition-colors">
+              <span className="group-hover:text-red-500">
                 Logout
               </span>
             </motion.button>

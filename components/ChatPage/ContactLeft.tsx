@@ -3,7 +3,7 @@
 import { Contact } from "@/app/types/types";
 import { CirclePlus, EllipsisVertical } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import ThemeToggler from "../baseComponents/ThemeToggler";
+import ThemeToggler from "../SharedComponents/ThemeToggler";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import ContactDropDown from "./ContactsLeft/DropDown/ContactDropDown";
