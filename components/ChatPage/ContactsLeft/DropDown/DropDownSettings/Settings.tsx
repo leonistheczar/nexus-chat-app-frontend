@@ -4,15 +4,16 @@ import { useChatContacts } from "@/components/ChatPage/ChatProvider";
 import { useEffect, useRef } from "react";
 import { useSettings } from "./SettingsStore";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  User, 
-  ShieldAlert, 
-  MessageSquare, 
-  Lock, 
-  Bell, 
-  HelpCircle, 
-  X 
+import {
+  User,
+  ShieldAlert,
+  MessageSquare,
+  Lock,
+  Bell,
+  HelpCircle,
+  X,
 } from "lucide-react";
+import ProfileSettings from "./SettingsComponents/ProfileSettings";
 
 export default function Settings() {
   const { activeTab, setActiveTab } = useSettings();
@@ -71,10 +72,10 @@ export default function Settings() {
   return (
     <AnimatePresence>
       {openSettings && (
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+          exit={{ opacity: 0, transition: { duration: 0.2 } }}
           transition={{ duration: 0.05, ease: "linear" }}
           style={{ willChange: "opacity" }}
           className="absolute top-0 left-0 w-full h-full bg-slate-950/40 z-50 flex justify-start"
@@ -83,17 +84,17 @@ export default function Settings() {
             ref={settingsRef}
             initial={{ translateX: "-100%" }}
             animate={{ translateX: 0 }}
-            transition={{type: "tween", ease:"linear", duration:0.1}}
+            transition={{ type: "tween", ease: "easeOut", duration: 0.25 }}
             exit={{ translateX: "-100%" }}
             style={{ willChange: "transform" }}
             className="w-full max-w-2xl h-full bg-primary-100 shadow-2xl flex border-r border-slate-200/20"
           >
             {/* Sidebar Navigation */}
-            <div className="w-64 border-r border-slate-200/20 p-4 flex flex-col gap-y-1 justify-between">
+            <div className="w-64 border-r border-slate-500/20 p-4 flex flex-col gap-y-1 justify-between">
               <div className="flex flex-col gap-y-1">
                 <div className="flex items-center justify-between m-2 mb-6">
                   <h2 className="text-xl font-bold tracking-tight">Settings</h2>
-                  <button 
+                  <button
                     onClick={handleExplicitClose}
                     className="p-1.5 rounded-lg hover:bg-slate-200/20 transition-colors cursor-pointer"
                   >
@@ -134,14 +135,36 @@ export default function Settings() {
                   style={{ willChange: "transform, opacity" }}
                   className="h-full"
                 >
-                  <h3 className="text-2xl font-bold mb-6 capitalize">{activeTab}</h3>
-                  
-                  {activeTab === "profile" && <div className="text-sm">Profile Configuration Panel</div>}
-                  {activeTab === "account" && <div className="text-sm">Account Security and Setup</div>}
-                  {activeTab === "chats" && <div className="text-sm">Chat Customization and History</div>}
-                  {activeTab === "privacy" && <div className="text-sm">Privacy Options and Visibility</div>}
-                  {activeTab === "notifications" && <div className="text-sm">Alerts and Notification Adjustments</div>}
-                  {activeTab === "feedback" && <div className="text-sm">Support Queries and Bug Feedback</div>}
+                  <h3 className="text-2xl font-bold mb-6 capitalize">
+                    {activeTab}
+                  </h3>
+
+                  {activeTab === "profile" && (
+                    <ProfileSettings />
+                  )}
+                  {activeTab === "account" && (
+                    <div className="text-sm">Account Security and Setup</div>
+                  )}
+                  {activeTab === "chats" && (
+                    <div className="text-sm">
+                      Chat Customization and History
+                    </div>
+                  )}
+                  {activeTab === "privacy" && (
+                    <div className="text-sm">
+                      Privacy Options and Visibility
+                    </div>
+                  )}
+                  {activeTab === "notifications" && (
+                    <div className="text-sm">
+                      Alerts and Notification Adjustments
+                    </div>
+                  )}
+                  {activeTab === "feedback" && (
+                    <div className="text-sm">
+                      Support Queries and Bug Feedback
+                    </div>
+                  )}
                 </motion.div>
               </AnimatePresence>
             </div>
