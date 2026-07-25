@@ -5,13 +5,20 @@ import MainChat from "@/components/ChatPage/MainChat";
 import UserProfileRight from "@/components/ChatPage/UserProfileRight";
 import { useChatContacts } from "@/lib/providers/ChatProvider";
 import { Contact } from "@/app/types/types";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LogoutModal from "@/components/ChatPage/LogOutModal";
 import Settings from "@/components/ChatPage/ContactsLeft/DropDown/DropDownSettings/Settings";
 
 export default function Chat() {
-  const {contacts, showContacts, setShowContacts, open, setOpen, setOpenSettings} = useChatContacts();
+  const {contacts, showContacts, setShowContacts, open, setOpen} = useChatContacts();
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
+
+  useEffect(() => {
+    setSelectedContact((current) => {
+      if (!current) return current;
+      return contacts.find((c) => c.id === current.id) ?? current;
+    });
+  }, [contacts]);
 
   const onClose = () => {
     setOpen(false);
@@ -31,7 +38,6 @@ export default function Chat() {
           showContacts={showContacts}
           setShowContacts={setShowContacts}
           setOpen={setOpen}
-          setOpenSettings={setOpenSettings}
         />
       </section>
 

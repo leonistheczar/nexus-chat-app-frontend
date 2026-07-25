@@ -6,7 +6,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import ThemeToggler from "../SharedComponents/ThemeToggler";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import ContactDropDown from "./ContactsLeft/DropDown/ContactDropDown";
+import SettingsDropDown from "./ContactsLeft/DropDown/SettingsDropDown";
 
 type ContactLeftProps = {
   contacts: Contact[];
@@ -15,8 +15,13 @@ type ContactLeftProps = {
   showContacts: boolean;
   setShowContacts: React.Dispatch<React.SetStateAction<boolean>>;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setOpenSettings: React.Dispatch<React.SetStateAction<boolean>>;
 };
+
+function formatMessagePreview(message: string | undefined | null): string {
+  const text = message ?? "";
+  if (text.length <= 30) return text;
+  return `${text.slice(0, 30)}...`;
+}
 
 export default function ContactLeft({
   contacts,
@@ -29,13 +34,18 @@ export default function ContactLeft({
   const [search, setSearch] = useState("");
   const [openDrop, setOpenDrop] = useState(false);
   
-  const menuRef = useRef<HTMLDivElement>(null);
+  const desktopMenuRef = useRef<HTMLDivElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
   const sideBarRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     function handleClick(e: MouseEvent) {
       const target = e.target as Node;
-      if (openDrop && menuRef.current && !menuRef.current.contains(target)) {
-        setOpenDrop(false);
+      if (openDrop) {
+        const inDesktopMenu = desktopMenuRef.current?.contains(target);
+        const inMobileMenu = mobileMenuRef.current?.contains(target);
+        if (!inDesktopMenu && !inMobileMenu) {
+          setOpenDrop(false);
+        }
       }
       if (showContacts && sideBarRef.current && !sideBarRef.current.contains(target)) {
         setShowContacts(false);
@@ -58,7 +68,7 @@ export default function ContactLeft({
       const fullName = `${contact.first_name} ${contact.last_name}`.toLowerCase();
       return (
         fullName.includes(query) ||
-        contact.message.toLowerCase().includes(query)
+        (contact.message ?? "").toLowerCase().includes(query)
       );
     });
   }, [contacts, search]);
@@ -67,37 +77,35 @@ export default function ContactLeft({
     <>
       {/* Desktop Sidebar */}
       <div className="hidden container bg-primary-100 md:flex flex-col border-r border-primary-200 h-screen">
-        <div id="contact-base" className="flex justify-between items-center px-4 py-2">
+        <div className="flex justify-between items-center px-4 py-2">
           <h1 className="text-xl"> Nexus</h1>
           <div className="flex items-center gap-x-2 scale-90">
             <ThemeToggler />
             <button className="hover:cursor-pointer hover:bg-primary-200 p-1.5 rounded-full transition-all">
               <CirclePlus />
             </button>
-            <div className="relative" ref={menuRef}>
+            <div className="relative" ref={desktopMenuRef}>
               <motion.button
                 onClick={() => setOpenDrop(prev => !prev)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.9 }}
                 className="hover:cursor-pointer hover:bg-primary-200 p-1.5 rounded-full transition-all"
               >
                 <EllipsisVertical />
               </motion.button>
-              <ContactDropDown openDrop={openDrop} setOpen={setOpen} setOpenDrop={setOpenDrop}/>
+              <SettingsDropDown openDrop={openDrop} setOpen={setOpen} setOpenDrop={setOpenDrop}/>
             </div>
           </div>
         </div>
-        <div id="contact-search" className="p-2">
+        <div className="p-2">
           <input
             type="text"
-            name="contact-search"
+            name="contact-search-desktop"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="bg-primary-200 w-full text-sm p-1.5 rounded-md outline-0 outline-primary-300 focus:outline-none focus:ring-1 focus:ring-primary-300 transition-all"
             placeholder="Search or start a new conversation"
           />
         </div>
-        <ul id="contacts" className="flex flex-col gap-y-2 px-2 overflow-auto scrollbar-thumb-primary-200">
+        <ul className="flex flex-col gap-y-2 px-2 overflow-auto scrollbar-thumb-primary-200">
           {filteredContacts?.map((contact) => (
             <li key={contact.id}>
               <button
@@ -125,7 +133,7 @@ export default function ContactLeft({
                     {contact.first_name} {contact.last_name}
                   </p>
                   <p className="text-[12px] text-text-600">
-                    {contact.message.slice(0, 30) + "..."}
+                    {formatMessagePreview(contact.message)}
                   </p>
                 </div>
               </button>
@@ -142,37 +150,35 @@ export default function ContactLeft({
         }`}
       >
         <aside className="container bg-primary-100 flex flex-col border-r border-primary-200 h-screen">
-          <div id="contact-base" className="flex justify-between items-center px-4 py-2">
+          <div className="flex justify-between items-center px-4 py-2">
             <h1 className="text-xl"> Nexus</h1>
             <div className="flex items-center gap-x-2 scale-90">
               <ThemeToggler />
               <button className="hover:cursor-pointer hover:bg-primary-200 p-1.5 rounded-full transition-all">
                 <CirclePlus />
               </button>
-              <div className="relative" ref={menuRef}>
+              <div className="relative" ref={mobileMenuRef}>
                 <motion.button
                   onClick={() => setOpenDrop(prev => !prev)}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.9 }}
                   className="hover:cursor-pointer hover:bg-primary-200 p-1.5 rounded-full transition-all"
                 >
                   <EllipsisVertical />
                 </motion.button>
-                <ContactDropDown openDrop={openDrop} setOpen={setOpen} setOpenDrop={setOpenDrop}/>
+                <SettingsDropDown openDrop={openDrop} setOpen={setOpen} setOpenDrop={setOpenDrop}/>
               </div>
             </div>
           </div>
-          <div id="contact-search" className="p-2">
+          <div className="p-2">
             <input
               type="text"
-              name="contact-search"
+              name="contact-search-mobile"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="bg-primary-200 w-full text-sm p-1.5 rounded-md outline-0 outline-primary-300 focus:outline-none focus:ring-1 focus:ring-primary-300 transition-all"
               placeholder="Search or start a new conversation"
             />
           </div>
-          <ul id="contacts" className="flex flex-col gap-y-2 px-2 overflow-auto scrollbar-thumb-primary-200">
+          <ul className="flex flex-col gap-y-2 px-2 overflow-auto scrollbar-thumb-primary-200">
             {filteredContacts?.map((contact) => (
               <li key={contact.id}>
                 <button
@@ -200,7 +206,7 @@ export default function ContactLeft({
                       {contact.first_name} {contact.last_name}
                     </p>
                     <p className="text-[12px] text-text-600">
-                      {contact.message.slice(0, 30) + "..."}
+                      {formatMessagePreview(contact.message)}
                     </p>
                   </div>
                 </button>

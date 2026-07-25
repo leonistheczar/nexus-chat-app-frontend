@@ -9,7 +9,7 @@ type DropDownTypes = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>, 
   setOpenDrop: React.Dispatch<React.SetStateAction<boolean>>,
 }
-export default function ContactDropDown({openDrop, setOpen, setOpenDrop}: DropDownTypes){
+export default function SettingsDropDown({openDrop, setOpen, setOpenDrop}: DropDownTypes){
     // Contact Provider
     const {setOpenSettings} = useChatContacts();
     return(
@@ -38,18 +38,16 @@ export default function ContactDropDown({openDrop, setOpen, setOpenDrop}: DropDo
             className="absolute z-99 left-0 mt-2 w-48 bg-secondary-100 px-3 py-4 rounded-xl flex flex-col gap-y-1 shadow-md"
           >
             <motion.button
-              whileTap={{ scale: 0.97 }}
               className="p-2 flex gap-x-2 items-center hover:cursor-pointer hover:bg-primary-300/50 rounded-lg"
-              onClick={() => {setOpenDrop(prev => !prev); setOpenSettings(prev => !prev);}}
+              onClick={() => {setOpenDrop(false); setOpenSettings(true);}}
             >
               <Settings size={20} />
               <span>Settings</span>
             </motion.button>
 
             <motion.button
-              whileTap={{ scale: 0.97 }}
               className="p-2 flex gap-x-2 items-center hover:cursor-pointer hover:bg-primary-300/50 rounded-lg"
-              onClick={() => setOpenDrop(prev => !prev)}
+              onClick={() => setOpenDrop(false)}
             >
               <MessageSquare size={20} />
               <span>Mark all as read</span>

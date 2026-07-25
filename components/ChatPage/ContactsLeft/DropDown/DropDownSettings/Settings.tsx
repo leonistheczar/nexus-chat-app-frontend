@@ -1,6 +1,7 @@
 "use client";
 
 import { useChatContacts } from "@/lib/providers/ChatProvider";
+import { lockBodyScroll } from "@/lib/bodyScrollLock";
 import { useEffect, useRef } from "react";
 import { useSettings } from "./SettingsStore";
 import { motion, AnimatePresence } from "framer-motion";
@@ -29,7 +30,7 @@ export default function Settings() {
   useEffect(() => {
     if (!openSettings) return;
 
-    document.body.style.overflow = "hidden";
+    const unlockScroll = lockBodyScroll();
     const closeAndReset = () => {
       setActiveTab("profile");
       setOpenSettings(false);
@@ -54,7 +55,7 @@ export default function Settings() {
     window.addEventListener("mousedown", handleMouseDown);
 
     return () => {
-      document.body.style.overflow = "";
+      unlockScroll();
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("mousedown", handleMouseDown);
     };

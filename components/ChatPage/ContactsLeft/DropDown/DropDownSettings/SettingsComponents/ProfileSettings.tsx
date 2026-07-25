@@ -12,12 +12,24 @@ export default function ProfileSettings() {
   const nameContainer = useRef<HTMLDivElement>(null);
   const phoneContainer = useRef<HTMLDivElement>(null);
   // Functions
-  const handleCopyClick = () => {
-    setCopyClicked(true);
-    setTimeout(() => {
-      setCopyClicked(false)
-    }, 4000)
-  }
+  const handleCopyClick = async () => {
+    const phone = phoneInput.current?.value ?? "";
+    if (!phone) return;
+
+    try {
+      await navigator.clipboard.writeText(phone);
+      setCopyClicked(true);
+    } catch {
+      // Clipboard unavailable — don't show a false success state
+    }
+  };
+
+  useEffect(() => {
+    if (!copyClicked) return;
+
+    const id = window.setTimeout(() => setCopyClicked(false), 4000);
+    return () => clearTimeout(id);
+  }, [copyClicked]);
   // Handle outside click or ESC
   useEffect(() => {
       function handleInputBorderDisable(e: MouseEvent) {
@@ -56,14 +68,14 @@ export default function ProfileSettings() {
                             <div className="flex items-center justify-between gap-4">
                               <div className="flex-1">
                                 <label
-                                  htmlFor="name"
+                                  htmlFor="profile-name"
                                   className="text-sm font-medium text-text-900/60"
                                 >
                                   Name
                                 </label>
 
                                 <input
-                                  id="name"
+                                  id="profile-name"
                                   defaultValue="User"
                                   readOnly={!isEditingName}
                                   ref={userInput}
@@ -98,14 +110,14 @@ export default function ProfileSettings() {
                             <div className="flex items-center justify-between gap-4">
                               <div className="flex-1">
                                 <label
-                                  htmlFor="name"
+                                  htmlFor="profile-phone"
                                   className="text-sm font-medium text-text-900/60"
                                 >
                                   Phone
                                 </label>
 
                                 <input
-                                  id="name"
+                                  id="profile-phone"
                                   ref={phoneInput}
                                   defaultValue="+92-XXXXXXXXX"
                                   readOnly={!isEditingPhone}  
