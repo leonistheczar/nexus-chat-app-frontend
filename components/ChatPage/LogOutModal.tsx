@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion, Variants } from "framer-motion";
 import { useEffect} from "react";
+import { lockBodyScroll } from "@/lib/bodyScrollLock";
 
 type LogoutModalProps = {
   open: boolean;
@@ -66,7 +67,7 @@ export default function LogoutModal({
   useEffect(() => {
   if (!open) return;
 
-  document.body.style.overflow = "hidden";
+  const unlockScroll = lockBodyScroll();
 
   const handleEscape = (e: KeyboardEvent) => {
     if (e.key === "Escape") {
@@ -76,7 +77,7 @@ export default function LogoutModal({
 
   window.addEventListener("keydown", handleEscape);
   return () => {
-    document.body.style.overflow = "";
+    unlockScroll();
     window.removeEventListener("keydown", handleEscape);
   };
 }, [open, onClose]);

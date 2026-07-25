@@ -52,7 +52,7 @@ export default function Alert({
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 4, scale: 0.98 }}
           transition={{ duration: 0.2, ease: 'easeOut' }}
-          className="flex gap-3 p-4 rounded-lg border text-sm"
+          className="flex gap-3 p-4 rounded-lg border"
           style={{
             backgroundColor: current.bg,
             borderColor: current.border,
@@ -62,23 +62,11 @@ export default function Alert({
         >
           {/* Lucide Variant Icon */}
           {current.icon}
-
           {/* Message Content */}
           <div className="flex-1">
             {title && <h5 className="font-bold mb-0.5">{title}</h5>}
             <p className="opacity-90 leading-relaxed">{message}</p>
           </div>
-
-          {/* Optional Close Button */}
-          {onClose && (
-            <button
-              onClick={onClose}
-              className="p-0.5 rounded-md hover:bg-black/5 dark:hover:bg-white/10 transition-colors self-start"
-              aria-label="Close alert"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          )}
         </motion.div>
       )}
     </AnimatePresence>
