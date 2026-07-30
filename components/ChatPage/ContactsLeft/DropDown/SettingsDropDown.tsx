@@ -38,7 +38,7 @@ export default function SettingsDropDown({openDrop, setOpen, setOpenDrop}: DropD
             className="absolute z-99 left-0 mt-2 w-48 bg-secondary-100 px-3 py-4 rounded-xl flex flex-col gap-y-1 shadow-md"
           >
             <motion.button
-              className="p-2 flex gap-x-2 items-center hover:cursor-pointer hover:bg-primary-300/50 rounded-lg"
+              className="p-2 flex w-full self-stretch gap-x-2 items-center hover:cursor-pointer hover:bg-primary-300/50 rounded-lg"
               onClick={() => {setOpenDrop(false); setOpenSettings(true);}}
             >
               <Settings size={20} />
@@ -46,7 +46,7 @@ export default function SettingsDropDown({openDrop, setOpen, setOpenDrop}: DropD
             </motion.button>
 
             <motion.button
-              className="p-2 flex gap-x-2 items-center hover:cursor-pointer hover:bg-primary-300/50 rounded-lg"
+              className="p-2 flex w-full gap-x-2 items-center hover:cursor-pointer hover:bg-primary-300/50 rounded-lg"
               onClick={() => setOpenDrop(false)}
             >
               <MessageSquare size={20} />
@@ -59,7 +59,7 @@ export default function SettingsDropDown({openDrop, setOpen, setOpenDrop}: DropD
               whileTap={{
                 scale: 0.97,
               }}
-              className="group hover:cursor-pointer p-2 flex gap-x-2 items-center rounded-lg"
+              className="group hover:cursor-pointer p-2 flex w-full gap-x-2 items-center rounded-lg"
               onClick={()=>{ setOpen(true); setOpenDrop(false) }}
             >
               <LogOut

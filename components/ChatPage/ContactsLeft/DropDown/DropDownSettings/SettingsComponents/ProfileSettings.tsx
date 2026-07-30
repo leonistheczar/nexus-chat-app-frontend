@@ -115,7 +115,7 @@ export default function ProfileSettings() {
                 <input
                   id="profile-email"
                   ref={emailInput}
-                  defaultValue="+92-XXXXXXXXX"
+                  defaultValue="user@email.com"
                   readOnly={!isEditingEmail}
                   className={`mt-1 w-full bg-transparent outline-none transition-colors ${
                     isEditingEmail ? "text-text-900" : "cursor-default"
