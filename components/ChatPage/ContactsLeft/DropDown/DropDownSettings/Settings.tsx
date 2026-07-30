@@ -15,6 +15,15 @@ import {
   X,
 } from "lucide-react";
 import ProfileSettings from "./SettingsComponents/ProfileSettings";
+import AccountSettings from "./SettingsComponents/AccountSettings";
+import ChatsSettings from "./SettingsComponents/ChatsSettings";
+import PrivacySettings from "./SettingsComponents/PrivacySettings";
+import NotificationsSettings from "./SettingsComponents/NotificationsSettings";
+import HelpFeedbackSettings from "./SettingsComponents/HelpFeedbackSettings";
+import {
+  applyChatFontSize,
+  useUserPreferences,
+} from "./userPreferencesStore";
 
 export default function Settings() {
   const { activeTab, setActiveTab } = useSettings();
@@ -26,6 +35,10 @@ export default function Settings() {
     setActiveTab("profile");
     setOpenSettings(false);
   };
+
+  useEffect(() => {
+    applyChatFontSize(useUserPreferences.getState().chatFontSize);
+  }, []);
 
   useEffect(() => {
     if (!openSettings) return;
@@ -112,8 +125,8 @@ export default function Settings() {
                       onClick={() => setActiveTab(tab.id)}
                       className={`flex items-center gap-x-3 px-4 py-3 rounded-xl font-medium text-sm transition-all cursor-pointer ${
                         isActive
-                          ? "bg-slate-200/30 shadow-sm"
-                          : "hover:bg-slate-200/10 opacity-70 hover:opacity-100"
+                          ? "bg-primary-200/70 shadow-sm"
+                          : "hover:bg-primary-400/10 opacity-70 hover:opacity-100"
                       }`}
                     >
                       <Icon className="w-5 h-5" />
@@ -125,7 +138,7 @@ export default function Settings() {
             </div>
 
             {/* Content Pane */}
-            <div className="flex-1 p-8 overflow-y-auto">
+            <div className="flex-1 p-6 overflow-y-auto">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeTab}
@@ -134,38 +147,19 @@ export default function Settings() {
                   exit={{ opacity: 0, y: -6 }}
                   transition={{ duration: 0.12, ease: "easeOut" }}
                   style={{ willChange: "transform, opacity" }}
-                  className="h-full"
+                  className=""
                 >
-                  <h3 className="text-2xl font-bold mb-6 capitalize">
-                    {activeTab}
+                  <h3 className="text-2xl font-bold mb-6">
+                    {tabs.find((tab) => tab.id === activeTab)?.label ??
+                      activeTab}
                   </h3>
 
-                  {activeTab === "profile" && (
-                    <ProfileSettings />
-                  )}
-                  {activeTab === "account" && (
-                    <div className="text-sm">Account Security and Setup</div>
-                  )}
-                  {activeTab === "chats" && (
-                    <div className="text-sm">
-                      Chat Customization and History
-                    </div>
-                  )}
-                  {activeTab === "privacy" && (
-                    <div className="text-sm">
-                      Privacy Options and Visibility
-                    </div>
-                  )}
-                  {activeTab === "notifications" && (
-                    <div className="text-sm">
-                      Alerts and Notification Adjustments
-                    </div>
-                  )}
-                  {activeTab === "feedback" && (
-                    <div className="text-sm">
-                      Support Queries and Bug Feedback
-                    </div>
-                  )}
+                  {activeTab === "profile" && <ProfileSettings />}
+                  {activeTab === "account" && <AccountSettings />}
+                  {activeTab === "chats" && <ChatsSettings />}
+                  {activeTab === "privacy" && <PrivacySettings />}
+                  {activeTab === "notifications" && <NotificationsSettings />}
+                  {activeTab === "feedback" && <HelpFeedbackSettings />}
                 </motion.div>
               </AnimatePresence>
             </div>
