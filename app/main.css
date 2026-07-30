@@ -149,3 +149,11 @@ html {font-size: 100%;} /* 16px */
 .btn-primary {
   @apply w-full bg-primary-500 text-white py-2 rounded-lg hover:bg-primary-600 transition;
 }
+
+html[data-chat-font-size="small"] {
+  font-size: 93.75%;
+}
+
+html[data-chat-font-size="large"] {
+  font-size: 106.25%;
+}
