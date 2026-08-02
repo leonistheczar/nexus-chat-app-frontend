@@ -124,7 +124,7 @@ export default function Settings() {
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id)}
                       className={`flex items-center gap-x-3 px-4 py-3 rounded-xl font-medium text-sm transition-all cursor-pointer ${
-                        isActive
+                        isActive  
                           ? "bg-primary-200/70 shadow-sm"
                           : "hover:bg-primary-400/10 opacity-70 hover:opacity-100"
                       }`}

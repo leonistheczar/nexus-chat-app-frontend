@@ -68,7 +68,7 @@ export default function Navbar() {
             {/* Links */}
             <ul className="flex gap-x-8 items-center ">
               <li
-                className="group cursor-pointer"
+                className="group cursor-pointer p-2"
                 onMouseEnter={() => setOpen(true)}
                 onMouseLeave={() => setOpen(false)}
               >
@@ -87,12 +87,12 @@ export default function Navbar() {
                         animate={{ opacity: 1, y: 5, scale: 1 }}
                         exit={{ opacity: 0, y: 0, scale: 0.96 }}
                         transition={{ duration: 0.18, ease: "easeOut" }}
-                        className="absolute top-8 left-0 w-72 bg-primary-200 backdrop-blur-xl p-4 rounded-2xl shadow-xl border border-primary-100 z-50"
+                        className="absolute top-8 left-0 w-72 bg-primary-200 p-4 rounded-2xl shadow-xl border border-primary-100 z-50"
                       >
                         <div className="flex flex-col gap-4 text-sm">
                           {/* Messaging */}
                           <Link href="/features">
-                            <div className="group flex items-start gap-3 p-2 rounded-lg hover:bg-primary-100/60 transition cursor-pointer">
+                            <div className="group flex items-center gap-3 p-2 rounded-lg hover:bg-primary-100/60 transition cursor-pointer">
                               <div className="w-9 h-9 flex items-center justify-center rounded-lg bg-primary-100 group-hover:scale-110 transition">
                                 {/* icon */}
                                 <span className="text-primary-700">💬</span>
@@ -111,7 +111,7 @@ export default function Navbar() {
 
                           {/* Encryption */}
                           <Link href="/features">
-                            <div className="group flex items-start gap-3 p-2 rounded-lg hover:bg-primary-100/60 transition cursor-pointer">
+                            <div className="group flex items-center gap-3 p-2 rounded-lg hover:bg-primary-100/60 transition cursor-pointer">
                               <div className="w-9 h-9 flex items-center justify-center rounded-lg bg-primary-100 group-hover:scale-110 transition">
                                 <span className="text-primary-700">🔐</span>
                               </div>
@@ -129,7 +129,7 @@ export default function Navbar() {
 
                           {/* Groups */}
                           <Link href="/features">
-                            <div className="group flex items-start gap-3 p-2 rounded-lg hover:bg-primary-100/60 transition cursor-pointer">
+                            <div className="group flex items-center gap-3 p-2 rounded-lg hover:bg-primary-100/60 transition cursor-pointer">
                               <div className="w-9 h-9 flex items-center justify-center rounded-lg bg-primary-100 group-hover:scale-110 transition">
                                 <span className="text-primary-700">👥</span>
                               </div>
@@ -147,7 +147,7 @@ export default function Navbar() {
 
                           <Link href="/features">
                             {/* Analytics */}
-                            <div className="group flex items-start gap-3 p-2 rounded-lg hover:bg-primary-100/60 transition cursor-pointer">
+                            <div className="group flex items-center gap-3 p-2 rounded-lg hover:bg-primary-100/60 transition cursor-pointer">
                               <div className="w-9 h-9 flex items-center justify-center rounded-lg bg-primary-100 group-hover:scale-110 transition">
                                 <span className="text-primary-700">📊</span>
                               </div>
