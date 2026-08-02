@@ -17,7 +17,7 @@ type ContactLeftProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const PRIORITY_COUNT = 10; // only avatars likely visible 
+const PRIORITY_COUNT = 10; // only avatars likely visible
 
 function formatMessagePreview(message: string | undefined | null): string {
   const text = message ?? "";
@@ -71,7 +71,7 @@ const ContactItem = memo(function ContactItem({
   );
 });
 
-// Extracted list + search, shared by desktop and mobile 
+// Extracted list + search, shared by desktop and mobile
 type SidebarBodyProps = {
   search: string;
   setSearch: (v: string) => void;
@@ -113,7 +113,11 @@ function SidebarBody({
             >
               <EllipsisVertical />
             </motion.button>
-            <SettingsDropDown openDrop={openDrop} setOpen={setOpen} setOpenDrop={setOpenDrop} />
+            <SettingsDropDown
+              openDrop={openDrop}
+              setOpen={setOpen}
+              setOpenDrop={setOpenDrop}
+            />
           </div>
         </div>
       </div>
@@ -128,21 +132,25 @@ function SidebarBody({
         />
       </div>
       <ul className="flex flex-col gap-y-2 px-2 overflow-auto scrollbar-thumb-primary-200">
-        {filteredContacts.map((contact, index) => (
-          <ContactItem
-            key={contact.id}
-            contact={contact}
-            isSelected={selectedContact?.id === contact.id}
-            isPriority={index < PRIORITY_COUNT}
-            onSelect={onSelect}
-          />
-        ))}
+        {filteredContacts.length === 0 ? (
+          <p className="text-sm text-center text-text-600 px-2 mt-4">No contact found</p>
+        ) : (
+          filteredContacts.map((contact, index) => (
+            <ContactItem
+              key={contact.id}
+              contact={contact}
+              isSelected={selectedContact?.id === contact.id}
+              isPriority={index < PRIORITY_COUNT}
+              onSelect={onSelect}
+            />
+          ))
+        )}
       </ul>
     </div>
   );
 }
 
-// Main component 
+// Main component
 export default function ContactLeft({
   contacts,
   selectedContact,
@@ -168,7 +176,11 @@ export default function ContactLeft({
           setOpenDrop(false);
         }
       }
-      if (showContacts && sideBarRef.current && !sideBarRef.current.contains(target)) {
+      if (
+        showContacts &&
+        sideBarRef.current &&
+        !sideBarRef.current.contains(target)
+      ) {
         setShowContacts(false);
       }
     }
@@ -182,8 +194,10 @@ export default function ContactLeft({
     const query = search.trim().toLowerCase();
     if (!query) return contacts;
     return contacts.filter((contact) => {
-      const fullName = `${contact.first_name} ${contact.last_name}`.toLowerCase();
-      return fullName.includes(query) || (contact.message ?? "").toLowerCase().includes(query);
+      const fullName =
+        `${contact.first_name} ${contact.last_name}`.toLowerCase();
+      return fullName.includes(query) ||
+        (contact.message ?? "").toLowerCase().includes(query)
     });
   }, [contacts, search]);
 
@@ -192,7 +206,7 @@ export default function ContactLeft({
       onSelectContact(contact);
       setShowContacts(false);
     },
-    [onSelectContact, setShowContacts]
+    [onSelectContact, setShowContacts],
   );
 
   return (
