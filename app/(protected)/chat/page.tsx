@@ -30,7 +30,7 @@ export default function Chat() {
     <div className="relative grid grid-cols-1 lg:grid-cols-4 h-full">
         <Settings />
         <LogoutModal open={open} onClose={onClose} onLogout={onLogout} />
-      <section className="col-span-1">
+      <section className="col-span-1 relative z-20">
         <ContactLeft
           contacts={contacts}
           selectedContact={selectedContact}
