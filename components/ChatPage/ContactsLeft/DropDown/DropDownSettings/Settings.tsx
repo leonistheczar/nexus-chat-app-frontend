@@ -13,6 +13,8 @@ import {
   Bell,
   HelpCircle,
   X,
+  PanelLeftOpen,
+  PanelLeftClose,
 } from "lucide-react";
 import ProfileSettings from "./SettingsComponents/ProfileSettings";
 import AccountSettings from "./SettingsComponents/AccountSettings";
@@ -101,19 +103,19 @@ export default function Settings() {
             transition={{ type: "tween", ease: "easeOut", duration: 0.25 }}
             exit={{ translateX: "-100%" }}
             style={{ willChange: "transform" }}
-            className="w-full max-w-2xl h-full bg-primary-100 shadow-2xl flex border-r border-slate-200/20"
+            className="w-full max-w-2xl h-full bg-primary-100 shadow-2xl grid grid-cols-[0.5fr_1fr] border-r border-slate-200/20"
           >
             {/* Sidebar Navigation */}
-            <div className="w-64 border-r border-slate-500/20 p-4 flex flex-col gap-y-1 justify-between">
+            <div className="border-r border-slate-500/20 p-4 flex flex-col gap-y-1 justify-between">
               <div className="flex flex-col gap-y-1">
-                <div className="flex items-center justify-between m-2 mb-6">
-                  <h2 className="text-xl font-bold tracking-tight">Settings</h2>
+                <div className="flex items-center gap-x-2 m-2 mb-6">
                   <button
                     onClick={handleExplicitClose}
                     className="p-1.5 rounded-lg hover:bg-slate-200/20 transition-colors cursor-pointer"
                   >
-                    <X className="w-5 h-5" />
+                    <PanelLeftClose size={20} />
                   </button>
+                  <h2 className="text-xl font-bold tracking-tight">Settings</h2>
                 </div>
 
                 {tabs.map((tab) => {
@@ -123,14 +125,14 @@ export default function Settings() {
                     <button
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id)}
-                      className={`flex items-center gap-x-3 px-4 py-3 rounded-xl font-medium text-sm transition-all cursor-pointer ${
-                        isActive
+                      className={`flex items-center gap-x-3 px-4 py-3 rounded-xl font-medium text-[11px] md:text-sm transition-all cursor-pointer ${
+                        isActive  
                           ? "bg-primary-200/70 shadow-sm"
                           : "hover:bg-primary-400/10 opacity-70 hover:opacity-100"
                       }`}
                     >
-                      <Icon className="w-5 h-5" />
-                      <span>{tab.label}</span>
+                      <Icon className="md:w-4 md:h-4" />
+                      <span className="">{tab.label}</span>
                     </button>
                   );
                 })}
