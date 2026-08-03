@@ -17,7 +17,7 @@ export default function MainChat({
 }: MainChatProps) {
   if (!selectedContact) {
     return (
-      <div className="relative container h-dvh flex flex-col items-center justify-center md:border-r border-background-400 text-text-600 gap-4">
+      <div className="relative h-dvh flex flex-col items-center justify-center md:border-r border-background-400 text-text-600 gap-4">
         <button
           onClick={() => setShowContacts(!showContacts)}
           className="absolute top-4 left-4 md:hidden bg-primary-200 p-1.5 rounded-lg"
@@ -47,7 +47,7 @@ export default function MainChat({
   }
 
   return (
-    <div className="container h-dvh flex flex-col justify-between border-r border-background-400">
+    <div className=" h-dvh flex flex-col justify-between border-r border-background-400">
       <div
         id="profile-top-bar"
         className="border-b border-background-400 p-4 flex items-center gap-3"

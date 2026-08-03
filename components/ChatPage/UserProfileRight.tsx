@@ -13,7 +13,7 @@ export default function UserProfileRight({
 }: UserProfileRightProps) {
   if (!selectedContact) {
     return (
-      <div className="container h-dvh flex flex-col items-center justify-center text-text-600 gap-3">
+      <div className="h-dvh flex flex-col items-center justify-center text-text-600 gap-3">
         <div className="text-4xl">💬</div>
 
         <div className="text-center space-y-1">
