@@ -7,7 +7,7 @@ import ThemeToggler from "../SharedComponents/ThemeToggler";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import SettingsDropDown from "./ContactsLeft/DropDown/SettingsDropDown";
-
+import { useChatContacts } from "@/lib/providers/ChatProvider";
 type ContactLeftProps = {
   contacts: Contact[];
   selectedContact: Contact | null;
@@ -97,13 +97,14 @@ function SidebarBody({
   setOpenDrop,
   setOpen,
 }: SidebarBodyProps) {
+  const {openNewUser, setOpenNewUser} = useChatContacts();
   return (
-    <div className="container bg-primary-100 flex flex-col border-r border-primary-200 h-screen">
+    <div className=" bg-primary-100 flex flex-col border-r border-primary-200 h-screen">
       <div className="flex justify-between items-center px-4 py-2">
         <h1 className="text-xl"> Nexus</h1>
         <div className="flex items-center gap-x-2 scale-90">
           <ThemeToggler />
-          <button className="hover:cursor-pointer hover:bg-primary-200 p-1.5 rounded-full transition-all">
+          <button onClick={() => setOpenNewUser(true)} className="hover:cursor-pointer hover:bg-primary-200 p-1.5 rounded-full transition-all">
             <CirclePlus />
           </button>
           <div className="relative" ref={menuRef}>

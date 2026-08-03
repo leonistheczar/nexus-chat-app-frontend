@@ -1,36 +1,48 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
+import { Contact } from "@/app/types/types";
 import ContactLeft from "@/components/ChatPage/ContactLeft";
+import LogoutModal from "@/components/ChatPage/LogOutModal";
 import MainChat from "@/components/ChatPage/MainChat";
 import UserProfileRight from "@/components/ChatPage/UserProfileRight";
-import { useChatContacts } from "@/lib/providers/ChatProvider";
-import { Contact } from "@/app/types/types";
-import { useState, useEffect } from "react";
-import LogoutModal from "@/components/ChatPage/LogOutModal";
 import Settings from "@/components/ChatPage/ContactsLeft/DropDown/DropDownSettings/Settings";
+import { useChatContacts } from "@/lib/providers/ChatProvider";
+import NewUser from "@/components/ChatPage/ContactsLeft/DropDown/NewUser/NewUser";
 
 export default function Chat() {
-  const {contacts, showContacts, setShowContacts, open, setOpen} = useChatContacts();
+  const {
+    contacts,
+    showContacts,
+    setShowContacts,
+    open,
+    setOpen,
+  } = useChatContacts();
+
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
 
   useEffect(() => {
     setSelectedContact((current) => {
-      if (!current) return current;
-      return contacts.find((c) => c.id === current.id) ?? current;
+      if (!current) return null;
+
+      return contacts.find(({ id }) => id === current.id) ?? current;
     });
   }, [contacts]);
 
-  const onClose = () => {
-    setOpen(false);
-  }
-  const onLogout = () => {
-    window.location.href = "/";
-  }
   return (
-    <div className="relative grid grid-cols-1 lg:grid-cols-4 h-full">
-        <Settings />
-        <LogoutModal open={open} onClose={onClose} onLogout={onLogout} />
-      <section className="col-span-1 relative z-20">
+    <div className="relative grid h-full grid-cols-1 lg:grid-cols-4">
+      <NewUser />
+      <Settings />
+      <LogoutModal
+        open={open}
+        onClose={() => setOpen(false)}
+        onLogout={() => {
+          window.location.href = "/";
+        }}
+      />
+
+      <section className="relative z-20 lg:col-span-1">
         <ContactLeft
           contacts={contacts}
           selectedContact={selectedContact}
@@ -41,14 +53,15 @@ export default function Chat() {
         />
       </section>
 
-      <section className="col-span-2">
-        <MainChat 
+      <section className="lg:col-span-2">
+        <MainChat
           selectedContact={selectedContact}
           showContacts={showContacts}
-          setShowContacts={setShowContacts} />
+          setShowContacts={setShowContacts}
+        />
       </section>
 
-      <section className="hidden md:block col-span-1">
+      <section className="hidden md:block lg:col-span-1">
         <UserProfileRight selectedContact={selectedContact} />
       </section>
     </div>
