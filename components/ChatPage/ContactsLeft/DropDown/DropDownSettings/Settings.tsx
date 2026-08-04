@@ -12,8 +12,6 @@ import {
   Lock,
   Bell,
   HelpCircle,
-  X,
-  PanelLeftOpen,
   PanelLeftClose,
 } from "lucide-react";
 import ProfileSettings from "./SettingsComponents/ProfileSettings";
@@ -111,7 +109,7 @@ export default function Settings() {
                 <div className="flex items-center gap-x-2 m-2 mb-6">
                   <button
                     onClick={handleExplicitClose}
-                    className="p-1.5 rounded-lg hover:bg-slate-200/20 transition-colors cursor-pointer"
+                    className="p-2 rounded-lg hover:bg-background-50 cursor-pointer"
                   >
                     <PanelLeftClose size={20} />
                   </button>
