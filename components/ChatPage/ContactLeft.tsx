@@ -43,8 +43,8 @@ const ContactItem = memo(function ContactItem({
       <button
         type="button"
         onClick={() => onSelect(contact)}
-        className={`flex items-center text-left w-full gap-3 p-2 rounded-xl transition-colors cursor-pointer hover:bg-secondary-100/90 ${
-          isSelected ? "bg-secondary-100/90" : ""
+        className={`flex items-center text-left w-full gap-3 p-2 rounded-xl transition-colors cursor-pointer hover:bg-secondary-200/40 ${
+          isSelected ? "bg-secondary-200/50" : ""
         }`}
       >
         <div className="relative w-12 h-12 shrink-0 overflow-hidden rounded-full shadow-sm">
@@ -99,7 +99,7 @@ function SidebarBody({
 }: SidebarBodyProps) {
   const {openNewUser, setOpenNewUser} = useChatContacts();
   return (
-    <div className=" bg-primary-100 flex flex-col border-r border-primary-200 h-screen">
+    <div className=" bg-primary-200/30 flex flex-col border-r border-primary-200 h-screen">
       <div className="flex justify-between items-center px-4 py-2">
         <h1 className="text-xl"> Nexus</h1>
         <div className="flex items-center gap-x-2 scale-90">
