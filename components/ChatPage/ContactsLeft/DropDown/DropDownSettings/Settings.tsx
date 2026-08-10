@@ -58,7 +58,7 @@ export default function Settings() {
     const handleMouseDown = (e: MouseEvent) => {
       if (
         settingsRef.current &&
-        !settingsRef.current.contains(we.target as Node)
+        !settingsRef.current.contains(e.target as Node)
       ) {
         closeAndReset();
       }

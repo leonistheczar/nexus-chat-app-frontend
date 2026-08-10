@@ -9,7 +9,8 @@ import MainChat from "@/components/ChatPage/MainChat";
 import UserProfileRight from "@/components/ChatPage/UserProfileRight";
 import Settings from "@/components/ChatPage/ContactsLeft/DropDown/DropDownSettings/Settings";
 import { useChatContacts } from "@/lib/providers/ChatProvider";
-import NewUser from "@/components/ChatPage/ContactsLeft/DropDown/NewUser/NewUser";
+import NewUser from "@/components/ChatPage/ContactsLeft/AddNew/NewUser";
+import NewGroup from "@/components/ChatPage/ContactsLeft/AddNew/NewGroup";
 
 export default function Chat() {
   const {
@@ -33,6 +34,7 @@ export default function Chat() {
   return (
     <div className="relative grid h-full grid-cols-1 lg:grid-cols-4">
       <NewUser />
+      <NewGroup />
       <Settings />
       <LogoutModal
         open={open}
