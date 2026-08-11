@@ -27,4 +27,5 @@ export type Contact = {
   contact: string;
   profile_pic: string;
   message: string;
+  isContact: boolean;
 };

@@ -33,7 +33,7 @@ export default function Chat() {
 
   return (
     <div className="relative grid h-full grid-cols-1 lg:grid-cols-4">
-      <NewUser />
+      <NewUser onContactSelect={(contact: Contact) => setSelectedContact(contact)} />
       <NewGroup />
       <Settings />
       <LogoutModal

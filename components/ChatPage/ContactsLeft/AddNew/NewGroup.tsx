@@ -3,26 +3,26 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useChatContacts } from "@/lib/providers/ChatProvider";
-import { 
-  X, 
-  Users, 
-  Hash, 
-  Camera, 
-  Lock, 
-  Globe, 
-  ImageIcon, 
-  ArrowLeft, 
-  ArrowRight, 
-  Search, 
-  AtSign, 
-  User, 
-  UserPlus, 
+import {
+  X,
+  Users,
+  Hash,
+  Camera,
+  Lock,
+  Globe,
+  ImageIcon,
+  ArrowLeft,
+  ArrowRight,
+  Search,
+  AtSign,
+  User,
+  UserPlus,
   UserCheck,
   Check,
-  Phone
+  Phone,
+  CircleCheck,
 } from "lucide-react";
 import { Contact } from "@/app/types/types";
-import { lockBodyScroll } from "@/lib/bodyScrollLock";
 import { useClickOutside } from "@/hooks/useClickOutside";
 
 interface GroupFormData {
@@ -34,17 +34,13 @@ interface GroupFormData {
 }
 
 export default function NewGroup() {
-  const { 
-    isCreateGroupOpen, 
-    setIsCreateGroupOpen,
-    contacts 
-  } = useChatContacts();
+  const { isCreateGroupOpen, setIsCreateGroupOpen, contacts } =
+    useChatContacts();
   const groupModalRef = useClickOutside<HTMLDivElement>({
     enabled: isCreateGroupOpen,
     onOutsideClick: () => setIsCreateGroupOpen(false),
-    onEnter: () => setIsCreateGroupOpen(false),
     onEscape: () => setIsCreateGroupOpen(false),
-  })
+  });
   const [step, setStep] = useState(1);
   const [groupData, setGroupData] = useState<GroupFormData>({
     name: "",
@@ -58,9 +54,8 @@ export default function NewGroup() {
   const [filteredContacts, setFilteredContacts] = useState<Contact[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
-  
+
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const newGroupContainerRef = useRef<HTMLDivElement>(null);
   const nameInputRef = useRef<HTMLInputElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
@@ -90,15 +85,14 @@ export default function NewGroup() {
       return;
     }
 
-    const filtered = contacts.filter(contact => 
-      !selectedMembers.find(member => member.id === contact.id) &&
-      (
-        contact.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        contact.last_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        contact.contact.includes(searchQuery)
-      )
+    const filtered = contacts.filter(
+      (contact) =>
+        !selectedMembers.find((member) => member.id === contact.id) &&
+        (contact.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          contact.last_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          contact.contact.includes(searchQuery)),
     );
-    
+
     setFilteredContacts(filtered);
   }, [searchQuery, contacts, selectedMembers]);
 
@@ -162,9 +156,9 @@ export default function NewGroup() {
         description: groupData.description,
         isPrivate: groupData.isPrivate,
         photo: groupData.photo,
-        members: selectedMembers.map(m => m.id),
+        members: selectedMembers.map((m) => m.id),
       };
-      
+
       // TODO: Replace with actual API call
       await new Promise((resolve) => setTimeout(resolve, 1500));
       console.log("Creating group:", groupPayload);
@@ -213,36 +207,6 @@ export default function NewGroup() {
     setIsCreateGroupOpen(false);
   };
 
-  useEffect(() => {
-    if (!isCreateGroupOpen) return;
-
-    const unlockScroll = lockBodyScroll();
-    
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        handleReset();
-      }
-    };
-
-    const handleMouseDown = (e: MouseEvent) => {
-      if (
-        newGroupContainerRef.current &&
-        !newGroupContainerRef.current.contains(e.target as Node)
-      ) {
-        handleReset();
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("mousedown", handleMouseDown);
-
-    return () => {
-      unlockScroll();
-      window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("mousedown", handleMouseDown);
-    };
-  }, [isCreateGroupOpen]);
-
   const getInitials = (firstName: string, lastName: string) => {
     return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
   };
@@ -250,14 +214,16 @@ export default function NewGroup() {
   return (
     <AnimatePresence>
       {isCreateGroupOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
+        <div
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+        >
           <motion.div
+            ref={groupModalRef}
             className="relative z-10 w-full max-w-lg max-h-[90vh] flex flex-col rounded-2xl bg-primary-100 shadow-2xl border border-background-200 overflow-hidden"
             initial={{ scale: 0.95, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.95, opacity: 0, y: 20 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
-            ref={newGroupContainerRef}
           >
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-background-200 shrink-0">
@@ -297,14 +263,32 @@ export default function NewGroup() {
             {/* Progress Steps */}
             <div className="px-4 pt-3 shrink-0">
               <div className="flex gap-2 mb-2">
-                <div className={`h-1 flex-1 rounded-full transition-all duration-300 ${step >= 1 ? "bg-primary-500" : "bg-background-200"}`} />
-                <div className={`h-1 flex-1 rounded-full transition-all duration-300 ${step >= 2 ? "bg-primary-500" : "bg-background-200"}`} />
-                <div className={`h-1 flex-1 rounded-full transition-all duration-300 ${step >= 3 ? "bg-primary-500" : "bg-background-200"}`} />
+                <div
+                  className={`h-1 flex-1 rounded-full transition-all duration-300 ${step >= 1 ? "bg-primary-500" : "bg-background-200"}`}
+                />
+                <div
+                  className={`h-1 flex-1 rounded-full transition-all duration-300 ${step >= 2 ? "bg-primary-500" : "bg-background-200"}`}
+                />
+                <div
+                  className={`h-1 flex-1 rounded-full transition-all duration-300 ${step >= 3 ? "bg-primary-500" : "bg-background-200"}`}
+                />
               </div>
               <div className="flex justify-between text-xs text-text-500 mb-2">
-                <span className={step >= 1 ? "text-primary-600 font-medium" : ""}>Details</span>
-                <span className={step >= 2 ? "text-primary-600 font-medium" : ""}>Members</span>
-                <span className={step >= 3 ? "text-primary-600 font-medium" : ""}>Review</span>
+                <span
+                  className={step >= 1 ? "text-primary-600 font-medium" : ""}
+                >
+                  Details
+                </span>
+                <span
+                  className={step >= 2 ? "text-primary-600 font-medium" : ""}
+                >
+                  Members
+                </span>
+                <span
+                  className={step >= 3 ? "text-primary-600 font-medium" : ""}
+                >
+                  Review
+                </span>
               </div>
             </div>
 
@@ -338,7 +322,9 @@ export default function NewGroup() {
                           className="w-24 h-24 rounded-full bg-primary-200/60 border-2 border-dashed border-background-200 flex flex-col items-center justify-center hover:bg-primary-200/80 transition-colors cursor-pointer"
                         >
                           <ImageIcon className="w-8 h-8 text-text-400" />
-                          <span className="text-xs text-text-500 mt-1">Add Photo</span>
+                          <span className="text-xs text-text-500 mt-1">
+                            Add Photo
+                          </span>
                         </button>
                       )}
                       {!groupData.photoPreview && (
@@ -359,7 +345,9 @@ export default function NewGroup() {
                       className="hidden"
                     />
                     <p className="text-xs text-text-500 mt-3">
-                      {groupData.photoPreview ? "Click photo to remove" : "Add a group photo (optional)"}
+                      {groupData.photoPreview
+                        ? "Click photo to remove"
+                        : "Add a group photo (optional)"}
                     </p>
                   </div>
 
@@ -374,7 +362,12 @@ export default function NewGroup() {
                         ref={nameInputRef}
                         type="text"
                         value={groupData.name}
-                        onChange={(e) => setGroupData((prev) => ({ ...prev, name: e.target.value }))}
+                        onChange={(e) =>
+                          setGroupData((prev) => ({
+                            ...prev,
+                            name: e.target.value,
+                          }))
+                        }
                         onKeyDown={(e) => {
                           if (e.key === "Enter" && groupData.name.trim()) {
                             handleNext();
@@ -385,52 +378,90 @@ export default function NewGroup() {
                         className="w-full pl-10 pr-4 py-2.5 bg-primary-200/60 border border-background-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-transparent text-text-700 placeholder-text-600 text-sm"
                       />
                     </div>
-                    <p className="text-xs text-text-400 text-right mt-1">{groupData.name.length}/50</p>
+                    <p className="text-xs text-text-400 text-right mt-1">
+                      {groupData.name.length}/50
+                    </p>
                   </div>
 
                   {/* Description */}
                   <div>
-                    <label className="block text-sm font-medium text-text-700 mb-2">Description</label>
+                    <label className="block text-sm font-medium text-text-700 mb-2">
+                      Description
+                    </label>
                     <textarea
                       value={groupData.description}
-                      onChange={(e) => setGroupData((prev) => ({ ...prev, description: e.target.value }))}
+                      onChange={(e) =>
+                        setGroupData((prev) => ({
+                          ...prev,
+                          description: e.target.value,
+                        }))
+                      }
                       placeholder="What's this group about?"
                       maxLength={200}
                       rows={3}
                       className="w-full px-4 py-2.5 bg-primary-200/60 border border-background-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-transparent text-text-700 placeholder-text-600 text-sm resize-none"
                     />
-                    <p className="text-xs text-text-400 text-right mt-1">{groupData.description.length}/200</p>
+                    <p className="text-xs text-text-400 text-right mt-1">
+                      {groupData.description.length}/200
+                    </p>
                   </div>
 
                   {/* Privacy */}
                   <div>
-                    <label className="block text-sm font-medium text-text-700 mb-3">Privacy Setting</label>
+                    <label className="block text-sm font-medium text-text-700 mb-3">
+                      Privacy Setting
+                    </label>
                     <div className="grid grid-cols-2 gap-3">
                       <button
                         type="button"
-                        onClick={() => setGroupData((prev) => ({ ...prev, isPrivate: false }))}
-                        className={`p-4 rounded-lg border-2 transition-all cursor-pointer text-left ${
+                        onClick={() =>
+                          setGroupData((prev) => ({
+                            ...prev,
+                            isPrivate: false,
+                          }))
+                        }
+                        className={`relative p-4 rounded-lg border-2 transition-all cursor-pointer text-left ${
                           !groupData.isPrivate
                             ? "border-primary-500 bg-primary-50/50"
                             : "border-background-200 hover:border-background-300 bg-primary-200/60"
                         }`}
                       >
                         <Globe className="w-5 h-5 mb-2 text-text-600" />
-                        <p className="text-sm font-medium text-text-800">Public</p>
-                        <p className="text-xs text-text-500 mt-1">Anyone can join</p>
+                        <p className="text-sm font-medium text-text-800">
+                          Public
+                        </p>
+                        <p className="text-xs text-text-500 mt-1">
+                          Anyone can join
+                        </p>
+                        {!groupData.isPrivate && (
+                          <div className="absolute top-2.5 right-2">
+                            <CircleCheck color="#0aa345" size={22} />
+                          </div>
+                        )}
                       </button>
                       <button
                         type="button"
-                        onClick={() => setGroupData((prev) => ({ ...prev, isPrivate: true }))}
-                        className={`p-4 rounded-lg border-2 transition-all cursor-pointer text-left ${
+                        onClick={() =>
+                          setGroupData((prev) => ({ ...prev, isPrivate: true }))
+                        }
+                        className={`relative p-4 rounded-lg border-2 transition-all cursor-pointer text-left ${
                           groupData.isPrivate
                             ? "border-primary-500 bg-primary-50/50"
                             : "border-background-200 hover:border-background-300 bg-primary-200/60"
                         }`}
                       >
                         <Lock className="w-5 h-5 mb-2 text-text-600" />
-                        <p className="text-sm font-medium text-text-800">Private</p>
-                        <p className="text-xs text-text-500 mt-1">Invite only</p>
+                        <p className="text-sm font-medium text-text-800">
+                          Private
+                        </p>
+                        <p className="text-xs text-text-500 mt-1">
+                          Invite only
+                        </p>
+                        {groupData.isPrivate && (
+                          <div className="absolute top-2.5 right-2">
+                            <CircleCheck color="#0aa345" size={22} />
+                          </div>
+                        )}
                       </button>
                     </div>
                   </div>
@@ -447,16 +478,26 @@ export default function NewGroup() {
               {step === 2 && (
                 <div className="space-y-4">
                   <div>
-                    <h3 className="text-base font-medium text-text-700 mb-1">Add Members</h3>
-                    <p className="text-sm text-text-500">Search and select contacts to add</p>
+                    <h3 className="text-base font-medium text-text-700 mb-1">
+                      Add Members
+                    </h3>
+                    <p className="text-sm text-text-500">
+                      Search and select contacts to add
+                    </p>
                   </div>
 
                   {/* Selected Members */}
                   {selectedMembers.length > 0 && (
                     <div>
-                      <label className="block text-sm font-medium text-text-700 mb-2">
-                        Selected ({selectedMembers.length})
-                      </label>
+                      // In Step 2, wrap the count in an animated span
+                      <motion.span
+                        key={selectedMembers.length}
+                        initial={{ scale: 0.8 }}
+                        animate={{ scale: 1 }}
+                        className="text-xs text-primary-600 font-medium"
+                      >
+                        {selectedMembers.length}
+                      </motion.span>
                       <div className="flex flex-wrap gap-2">
                         {selectedMembers.map((member) => (
                           <div
@@ -465,10 +506,17 @@ export default function NewGroup() {
                           >
                             <div className="w-6 h-6 rounded-full bg-primary-100 flex items-center justify-center shrink-0 overflow-hidden">
                               {member.profile_pic ? (
-                                <img src={member.profile_pic} alt="" className="w-full h-full object-cover" />
+                                <img
+                                  src={member.profile_pic}
+                                  alt=""
+                                  className="w-full h-full object-cover"
+                                />
                               ) : (
                                 <span className="text-xs font-medium text-primary-600">
-                                  {getInitials(member.first_name, member.last_name)}
+                                  {getInitials(
+                                    member.first_name,
+                                    member.last_name,
+                                  )}
                                 </span>
                               )}
                             </div>
@@ -489,7 +537,9 @@ export default function NewGroup() {
 
                   {/* Search */}
                   <div>
-                    <label className="block text-sm font-medium text-text-700 mb-2">Search Contacts</label>
+                    <label className="block text-sm font-medium text-text-700 mb-2">
+                      Search Contacts
+                    </label>
                     <div className="relative">
                       <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-500" />
                       <input
@@ -515,10 +565,17 @@ export default function NewGroup() {
                             <div className="flex items-center gap-x-3 min-w-0">
                               <div className="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center shrink-0 overflow-hidden">
                                 {contact.profile_pic ? (
-                                  <img src={contact.profile_pic} alt="" className="w-full h-full object-cover" />
+                                  <img
+                                    src={contact.profile_pic}
+                                    alt=""
+                                    className="w-full h-full object-cover"
+                                  />
                                 ) : (
                                   <span className="text-sm font-medium text-primary-600">
-                                    {getInitials(contact.first_name, contact.last_name)}
+                                    {getInitials(
+                                      contact.first_name,
+                                      contact.last_name,
+                                    )}
                                   </span>
                                 )}
                               </div>
@@ -544,19 +601,26 @@ export default function NewGroup() {
                       ) : (
                         <div className="flex flex-col items-center justify-center py-8 text-center">
                           <Search className="w-8 h-8 text-text-400 mb-2" />
-                          <p className="text-sm text-text-500">No contacts found</p>
+                          <p className="text-sm text-text-500">
+                            No contacts found
+                          </p>
                         </div>
                       )}
                     </div>
                   )}
 
-                  {searchQuery.trim().length === 0 && selectedMembers.length === 0 && (
-                    <div className="flex flex-col items-center justify-center py-8 text-center">
-                      <UserPlus className="w-8 h-8 text-text-400 mb-2" />
-                      <p className="text-sm text-text-500">Search contacts to add members</p>
-                      <p className="text-xs text-text-400 mt-1">You can skip this and add members later</p>
-                    </div>
-                  )}
+                  {searchQuery.trim().length === 0 &&
+                    selectedMembers.length === 0 && (
+                      <div className="flex flex-col items-center justify-center py-8 text-center">
+                        <UserPlus className="w-8 h-8 text-text-400 mb-2" />
+                        <p className="text-sm text-text-500">
+                          Search contacts to add members
+                        </p>
+                        <p className="text-xs text-text-400 mt-1">
+                          You can skip this and add members later
+                        </p>
+                      </div>
+                    )}
 
                   <div className="pt-2 border-t border-background-200">
                     <p className="text-xs text-text-500 text-center">
@@ -577,8 +641,12 @@ export default function NewGroup() {
                 <div className="space-y-5">
                   <div className="text-center">
                     <Users className="w-10 h-10 text-primary-500 mx-auto mb-2" />
-                    <h3 className="text-base font-medium text-text-700">Review Group</h3>
-                    <p className="text-sm text-text-500">Check details before creating</p>
+                    <h3 className="text-base font-medium text-text-700">
+                      Review Group
+                    </h3>
+                    <p className="text-sm text-text-500">
+                      Check details before creating
+                    </p>
                   </div>
 
                   <div className="bg-primary-200/60 rounded-lg p-4 space-y-4">
@@ -586,7 +654,11 @@ export default function NewGroup() {
                     <div className="flex items-center gap-4">
                       {groupData.photoPreview ? (
                         <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-background-200 shrink-0">
-                          <img src={groupData.photoPreview} alt="" className="w-full h-full object-cover" />
+                          <img
+                            src={groupData.photoPreview}
+                            alt=""
+                            className="w-full h-full object-cover"
+                          />
                         </div>
                       ) : (
                         <div className="w-16 h-16 rounded-full bg-primary-100 flex items-center justify-center shrink-0">
@@ -601,12 +673,16 @@ export default function NewGroup() {
                           {groupData.isPrivate ? (
                             <>
                               <Lock className="w-3.5 h-3.5 text-text-500" />
-                              <span className="text-xs text-text-500 font-medium">Private</span>
+                              <span className="text-xs text-text-500 font-medium">
+                                Private
+                              </span>
                             </>
                           ) : (
                             <>
                               <Globe className="w-3.5 h-3.5 text-text-500" />
-                              <span className="text-xs text-text-500 font-medium">Public</span>
+                              <span className="text-xs text-text-500 font-medium">
+                                Public
+                              </span>
                             </>
                           )}
                         </div>
@@ -616,8 +692,12 @@ export default function NewGroup() {
                     {/* Description */}
                     {groupData.description && (
                       <div className="pt-3 border-t border-background-200">
-                        <p className="text-xs text-text-500 font-medium mb-1">Description</p>
-                        <p className="text-sm text-text-600">{groupData.description}</p>
+                        <p className="text-xs text-text-500 font-medium mb-1">
+                          Description
+                        </p>
+                        <p className="text-sm text-text-600">
+                          {groupData.description}
+                        </p>
                       </div>
                     )}
 
@@ -643,10 +723,17 @@ export default function NewGroup() {
                               title={`${member.first_name} ${member.last_name}`}
                             >
                               {member.profile_pic ? (
-                                <img src={member.profile_pic} alt="" className="w-full h-full object-cover" />
+                                <img
+                                  src={member.profile_pic}
+                                  alt=""
+                                  className="w-full h-full object-cover"
+                                />
                               ) : (
                                 <span className="text-xs font-medium text-primary-600">
-                                  {getInitials(member.first_name, member.last_name)}
+                                  {getInitials(
+                                    member.first_name,
+                                    member.last_name,
+                                  )}
                                 </span>
                               )}
                             </div>
@@ -660,7 +747,9 @@ export default function NewGroup() {
                           )}
                         </div>
                       ) : (
-                        <p className="text-sm text-text-400 italic">No members added</p>
+                        <p className="text-sm text-text-400 italic">
+                          No members added
+                        </p>
                       )}
                     </div>
                   </div>
