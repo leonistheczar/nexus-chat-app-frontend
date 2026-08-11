@@ -1,5 +1,6 @@
 "use client";
 
+import { useClickOutside } from "@/hooks/useClickOutside";
 import { Camera, Copy, CopyCheck, Pencil, UserRound } from "lucide-react";
 import { useState, useRef, useEffect, useCallback } from "react";
 
@@ -14,7 +15,12 @@ function EditableField({ label, value, onChange, showCopy = false }: EditableFie
   const [isEditing, setIsEditing] = useState(false);
   const [copied, setCopied] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useClickOutside<HTMLDivElement>({
+    enabled: isEditing,
+    onOutsideClick: () => setIsEditing(false),
+    onEnter: () => setIsEditing(false),
+    onEscape: () => setIsEditing(false),
+  })
 
   // Focus and select input when editing starts
   useEffect(() => {
@@ -22,33 +28,6 @@ function EditableField({ label, value, onChange, showCopy = false }: EditableFie
       inputRef.current.focus();
       inputRef.current.select();
     }
-  }, [isEditing]);
-
-  // Handle outside click and keyboard events
-  useEffect(() => {
-    if (!isEditing) return;
-
-    const handleOutsideClick = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-        setIsEditing(false);
-      }
-    };
-    
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setIsEditing(false);
-      } else if (e.key === "Enter") {
-        setIsEditing(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleOutsideClick);
-    document.addEventListener("keydown", handleKeyDown);
-    
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-      document.removeEventListener("keydown", handleKeyDown);
-    };
   }, [isEditing]);
 
   // Reset copy state after delay

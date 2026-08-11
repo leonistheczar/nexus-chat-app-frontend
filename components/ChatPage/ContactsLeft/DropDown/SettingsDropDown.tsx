@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Settings, MessageSquare, LogOut } from "lucide-react";
 import React from "react";
 import { useChatContacts } from "../../../../lib/providers/ChatProvider";
+import { useClickOutside } from "@/hooks/useClickOutside";
 type DropDownTypes = {
   openDrop: boolean, 
   setOpen: React.Dispatch<React.SetStateAction<boolean>>, 
@@ -12,10 +13,16 @@ type DropDownTypes = {
 export default function SettingsDropDown({openDrop, setOpen, setOpenDrop}: DropDownTypes){
     // Contact Provider
     const {setOpenSettings} = useChatContacts();
+    const settingsDropDownRef = useClickOutside<HTMLDivElement>({
+      enabled: openDrop,
+      onEscape: () => setOpenDrop(false),
+      onOutsideClick: () => setOpenDrop(false),
+    })
     return(
         <AnimatePresence>
         {openDrop && (
           <motion.div
+            ref={settingsDropDownRef}
             key="menu"
             initial={{
               opacity: 0,

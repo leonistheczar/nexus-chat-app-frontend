@@ -7,9 +7,7 @@ import ThemeToggler from "../SharedComponents/ThemeToggler";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import SettingsDropDown from "./ContactsLeft/DropDown/SettingsDropDown";
-import { useChatContacts } from "@/lib/providers/ChatProvider";
 import AddNew from "./ContactsLeft/AddNew/AddNew";
-import NewGroup from "./ContactsLeft/AddNew/NewGroup";
 type ContactLeftProps = {
   contacts: Contact[];
   selectedContact: Contact | null;
@@ -81,7 +79,6 @@ type SidebarBodyProps = {
   selectedContact: Contact | null;
   onSelect: (contact: Contact) => void;
   inputName: string;
-  menuRef: React.RefObject<HTMLDivElement | null>;
   openDrop: boolean;
   setOpenDrop: React.Dispatch<React.SetStateAction<boolean>>;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -94,14 +91,13 @@ function SidebarBody({
   selectedContact,
   onSelect,
   inputName,
-  menuRef,
   openDrop,
   setOpenDrop,
   setOpen,
 }: SidebarBodyProps) {
   const [addNewDropDown, setAddNewDropDown] = useState(false);
   return (
-    <div className=" bg-primary-200/30 flex flex-col border-r border-primary-200 h-screen">
+    <div className="bg-primary-100 flex flex-col border-r border-primary-200 h-screen">
       <div className="flex justify-between items-center px-4 py-2">
         <h1 className="text-xl"> Nexus</h1>
         <div className="flex items-center gap-x-2 scale-90">
@@ -110,9 +106,9 @@ function SidebarBody({
           <motion.button onClick={() => setAddNewDropDown((prev) => !prev)} className="cursor-pointer hover:bg-primary-200 p-1.5 rounded-full transition-all">
             <CirclePlus />
           </motion.button>
-          <AddNew addNewDropDown={addNewDropDown}/>
+          <AddNew addNewDropDown={addNewDropDown} setAddNewDropDown={setAddNewDropDown}/>
           </div>
-          <div className="relative" ref={menuRef}>
+          <div className="relative">
             <motion.button
               onClick={() => setOpenDrop((prev) => !prev)}
               className="hover:cursor-pointer hover:bg-primary-200 p-1.5 rounded-full transition-all"
@@ -167,34 +163,7 @@ export default function ContactLeft({
 }: ContactLeftProps) {
   const [search, setSearch] = useState("");
   const [openDrop, setOpenDrop] = useState(false);
-
-  const desktopMenuRef = useRef<HTMLDivElement>(null);
-  const mobileMenuRef = useRef<HTMLDivElement>(null);
   const sideBarRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    function handleClick(e: MouseEvent) {
-      const target = e.target as Node;
-      if (openDrop) {
-        const inDesktopMenu = desktopMenuRef.current?.contains(target);
-        const inMobileMenu = mobileMenuRef.current?.contains(target);
-        if (!inDesktopMenu && !inMobileMenu) {
-          setOpenDrop(false);
-        }
-      }
-      if (
-        showContacts &&
-        sideBarRef.current &&
-        !sideBarRef.current.contains(target)
-      ) {
-        setShowContacts(false);
-      }
-    }
-    if (openDrop || showContacts) {
-      document.addEventListener("mousedown", handleClick);
-    }
-    return () => document.removeEventListener("mousedown", handleClick);
-  }, [openDrop, showContacts, setShowContacts]);
 
   const filteredContacts = useMemo(() => {
     const query = search.trim().toLowerCase();
@@ -226,7 +195,6 @@ export default function ContactLeft({
           selectedContact={selectedContact}
           onSelect={handleSelect}
           inputName="contact-search-desktop"
-          menuRef={desktopMenuRef}
           openDrop={openDrop}
           setOpenDrop={setOpenDrop}
           setOpen={setOpen}
@@ -248,7 +216,6 @@ export default function ContactLeft({
             selectedContact={selectedContact}
             onSelect={handleSelect}
             inputName="contact-search-mobile"
-            menuRef={mobileMenuRef}
             openDrop={openDrop}
             setOpenDrop={setOpenDrop}
             setOpen={setOpen}
