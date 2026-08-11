@@ -15,6 +15,9 @@ type ChatType = {
   setOpenSettings: React.Dispatch<React.SetStateAction<boolean>>
   openNewUser: boolean,
   setOpenNewUser: React.Dispatch<React.SetStateAction<boolean>>
+  // New group states
+  isCreateGroupOpen: boolean;
+  setIsCreateGroupOpen: React.Dispatch<React.SetStateAction<boolean>>
 };
 
 const ChatContactsContext =
@@ -32,6 +35,7 @@ export function ChatContactsProvider({
   const [open, setOpen] = useState(false);
   const [openSettings, setOpenSettings] = useState(false);
   const [openNewUser, setOpenNewUser] = useState(false);
+  const [isCreateGroupOpen, setIsCreateGroupOpen] = useState(false);
   return (
     <ChatContactsContext.Provider
       value={{
@@ -43,7 +47,9 @@ export function ChatContactsProvider({
         openSettings,
         setOpenSettings,
         openNewUser,
-        setOpenNewUser
+        setOpenNewUser,
+        isCreateGroupOpen, 
+        setIsCreateGroupOpen
       }}
     >
       {children}

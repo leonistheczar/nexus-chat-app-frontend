@@ -24,11 +24,16 @@ import {
   applyChatFontSize,
   useUserPreferences,
 } from "./userPreferencesStore";
+import { useClickOutside } from "@/hooks/useClickOutside";
 
 export default function Settings() {
   const { activeTab, setActiveTab } = useSettings();
   const { openSettings, setOpenSettings } = useChatContacts();
-  const settingsRef = useRef<HTMLDivElement>(null);
+  const settingsRef = useClickOutside<HTMLDivElement>({
+    enabled: openSettings,
+    onEscape: () => setOpenSettings(false),
+    onOutsideClick: () => setOpenSettings(false),
+  });
 
   // Simple handler for explicit click events
   const handleExplicitClose = () => {
@@ -39,40 +44,6 @@ export default function Settings() {
   useEffect(() => {
     applyChatFontSize(useUserPreferences.getState().chatFontSize);
   }, []);
-
-  useEffect(() => {
-    if (!openSettings) return;
-
-    const unlockScroll = lockBodyScroll();
-    const closeAndReset = () => {
-      setActiveTab("profile");
-      setOpenSettings(false);
-    };
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        closeAndReset();
-      }
-    };
-
-    const handleMouseDown = (e: MouseEvent) => {
-      if (
-        settingsRef.current &&
-        !settingsRef.current.contains(we.target as Node)
-      ) {
-        closeAndReset();
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("mousedown", handleMouseDown);
-
-    return () => {
-      unlockScroll();
-      window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("mousedown", handleMouseDown);
-    };
-  }, [openSettings, setActiveTab, setOpenSettings]);
 
   const tabs = [
     { id: "profile", label: "Profile", icon: User },
