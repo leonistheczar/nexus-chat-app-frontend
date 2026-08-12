@@ -1,9 +1,18 @@
 "use client";
 
 import { Contact, ChatMessage, User } from "@/app/types/types";
-import { BookCopy, ChevronDown, PanelLeftOpen, SendHorizontal, Trash2 } from "lucide-react";
+import { useClickOutside } from "@/hooks/useClickOutside";
+import { 
+  BookCopy, 
+  ChevronDown, 
+  EllipsisVertical, 
+  PanelLeftOpen, 
+  SendHorizontal, 
+  Trash2 
+} from "lucide-react";
 import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import UserChatMenu from "./UserChatMenu";
 
 type MainChatProps = {
   selectedContact: Contact | null;
@@ -28,13 +37,17 @@ export default function MainChat({
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [newMessage, setNewMessage] = useState("");
   const [showMessageMenu, setShowMessageMenu] = useState<number | null>(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  
   const chatEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const messageMenuRef = useRef<HTMLDivElement>(null);
 
   // Initialize messages when contact changes
   useEffect(() => {
     if (selectedContact) {
-      // Convert Contact to User format for the sender
       const contactAsUser: User = {
         id: selectedContact.id,
         firstName: selectedContact.first_name,
@@ -43,7 +56,6 @@ export default function MainChat({
         profilePic: selectedContact.profile_pic,
       };
 
-      // Create initial message from contact's default message
       const initialMessages: ChatMessage[] = selectedContact.message
         ? [
             {
@@ -76,21 +88,14 @@ export default function MainChat({
     }
   }, [newMessage]);
 
-  // Close message menu when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (showMessageMenu !== null) {
-        setShowMessageMenu(null);
-      }
-    };
-    
-    if (showMessageMenu !== null) {
-      document.addEventListener('click', handleClickOutside);
-      return () => document.removeEventListener('click', handleClickOutside);
-    }
-  }, [showMessageMenu]);
+  // Use universal click outside hook for message menu
+  useClickOutside<HTMLDivElement>({
+    enabled: showMessageMenu !== null,
+    onOutsideClick: () => setShowMessageMenu(null),
+    onEscape: () => setShowMessageMenu(null),
+  });
 
-  const handleSendMessage = (e: React.FormEvent) => {
+  const handleSendMessage = useCallback((e: React.FormEvent) => {
     e.preventDefault();
     if (!newMessage.trim() || !selectedContact) return;
 
@@ -105,35 +110,38 @@ export default function MainChat({
     setMessages((prev) => [...prev, message]);
     setNewMessage("");
 
-    // Reset textarea height
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
     }
-  };
+  }, [newMessage, selectedContact]);
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage(e);
     }
-  };
+  }, [handleSendMessage]);
 
-  const formatTime = (date?: Date) => {
+  const formatTime = useCallback((date?: Date) => {
     if (!date) return "";
     return date.toLocaleTimeString([], {
       hour: "2-digit",
       minute: "2-digit",
     });
-  };
+  }, []);
 
-  const handleDeleteMessage = (messageId: number) => {
+  const handleDeleteMessage = useCallback((messageId: number) => {
     setMessages((prev) => prev.filter((msg) => msg.id !== messageId));
     setShowMessageMenu(null);
-  };
+  }, []);
 
-  const handleCopyMessage = (content: string) => {
+  const handleCopyMessage = useCallback((content: string) => {
     navigator.clipboard.writeText(content);
     setShowMessageMenu(null);
+  }, []);
+
+  const getInitials = (firstName: string, lastName: string) => {
+    return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
   };
 
   // Empty state - No contact selected
@@ -173,28 +181,53 @@ export default function MainChat({
       {/* Header */}
       <div
         id="profile-top-bar"
-        className="border-b border-background-400 p-4 flex items-center gap-3"
+        className="border-b border-background-400 p-4 flex items-center gap-3 shrink-0"
       >
         <button
           onClick={() => setShowContacts(!showContacts)}
-          className="md:hidden bg-primary-200 p-1.5 rounded-lg"
+          className="md:hidden bg-primary-200 p-1.5 rounded-lg hover:bg-primary-300/80 transition-colors cursor-pointer"
         >
           <PanelLeftOpen size={22} />
         </button>
+
         <div className="relative w-10 h-10 shrink-0 overflow-hidden rounded-full">
-          <Image
-            src={selectedContact.profile_pic}
-            alt={`${selectedContact.first_name} ${selectedContact.last_name}`}
-            fill
-            className="object-cover"
-            sizes="40px"
-          />
+          {selectedContact.profile_pic ? (
+            <Image
+              src={selectedContact.profile_pic}
+              alt={`${selectedContact.first_name} ${selectedContact.last_name}`}
+              fill
+              className="object-cover"
+              sizes="40px"
+            />
+          ) : (
+            <div className="w-full h-full bg-primary-200 flex items-center justify-center">
+              <span className="text-sm font-medium text-primary-600">
+                {getInitials(selectedContact.first_name, selectedContact.last_name)}
+              </span>
+            </div>
+          )}
         </div>
-        <div>
-          <p className="font-medium">
+
+        <div className="flex-1 min-w-0">
+          <p className="font-medium truncate">
             {selectedContact.first_name} {selectedContact.last_name}
           </p>
-          <p className="text-xs text-text-600">{selectedContact.contact}</p>
+          <p className="text-xs text-text-600 truncate">
+            {selectedContact.contact}
+          </p>
+        </div>
+
+        {/* Ellipsis Menu */}
+        <div className="relative" ref={menuRef}>
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="p-1 hover:bg-secondary-200/60 rounded-full cursor-pointer"
+            aria-label="More options"
+          >
+            <EllipsisVertical size={20} className="text-text-600" />
+          </button>
+          {/* Header Pop-down */}
+          {isMenuOpen && <UserChatMenu selectedContact={selectedContact} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} isMuted={isMuted} setIsMuted={setIsMuted} />}
         </div>
       </div>
 
@@ -236,38 +269,44 @@ export default function MainChat({
                   >
                     {/* Chevron button */}
                     <button
-                      className="absolute top-1.25 right-1 p-1 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200 hover:bg-black/10 cursor-pointer z-10"
+                      className="absolute top-1 right-1 p-1 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200 hover:bg-black/10 cursor-pointer z-10"
                       onClick={(e) => {
                         e.stopPropagation();
                         setShowMessageMenu(
                           showMessageMenu === message.id ? null : message.id
                         );
                       }}
+                      aria-label="Message options"
                     >
                       <ChevronDown size={16} />
                     </button>
 
                     {/* Message content */}
-                    <p className="pr-4">{message.content}</p>
+                    <p className="pr-6">{message.content}</p>
 
                     {/* Dropdown menu */}
                     {showMessageMenu === message.id && (
-                      <div 
-                        className="absolute top-6 right-0 mt-1 bg-primary-100 rounded-lg shadow-lg p-2 z-20 min-w-35"
+                      <div
+                        ref={messageMenuRef}
+                        className={`absolute top-8 mt-1 bg-primary-100 rounded-lg shadow-lg p-2 z-20 min-w-35 ${
+                          isCurrentUser ? "right-0" : "left-0"
+                        }`}
                         onClick={(e) => e.stopPropagation()}
                       >
                         <button
-                          className="w-full flex items-center gap-x-2 text-left p-2 rounded-lg text-sm text-text-800 hover:bg-background-100 cursor-pointer"
+                          className="w-full flex items-center gap-x-2 text-left p-2 rounded-lg text-sm text-text-800 hover:bg-background-100 transition-colors cursor-pointer"
                           onClick={() => handleCopyMessage(message.content)}
                         >
-                          <BookCopy size={16} /><p>Copy Message</p>
+                          <BookCopy size={16} />
+                          <span>Copy Message</span>
                         </button>
                         {isCurrentUser && (
                           <button
-                            className="w-full flex items-center gap-x-2 text-left p-2 rounded-lg text-sm text-red-500 hover:bg-red-500/20 cursor-pointer"
+                            className="w-full flex items-center gap-x-2 text-left p-2 rounded-lg text-sm text-red-500 hover:bg-red-500/20 transition-colors cursor-pointer"
                             onClick={() => handleDeleteMessage(message.id)}
                           >
-                            <Trash2 size={16} /><p>Delete Message</p>
+                            <Trash2 size={16} />
+                            <span>Delete Message</span>
                           </button>
                         )}
                       </div>
@@ -294,7 +333,7 @@ export default function MainChat({
 
         {/* Message Input */}
         <form
-          className="bg-secondary-100 mb-2 mx-2 rounded-2xl flex items-center justify-between gap-x-2"
+          className="bg-secondary-100 mb-2 mx-2 rounded-2xl flex items-center justify-between gap-x-2 shrink-0"
           onSubmit={handleSendMessage}
         >
           <textarea
