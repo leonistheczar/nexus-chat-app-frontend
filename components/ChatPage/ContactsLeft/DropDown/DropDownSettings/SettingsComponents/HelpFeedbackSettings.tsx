@@ -34,7 +34,7 @@ export default function HelpFeedbackSettings() {
     message: string;
   } | null>(null);
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitAlert(null);
     if (!message.trim()) {
@@ -67,6 +67,7 @@ export default function HelpFeedbackSettings() {
           {HELP_LINKS.map(({ href, label, description, icon: Icon }) => (
             <li key={href}>
               <Link
+                target="_blank"
                 href={href}
                 className="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-200/10 transition group"
               >

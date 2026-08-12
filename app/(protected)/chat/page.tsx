@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Contact } from "@/app/types/types";
 import ContactLeft from "@/components/ChatPage/ContactLeft";
 import LogoutModal from "@/components/ChatPage/LogOutModal";
-import MainChat from "@/components/ChatPage/MainChat";
+import MainChat from "@/components/ChatPage/MainChat/MainChat";
 import UserProfileRight from "@/components/ChatPage/UserProfileRight";
 import Settings from "@/components/ChatPage/ContactsLeft/DropDown/DropDownSettings/Settings";
 import { useChatContacts } from "@/lib/providers/ChatProvider";
