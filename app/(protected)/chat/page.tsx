@@ -4,13 +4,14 @@ import { useEffect, useState } from "react";
 
 import { Contact } from "@/app/types/types";
 import ContactLeft from "@/components/ChatPage/ContactLeft";
-import LogoutModal from "@/components/ChatPage/LogOutModal";
 import MainChat from "@/components/ChatPage/MainChat/MainChat";
 import UserProfileRight from "@/components/ChatPage/UserProfileRight";
 import Settings from "@/components/ChatPage/ContactsLeft/DropDown/DropDownSettings/Settings";
 import { useChatContacts } from "@/lib/providers/ChatProvider";
 import NewUser from "@/components/ChatPage/ContactsLeft/AddNew/NewUser";
 import NewGroup from "@/components/ChatPage/ContactsLeft/AddNew/NewGroup";
+import ConfirmationDialog from "@/components/shared/ConfirmationDialog";
+import { useClickOutside } from "@/hooks/useClickOutside";
 
 export default function Chat() {
   const {
@@ -22,7 +23,6 @@ export default function Chat() {
   } = useChatContacts();
 
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
-
   useEffect(() => {
     setSelectedContact((current) => {
       if (!current) return null;
@@ -36,10 +36,14 @@ export default function Chat() {
       <NewUser onContactSelect={(contact: Contact) => setSelectedContact(contact)} />
       <NewGroup />
       <Settings />
-      <LogoutModal
-        open={open}
-        onClose={() => setOpen(false)}
-        onLogout={() => {
+      <ConfirmationDialog
+        isOpen={open}
+        setOpen={setOpen}
+        title="Logout"
+        description="Are you sure you want to logout from your account?"
+        confirmText="Logout"
+        onCancel={() => setOpen(false)}
+        onConfirm={() => {
           window.location.href = "/";
         }}
       />

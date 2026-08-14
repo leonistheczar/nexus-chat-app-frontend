@@ -1,0 +1,90 @@
+// components/chat/ChatHeader.tsx
+"use client";
+
+import { Contact } from "@/app/types/types";
+import { EllipsisVertical, PanelLeftOpen } from "lucide-react";
+import Image from "next/image";
+import { useRef, useState } from "react";
+import UserChatMenu from "./UserChatMenu";
+
+type ChatHeaderProps = {
+  selectedContact: Contact;
+  showContacts: boolean;
+  setShowContacts: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export default function ChatHeader({
+  selectedContact,
+  showContacts,
+  setShowContacts,
+}: ChatHeaderProps) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  const getInitials = (firstName: string, lastName: string) => {
+    return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
+  };
+
+  return (
+    <div
+      id="profile-top-bar"
+      className="border-b border-background-400 p-4 flex items-center gap-3 shrink-0"
+    >
+      <button
+        onClick={() => setShowContacts(!showContacts)}
+        className="md:hidden bg-primary-200 p-1.5 rounded-lg hover:bg-primary-300/80 transition-colors cursor-pointer"
+        aria-label="Toggle contacts panel"
+      >
+        <PanelLeftOpen size={22} />
+      </button>
+
+      <div className="relative w-10 h-10 shrink-0 overflow-hidden rounded-full">
+        {selectedContact.profile_pic ? (
+          <Image
+            src={selectedContact.profile_pic}
+            alt={`${selectedContact.first_name} ${selectedContact.last_name}`}
+            fill
+            className="object-cover"
+            sizes="40px"
+          />
+        ) : (
+          <div className="w-full h-full bg-primary-200 flex items-center justify-center">
+            <span className="text-sm font-medium text-primary-600">
+              {getInitials(selectedContact.first_name, selectedContact.last_name)}
+            </span>
+          </div>
+        )}
+      </div>
+
+      <div className="flex-1 min-w-0">
+        <p className="font-medium truncate">
+          {selectedContact.first_name} {selectedContact.last_name}
+        </p>
+        <p className="text-xs text-text-600 truncate">
+          {selectedContact.contact}
+        </p>
+      </div>
+
+      <div className="relative" ref={menuRef}>
+        <button
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className="p-1 hover:bg-secondary-200/60 rounded-full cursor-pointer"
+          aria-label="More options"
+        >
+          <EllipsisVertical size={20} className="text-text-600" />
+        </button>
+        
+        {isMenuOpen && (
+          <UserChatMenu
+            selectedContact={selectedContact}
+            isMenuOpen={isMenuOpen}
+            setIsMenuOpen={setIsMenuOpen}
+            isMuted={isMuted}
+            setIsMuted={setIsMuted}
+          />
+        )}
+      </div>
+    </div>
+  );
+}

@@ -113,7 +113,7 @@ export default function UserChatMenu({
             duration: 0.1,
             ease: [0.4, 0, 0.2, 1],
           }}
-          className="absolute right-0 top-full mt-1 w-56 bg-secondary-100 rounded-xl shadow-lg border border-background-200 py-2 z-20 origin-top-right"
+          className="absolute right-0 top-full mt-1 w-56 bg-secondary-100 rounded-xl flex flex-col justify-center shadow-lg border border-background-200 py-2 z-20 origin-top-right"
         >
           {/* Contact Preview */}
           <motion.div
@@ -202,9 +202,10 @@ export default function UserChatMenu({
                 </motion.button>
               ))}
           </div>
-
+          {/* Seperator */}
+            <div className="w-48 h-px bg-slate-800/40 my-1 mx-auto" />
           {/* Danger Zone */}
-          <div className="border-t border-background-300 p-1">
+          <div className="p-1">
             {menuItemsConfig
               .filter((item) => item.danger)
               .map((item, index) => (
