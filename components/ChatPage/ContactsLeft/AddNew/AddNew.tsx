@@ -51,9 +51,9 @@ export default function AddNew({ addNewDropDown, setAddNewDropDown }: AddNewProp
           ref={addNewRef}
         >
             <button className="p-2 flex w-full self-stretch gap-x-2 items-center hover:cursor-pointer hover:bg-primary-300/50 rounded-lg"
-            onClick={()=> {setOpenNewUser(!openNewUser); setAddNewDropDown(false)}}><UserPlus size={22} /><p>Add New User</p></button>
+            onClick={()=> {setOpenNewUser(!openNewUser); setAddNewDropDown(false)}}><UserPlus size={18} /><p>Add New User</p></button>
             <button className="p-2 flex w-full self-stretch gap-x-2 items-center hover:cursor-pointer hover:bg-primary-300/50 rounded-lg"
-            onClick={()=> {setIsCreateGroupOpen(!isCreateGroupOpen); setAddNewDropDown(false)}}><Users size={22} /><p>Create New Group</p></button>
+            onClick={()=> {setIsCreateGroupOpen(!isCreateGroupOpen); setAddNewDropDown(false)}}><Users size={18} /><p>Create New Group</p></button>
         </motion.div>
       )}
     </AnimatePresence>
