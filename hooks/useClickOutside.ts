@@ -41,11 +41,11 @@ export function useClickOutside<T extends HTMLElement = HTMLDivElement>({
   useEffect(() => {
     if (!enabled) return;
 
-    document.addEventListener("mousedown", handleOutsideClick);
+    document.addEventListener("click", handleOutsideClick);
     document.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
+      document.removeEventListener("click", handleOutsideClick);
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [enabled, handleOutsideClick, handleKeyDown]);

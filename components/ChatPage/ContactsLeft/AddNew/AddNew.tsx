@@ -47,7 +47,7 @@ export default function AddNew({ addNewDropDown, setAddNewDropDown }: AddNewProp
             duration: 0.15,
             ease: "easeOut",
           }}
-          className="absolute z-99 left-0 w-56 bg-secondary-100 px-3 py-4 rounded-xl flex flex-col gap-y-1 shadow-md"
+          className="absolute z-99 mt-2 -right-8 md:left-0 w-56 bg-secondary-100 px-3 py-4 rounded-xl flex flex-col gap-y-1 shadow-md"
           ref={addNewRef}
         >
             <button className="p-2 flex w-full self-stretch gap-x-2 items-center hover:cursor-pointer hover:bg-primary-300/50 rounded-lg"

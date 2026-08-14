@@ -1,5 +1,5 @@
 import { create } from "zustand";
-type ActiveSettingsTabs = "profile" | "account" | "chats" | "privacy" | "notifications" | "feedback";
+export type ActiveSettingsTabs = "profile" | "account" | "chats" | "privacy" | "notifications" | "feedback";
 type SettingStoreType = {
     activeTab: ActiveSettingsTabs,
     setActiveTab: (tab: ActiveSettingsTabs) => void;
