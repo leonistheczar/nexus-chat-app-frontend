@@ -107,7 +107,7 @@ export default function Settings() {
             transition={{ type: "tween", ease: "easeOut", duration: 0.25 }}
             exit={{ translateX: "-100%" }}
             style={{ willChange: "transform" }}
-            className="w-full max-w-full sm:max-w-xl md:max-w-2xl h-full bg-primary-100 shadow-2xl flex flex-col md:grid md:grid-cols-[280px_1fr] lg:grid-cols-[300px_1fr] border-r border-slate-200/20"
+            className="w-full max-w-full sm:max-w-xl md:max-w-2xl h-full bg-primary-100 shadow-2xl flex flex-col md:grid md:grid-cols-[0.5fr_1fr] lg:grid-cols-[0.65fr_1fr] border-r border-slate-200/20"
           >
             {/* Mobile Header */}
             <div className="md:hidden flex items-center justify-between p-4 border-b border-slate-500/20 bg-primary-100 z-10">

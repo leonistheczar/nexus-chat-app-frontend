@@ -42,7 +42,7 @@ export default function SettingsDropDown({openDrop, setOpen, setOpenDrop}: DropD
               duration: 0.15,
               ease: "easeOut",
             }}
-            className="absolute z-99 -right-4 md:left-0 mt-2 w-48 bg-secondary-100 px-3 py-4 rounded-xl flex flex-col gap-y-1 shadow-md"
+            className="absolute z-99 -right-4 lg:left-0 mt-2 w-48 bg-secondary-100 px-3 py-4 rounded-xl flex flex-col gap-y-1 shadow-md"
           >
             <motion.button
               className="p-2 flex w-full self-stretch gap-x-2 items-center hover:cursor-pointer hover:bg-primary-300/50 rounded-lg"

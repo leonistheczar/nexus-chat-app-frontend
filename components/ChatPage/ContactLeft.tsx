@@ -143,6 +143,7 @@ function SidebarBody({
           </div>
         </div>
       </div>
+      {/* Search */}
       <div className="p-2">
         <input
           type="text"
@@ -153,6 +154,7 @@ function SidebarBody({
           placeholder="Search or start a new conversation"
         />
       </div>
+      {/* Direct Tabs */}
       <ul className="flex flex-col gap-y-2 px-2 overflow-auto scrollbar-thumb-primary-200">
         {filteredContacts.length === 0 ? (
           <p className="text-sm text-center text-text-600 px-2 mt-4">
