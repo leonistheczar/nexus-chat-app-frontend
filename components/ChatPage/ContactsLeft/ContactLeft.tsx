@@ -1,11 +1,7 @@
 "use client";
 
 import { Contact } from "@/app/types/types";
-import {
-  ChevronLeft,
-  CirclePlus,
-  EllipsisVertical,
-} from "lucide-react";
+import { ChevronLeft, CirclePlus, EllipsisVertical } from "lucide-react";
 import { memo, useCallback, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -88,7 +84,7 @@ type SidebarBodyProps = {
   setOpenDrop: React.Dispatch<React.SetStateAction<boolean>>;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
-
+type tabFilter = "All" | "Unread" | "Groups" | "Favorites";
 function SidebarBody({
   search,
   setSearch,
@@ -101,7 +97,10 @@ function SidebarBody({
   setOpen,
 }: SidebarBodyProps) {
   const [addNewDropDown, setAddNewDropDown] = useState(false);
-  const {showContacts, setShowContacts} = useChatContacts();
+  const { showContacts, setShowContacts } = useChatContacts();
+  const [directTab, setDirectTab] = useState<tabFilter>("All");
+  // Tabs
+  const directTabs: tabFilter[] = ["All", "Unread", "Groups", "Favorites"];
   return (
     <div className="bg-primary-100 relative flex flex-col border-r border-primary-200 h-screen">
       {/* Close ContactLeft */}
@@ -154,7 +153,25 @@ function SidebarBody({
           placeholder="Search or start a new conversation"
         />
       </div>
-      {/* Direct Tabs */}
+{/* Direct Tabs */}
+<div className="p-2">
+  <ul className="flex gap-1">
+    {directTabs.map((tab) => (
+      <li key={tab} className="flex-1">
+        <button
+          onClick={() => setDirectTab(tab)}
+          className={`w-full flex items-center justify-center gap-2 px-3 py-2 border border-slate-800/20 rounded-full text-sm font-medium transition-all cursor-pointer ${
+            directTab === tab
+              ? "bg-primary-300/60 text-text-800 shadow-sm"
+              : "text-text-600 hover:bg-primary-400/20 hover:text-text-800"
+          }`}
+        >
+          <span className="truncate">{tab}</span>
+        </button>
+      </li>
+    ))}
+  </ul>
+</div>
       <ul className="flex flex-col gap-y-2 px-2 overflow-auto scrollbar-thumb-primary-200">
         {filteredContacts.length === 0 ? (
           <p className="text-sm text-center text-text-600 px-2 mt-4">
