@@ -1,13 +1,19 @@
 "use client";
 
 import { Contact } from "@/app/types/types";
-import { CirclePlus, EllipsisVertical } from "lucide-react";
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  ChevronLeft,
+  CirclePlus,
+  EllipsisVertical,
+  PanelRightOpen,
+} from "lucide-react";
+import { memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import ThemeToggler from "../SharedComponents/ThemeToggler";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import SettingsDropDown from "./ContactsLeft/DropDown/SettingsDropDown";
 import AddNew from "./ContactsLeft/AddNew/AddNew";
+import { useChatContacts } from "@/lib/providers/ChatProvider";
 type ContactLeftProps = {
   contacts: Contact[];
   selectedContact: Contact | null;
@@ -96,17 +102,31 @@ function SidebarBody({
   setOpen,
 }: SidebarBodyProps) {
   const [addNewDropDown, setAddNewDropDown] = useState(false);
+  const {setShowContacts} = useChatContacts();
   return (
-    <div className="bg-primary-100 flex flex-col border-r border-primary-200 h-screen">
+    <div className="bg-primary-100 relative flex flex-col border-r border-primary-200 h-screen">
+      <button
+        className="md:hidden absolute top-1/2 -right-3 z-10 bg-primary-100 border border-primary-200 rounded-full p-1.5 shadow-md hover:bg-primary-200 transition-colors cursor-pointer"
+        aria-label="Close sidebar"
+        onClick={() => setShowContacts(false)}
+      >
+        <ChevronLeft size={16} className="text-text-600" />
+      </button>
       <div className="flex justify-between items-center px-4 py-2">
         <h1 className="text-xl"> Nexus</h1>
         <div className="flex items-center gap-x-2 scale-90">
           <ThemeToggler />
           <div className="relative">
-          <motion.button onClick={() => setAddNewDropDown((prev) => !prev)} className="cursor-pointer hover:bg-primary-200 p-1.5 rounded-full transition-all">
-            <CirclePlus />
-          </motion.button>
-          <AddNew addNewDropDown={addNewDropDown} setAddNewDropDown={setAddNewDropDown}/>
+            <motion.button
+              onClick={() => setAddNewDropDown((prev) => !prev)}
+              className="cursor-pointer hover:bg-primary-200 p-1.5 rounded-full transition-all"
+            >
+              <CirclePlus />
+            </motion.button>
+            <AddNew
+              addNewDropDown={addNewDropDown}
+              setAddNewDropDown={setAddNewDropDown}
+            />
           </div>
           <div className="relative">
             <motion.button
@@ -123,6 +143,7 @@ function SidebarBody({
           </div>
         </div>
       </div>
+      {/* Search */}
       <div className="p-2">
         <input
           type="text"
@@ -133,9 +154,12 @@ function SidebarBody({
           placeholder="Search or start a new conversation"
         />
       </div>
+      {/* Direct Tabs */}
       <ul className="flex flex-col gap-y-2 px-2 overflow-auto scrollbar-thumb-primary-200">
         {filteredContacts.length === 0 ? (
-          <p className="text-sm text-center text-text-600 px-2 mt-4">No contact found</p>
+          <p className="text-sm text-center text-text-600 px-2 mt-4">
+            No contact found
+          </p>
         ) : (
           filteredContacts.map((contact, index) => (
             <ContactItem
@@ -171,8 +195,10 @@ export default function ContactLeft({
     return contacts.filter((contact) => {
       const fullName =
         `${contact.first_name} ${contact.last_name}`.toLowerCase();
-      return fullName.includes(query) ||
+      return (
+        fullName.includes(query) ||
         (contact.message ?? "").toLowerCase().includes(query)
+      );
     });
   }, [contacts, search]);
 

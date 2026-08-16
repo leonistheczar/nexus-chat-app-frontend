@@ -16,12 +16,15 @@ import {
   Ban,
   Trash2,
   X,
+  ArrowLeft,
 } from "lucide-react";
 import Image from "next/image";
 import { useState, useMemo, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 type UserProfileRightProps = {
   selectedContact: Contact | null;
+  onBack?: () => void;
 };
 
 // Feature configuration
@@ -83,6 +86,7 @@ const dangerFeatures = [
 
 export default function UserProfileRight({
   selectedContact,
+  onBack,
 }: UserProfileRightProps) {
   const [isMuted, setIsMuted] = useState(false);
   const [isStarred, setIsStarred] = useState(false);
@@ -114,13 +118,36 @@ export default function UserProfileRight({
   }
 
   return (
-    <div className="h-dvh flex flex-col bg-text-50">
+    <div className="h-dvh flex flex-col bg-background-50">
+      {/* Back Button - Only visible on tablet */}
+      <AnimatePresence>
+        {onBack && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="lg:hidden border-b border-background-200"
+          >
+            <button
+              onClick={onBack}
+              className="w-full flex items-center gap-2 p-3 hover:bg-background-100 transition-colors cursor-pointer"
+              aria-label="Back to chat"
+            >
+              <ArrowLeft size={20} className="text-text-600" />
+              <span className="text-sm font-medium text-text-700">
+                Back to Chat
+              </span>
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Profile Header */}
-      <div className="p-6 border-b border-background-200">
-        <div className="flex flex-col items-center gap-4">
+      <div className="p-4 border-b border-background-200">
+        <div className="flex flex-col items-center gap-2">
           {/* Avatar */}
           <div className="relative">
-            <div className="relative w-24 h-24 overflow-hidden rounded-full shadow-lg ring-2 ring-primary-200">
+            <div className="relative w-16 h-16 overflow-hidden rounded-full shadow-lg ring-2 ring-primary-200">
               {selectedContact.profile_pic ? (
                 <Image
                   src={selectedContact.profile_pic}
@@ -131,7 +158,7 @@ export default function UserProfileRight({
                 />
               ) : (
                 <div className="w-full h-full bg-primary-100 flex items-center justify-center">
-                  <span className="text-2xl font-medium text-primary-600">
+                  <span className="text-xl font-medium text-primary-600">
                     {getInitials(
                       selectedContact.first_name,
                       selectedContact.last_name,
@@ -146,13 +173,31 @@ export default function UserProfileRight({
 
           {/* User Info */}
           <div className="text-center">
-            <h2 className="text-lg font-semibold text-text-800">
+            <h2 className="text-xl font-semibold text-text-800">
               {selectedContact.first_name} {selectedContact.last_name}
             </h2>
             <p className="text-sm text-text-500 flex items-center justify-center gap-1 mt-1">
               <Phone className="w-3.5 h-3.5" />
               {selectedContact.contact}
             </p>
+          </div>
+
+          {/* Quick Call Actions */}
+          <div className="flex gap-1">
+            <button
+              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary-200 hover:bg-primary-300 transition-colors text-sm font-medium text-text-700 cursor-pointer"
+              aria-label="Voice call"
+            >
+              <Phone size={18} strokeWidth={1.5} />
+              <span>Call</span>
+            </button>
+            <button
+              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary-200 hover:bg-primary-300 transition-colors text-sm font-medium text-text-700 cursor-pointer"
+              aria-label="Video call"
+            >
+              <Video size={18} strokeWidth={1.5} />
+              <span>Video</span>
+            </button>
           </div>
         </div>
       </div>
@@ -165,29 +210,34 @@ export default function UserProfileRight({
             Shared Content
           </h3>
           <div className="grid grid-cols-2 gap-2">
-            {profileFeatures.map((feature) => (
-              <button
-                key={feature.key}
-                onClick={() => setActiveTab(feature.key as typeof activeTab)}
-                className={`flex flex-col items-center gap-2 p-4 rounded-xl border transition-all cursor-pointer ${
-                  activeTab === feature.key
-                    ? "border-primary-300 bg-primary-50"
-                    : "border-background-200 hover:border-primary-200 hover:bg-primary-50/50"
-                }`}
-              >
-                <feature.icon
-                  size={24}
-                  strokeWidth={1.5}
-                  className="text-primary-500"
-                />
-                <span className="text-sm font-medium text-text-700">
-                  {feature.label}
-                </span>
-                <span className="text-xs text-text-500">
-                  {feature.description}
-                </span>
-              </button>
-            ))}
+            {profileFeatures.map((feature) => {
+              const IconComponent = feature.icon;
+              const isActive = activeTab === feature.key;
+              
+              return (
+                <button
+                  key={feature.key}
+                  onClick={() => setActiveTab(feature.key as typeof activeTab)}
+                  className={`flex flex-col items-center gap-2 p-4 rounded-xl border transition-all cursor-pointer ${
+                    isActive
+                      ? "border-primary-300 bg-primary-50"
+                      : "border-background-200 hover:border-primary-200 hover:bg-primary-50/50"
+                  }`}
+                >
+                  <IconComponent
+                    size={24}
+                    strokeWidth={1.5}
+                    className="text-primary-500"
+                  />
+                  <span className="text-sm font-medium text-text-700">
+                    {feature.label}
+                  </span>
+                  <span className="text-xs text-text-500 text-center">
+                    {feature.description}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -221,7 +271,11 @@ export default function UserProfileRight({
                       : "hover:bg-background-100 text-text-700"
                   }`}
                 >
-                  <IconComponent size={18} strokeWidth={1.5} />
+                  <IconComponent
+                    size={18}
+                    strokeWidth={1.5}
+                    className={isStarred && feature.key === "star" ? "fill-primary-400 text-primary-400" : ""}
+                  />
                   <span className="text-sm font-medium">{label}</span>
                 </button>
               );
@@ -235,15 +289,19 @@ export default function UserProfileRight({
             Danger Zone
           </h3>
           <div className="space-y-1">
-            {dangerFeatures.map((feature) => (
-              <button
-                key={feature.key}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-500 hover:bg-red-500/10 transition-colors cursor-pointer"
-              >
-                <feature.icon size={18} strokeWidth={1.5} />
-                <span className="text-sm font-medium">{feature.label}</span>
-              </button>
-            ))}
+            {dangerFeatures.map((feature) => {
+              const IconComponent = feature.icon;
+              
+              return (
+                <button
+                  key={feature.key}
+                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-500 hover:bg-red-500/10 transition-colors cursor-pointer"
+                >
+                  <IconComponent size={18} strokeWidth={1.5} />
+                  <span className="text-sm font-medium">{feature.label}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
