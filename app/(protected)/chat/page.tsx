@@ -1,9 +1,7 @@
-// app/chat/page.tsx or components/ChatPage/Chat.tsx
 "use client";
-
 import { useEffect, useState } from "react";
 import { Contact } from "@/app/types/types";
-import ContactLeft from "@/components/ChatPage/ContactLeft";
+import ContactLeft from "@/components/ChatPage/ContactsLeft/ContactLeft";
 import MainChat from "@/components/ChatPage/MainChat/MainChat";
 import UserProfileRight from "@/components/ChatPage/UserProfileRight";
 import Settings from "@/components/ChatPage/ContactsLeft/DropDown/DropDownSettings/Settings";
@@ -14,13 +12,8 @@ import ConfirmationDialog from "@/components/shared/ConfirmationDialog";
 import { AnimatePresence, motion } from "framer-motion";
 
 export default function Chat() {
-  const {
-    contacts,
-    showContacts,
-    setShowContacts,
-    open,
-    setOpen,
-  } = useChatContacts();
+  const { contacts, showContacts, setShowContacts, open, setOpen } =
+    useChatContacts();
 
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
   const [showProfileOnTablet, setShowProfileOnTablet] = useState(false);
@@ -41,7 +34,9 @@ export default function Chat() {
 
   // Handle avatar click for tablet
   const handleAvatarClick = () => {
-    setShowProfileOnTablet(true);
+    if(window.innerWidth < 1024){
+      setShowProfileOnTablet(true);
+    }
   };
 
   // Handle back from profile on tablet
@@ -79,16 +74,15 @@ export default function Chat() {
         />
       </section>
 
-      {/* Main Chat Area / Profile (Tablet) */}
       <section className="md:col-span-1 lg:col-span-1 relative overflow-hidden min-w-0">
-        <AnimatePresence mode="wait">
-          {showProfileOnTablet ? (
+        {showProfileOnTablet ? (
+          <AnimatePresence mode="wait">
             <motion.div
               key="profile-view"
-              initial={{ opacity: 0, x: 20 }}
+              initial={{ opacity: 0, x: 0 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              transition={{ duration: 0.15, ease: "easeOut" }}
+              exit={{ opacity: 0, x: 0 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
               className="h-full lg:hidden"
             >
               <UserProfileRight
@@ -96,13 +90,15 @@ export default function Chat() {
                 onBack={handleBackToChat}
               />
             </motion.div>
-          ) : (
+          </AnimatePresence>
+        ) : selectedContact ? (
+          <AnimatePresence mode="wait">
             <motion.div
-              key="chat-view"
+              key={`chat-${selectedContact.id}`}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.15, ease: "easeOut" }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
               className="h-full"
             >
               <MainChat
@@ -112,11 +108,21 @@ export default function Chat() {
                 onAvatarClick={handleAvatarClick}
               />
             </motion.div>
-          )}
-        </AnimatePresence>
+          </AnimatePresence>
+        ) : (
+          // No animation for empty state
+          <div className="h-full">
+            <MainChat
+              selectedContact={selectedContact}
+              showContacts={showContacts}
+              setShowContacts={setShowContacts}
+              onAvatarClick={handleAvatarClick}
+            />
+          </div>
+        )}
       </section>
 
-      {/* User Profile - Desktop always visible */}
+      {/* User Profile - Always visible */}
       <section className="hidden lg:block lg:col-span-1 min-w-0">
         <UserProfileRight selectedContact={selectedContact} />
       </section>

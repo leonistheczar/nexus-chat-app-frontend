@@ -120,7 +120,7 @@ export default function MainChat({
 
   return (
     <>
-      <AnimatePresence mode="wait">
+      <AnimatePresence>
         {!selectedContact ? (
           <motion.div
             key="empty"
