@@ -5,15 +5,14 @@ import {
   ChevronLeft,
   CirclePlus,
   EllipsisVertical,
-  PanelRightOpen,
 } from "lucide-react";
-import { memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
-import ThemeToggler from "../SharedComponents/ThemeToggler";
+import { memo, useCallback, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import SettingsDropDown from "./ContactsLeft/DropDown/SettingsDropDown";
-import AddNew from "./ContactsLeft/AddNew/AddNew";
 import { useChatContacts } from "@/lib/providers/ChatProvider";
+import SettingsDropDown from "./DropDown/SettingsDropDown";
+import AddNew from "./AddNew/AddNew";
+import ThemeToggler from "@/components/SharedComponents/ThemeToggler";
 type ContactLeftProps = {
   contacts: Contact[];
   selectedContact: Contact | null;
@@ -102,11 +101,12 @@ function SidebarBody({
   setOpen,
 }: SidebarBodyProps) {
   const [addNewDropDown, setAddNewDropDown] = useState(false);
-  const {setShowContacts} = useChatContacts();
+  const {showContacts, setShowContacts} = useChatContacts();
   return (
     <div className="bg-primary-100 relative flex flex-col border-r border-primary-200 h-screen">
+      {/* Close ContactLeft */}
       <button
-        className="md:hidden absolute top-1/2 -right-3 z-10 bg-primary-100 border border-primary-200 rounded-full p-1.5 shadow-md hover:bg-primary-200 transition-colors cursor-pointer"
+        className={`md:hidden absolute top-1/2 -right-3 z-10 bg-primary-100 border border-primary-200 rounded-full p-1.5 shadow-md hover:bg-primary-200 transition-colors cursor-pointer ${!showContacts && "hidden"}`}
         aria-label="Close sidebar"
         onClick={() => setShowContacts(false)}
       >
