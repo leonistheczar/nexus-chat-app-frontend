@@ -118,7 +118,7 @@ export default function UserProfileRight({
   }
 
   return (
-    <div className="h-dvh flex flex-col bg-background-50">
+    <div className="h-dvh flex flex-col">
       {/* Back Button - Only visible on tablet */}
       <AnimatePresence>
         {onBack && (
@@ -126,11 +126,11 @@ export default function UserProfileRight({
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden border-b border-background-200"
+            className="lg:hidden border-b border-background-200 p-2"
           >
             <button
               onClick={onBack}
-              className="w-full flex items-center gap-2 p-3 hover:bg-background-100 transition-colors cursor-pointer"
+              className="flex items-center w-fit gap-2 p-3 hover:bg-background-200 cursor-pointer"
               aria-label="Back to chat"
             >
               <ArrowLeft size={20} className="text-text-600" />

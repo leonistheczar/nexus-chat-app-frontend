@@ -52,7 +52,7 @@ export default function MessageBubble({
           className={`relative rounded-2xl px-4 py-2 text-sm wrap-break-word group ${
             isCurrentUser
               ? "bg-primary-200 text-text-800 rounded-br-md"
-              : "bg-neutral-900 text-white rounded-bl-md"
+              : "bg-text-400 text-white rounded-bl-md"
           }`}
         >
           <button
