@@ -20,7 +20,6 @@ export default function AddNew({ addNewDropDown, setAddNewDropDown }: AddNewProp
   } = useChatContacts();
   const addNewRef = useClickOutside<HTMLDivElement>({
     enabled: addNewDropDown,
-    onEnter: () => setAddNewDropDown(false),
     onEscape: () => setAddNewDropDown(false),
     onOutsideClick: () => setAddNewDropDown(false),
   })
@@ -28,6 +27,7 @@ export default function AddNew({ addNewDropDown, setAddNewDropDown }: AddNewProp
     <AnimatePresence>
       {addNewDropDown && (
         <motion.div
+          ref={addNewRef}
           key="menu"
           initial={{
             opacity: 0,
@@ -48,12 +48,11 @@ export default function AddNew({ addNewDropDown, setAddNewDropDown }: AddNewProp
             ease: "easeOut",
           }}
           className="absolute z-99 mt-2 -right-8 lg:left-0 w-56 bg-secondary-100 px-3 py-4 rounded-xl flex flex-col gap-y-1 shadow-md"
-          ref={addNewRef}
         >
             <button className="p-2 flex w-full self-stretch gap-x-2 items-center hover:cursor-pointer hover:bg-primary-300/50 rounded-lg"
-            onClick={()=> {setOpenNewUser(!openNewUser); setAddNewDropDown(false)}}><UserPlus size={18} /><p>Add New User</p></button>
+            onClick={()=> {setOpenNewUser(true); setAddNewDropDown(false)}}><UserPlus size={18} /><p>Add New User</p></button>
             <button className="p-2 flex w-full self-stretch gap-x-2 items-center hover:cursor-pointer hover:bg-primary-300/50 rounded-lg"
-            onClick={()=> {setIsCreateGroupOpen(!isCreateGroupOpen); setAddNewDropDown(false)}}><Users size={18} /><p>Create New Group</p></button>
+            onClick={()=> {setIsCreateGroupOpen(true); setAddNewDropDown(false)}}><Users size={18} /><p>Create New Group</p></button>
         </motion.div>
       )}
     </AnimatePresence>
