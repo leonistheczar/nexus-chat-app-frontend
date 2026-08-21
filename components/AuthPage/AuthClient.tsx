@@ -4,12 +4,13 @@ import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import SignIn from "@/components/AuthPage/SignIn";
-import SignUp from "@/components/AuthPage/SignUp";
+import ClerkSignIn from "@/components/AuthPage/ClerkSignIn";
+import ClerkSignUp from "@/components/AuthPage/ClerkSignUp";
 
 function modeFromParam(value: string | null): "signin" | "signup" {
   return value === "signup" ? "signup" : "signin";
 }
+
 export default function AuthClient() {
   const searchParams = useSearchParams();
   const currentMode = modeFromParam(searchParams.get("mode"));
@@ -20,23 +21,24 @@ function AuthFormContent({ defaultMode }: { defaultMode: "signin" | "signup" }) 
   const [mode, setMode] = useState<"signin" | "signup">(defaultMode);
 
   return (
-    <section className="h-fit sm:min-h-screen bg-background-50 block sm:flex items-center p-10 shadow-md rounded-lg">
-      <div className="max-w-6xl mx-auto block sm:grid md:grid-cols-2 gap-6 items-center w-full">
+    // ✅ Fixed: Full viewport height, proper centering
+    <section className="min-h-screen w-full bg-background-50 flex items-center justify-center p-4 sm:p-10">
+      <div className="w-full max-w-6xl mx-auto grid md:grid-cols-2 gap-6 items-center">
         
         {/* LEFT: Illustration */}
-        <div className="hidden md:block relative w-full h-[420px]">
+        <div className="hidden md:block relative h-100 lg:h-125 w-full">
           <Image
             src="/ui-photos/signin.png"
             alt="Auth"
             fill
-            sizes="50vw"
+            sizes="(max-width: 768px) 0vw, 50vw"
             className="object-contain"
             priority
           />
         </div>
 
         {/* RIGHT: Form */}
-        <div className="bg-background-50 p-4 w-full max-w-md mx-auto">
+        <div className="w-full max-w-md mx-auto px-4 sm:px-0">
           
           {/* Toggle */}
           <div className="flex justify-center mb-6">
@@ -69,9 +71,9 @@ function AuthFormContent({ defaultMode }: { defaultMode: "signin" | "signup" }) 
           </div>
 
           {/* Animated Forms */}
-          <div className="relative h-fit sm:h-[calc(70dvh-2rem)] p-4 ">
+          <div className="w-full">
             <AnimatePresence mode="wait">
-              {mode === "signin" ? <SignIn key="signin" /> : <SignUp key="signup" />}
+              {mode === "signin" ? <ClerkSignIn key="signin" /> : <ClerkSignUp key="signup" />}
             </AnimatePresence>
           </div>
 
