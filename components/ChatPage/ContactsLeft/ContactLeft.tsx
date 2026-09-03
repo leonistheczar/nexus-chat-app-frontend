@@ -119,7 +119,7 @@ function SidebarBody({
         <ChevronLeft size={16} className="text-text-600" />
       </button>
       <div className="flex justify-between items-center px-4 py-2">
-        <h1 className="text-xl"> Nexus</h1>
+        <h1 className="text-xl font-semibold"> Nexus</h1>
         <div className="flex items-center gap-x-2 scale-90">
           <ThemeToggler />
           <div className="relative">
