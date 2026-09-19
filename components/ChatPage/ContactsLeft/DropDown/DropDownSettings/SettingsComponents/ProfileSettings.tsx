@@ -1,6 +1,7 @@
 "use client";
 
 import { useClickOutside } from "@/hooks/useClickOutside";
+import { useUser } from "@clerk/nextjs";
 import { Camera, Copy, CopyCheck, Pencil, UserRound } from "lucide-react";
 import { useState, useRef, useEffect, useCallback } from "react";
 
@@ -120,9 +121,10 @@ function EditableField({ label, value, onChange, showCopy = false }: EditableFie
 }
 
 export default function ProfileSettings() {
-  const [name, setName] = useState("User");
-  const [email, setEmail] = useState("user@email.com");
-  const [phone, setPhone] = useState("+92-XXXXXXXXX");
+  const user = useUser();
+  const [name, setName] = useState(user.user?.fullName);
+  const [email, setEmail] = useState(user.user?.primaryEmailAddress?.emailAddress);
+  const [phone, setPhone] = useState(user.user?.primaryPhoneNumber?.phoneNumber);
   const [isSaving, setIsSaving] = useState(false);
   const [avatarError, setAvatarError] = useState(false);
 
@@ -142,7 +144,7 @@ export default function ProfileSettings() {
     }
   };
 
-  const isFormValid = name.trim() && email.trim() && phone.trim();
+  const isFormValid = name && email && phone;
 
   return (
     <div className="text-sm max-w-md mx-auto">
@@ -171,18 +173,18 @@ export default function ProfileSettings() {
         <div className="mt-10 space-y-6">
           <EditableField
             label="Name"
-            value={name}
+            value={name ?? ""}
             onChange={setName}
           />
           <EditableField
             label="Email"
-            value={email}
+            value={email ?? ""}
             onChange={setEmail}
             showCopy
           />
           <EditableField
             label="Phone"
-            value={phone}
+            value={phone ?? ""}
             onChange={setPhone}
             showCopy
           />

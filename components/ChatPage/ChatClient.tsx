@@ -10,8 +10,9 @@ import NewUser from "@/components/ChatPage/ContactsLeft/AddNew/NewUser";
 import NewGroup from "@/components/ChatPage/ContactsLeft/AddNew/NewGroup";
 import ConfirmationDialog from "@/components/shared/ConfirmationDialog";
 import { AnimatePresence, motion } from "framer-motion";
-import { SignOutButton } from "@clerk/nextjs";
+import { SignOutButton, useAuth, useUser } from "@clerk/nextjs";
 import useContacts from "@/hooks/chat/contacts/useContacts";
+import { getAuth } from "@clerk/nextjs/server";
 
 export default function ChatClient() {
   // Calling "contacts" from "useQuery hook"
