@@ -19,9 +19,11 @@ import {
 import Image from "next/image";
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Skeleton from "@/components/SharedComponents/Skeleton";
 
 type UserProfileRightProps = {
   selectedContact: Contact | null;
+  isPending?: boolean;
   onBack?: () => void;
 };
 
@@ -84,6 +86,7 @@ const dangerFeatures = [
 
 export default function UserProfileRight({
   selectedContact,
+  isPending = false,
   onBack,
 }: UserProfileRightProps) {
   const [isMuted, setIsMuted] = useState(false);
@@ -95,6 +98,37 @@ export default function UserProfileRight({
   const getInitials = useCallback((firstName: string, lastName: string) => {
     return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
   }, []);
+
+  if (isPending) {
+    return (
+      <div
+        className="flex h-dvh flex-col items-center gap-5 overflow-hidden p-4"
+        role="status"
+        aria-label="Loading contact profile"
+        aria-busy="true"
+      >
+        <div className="flex w-full flex-col items-center gap-3 border-b border-background-200 pb-5 pt-4">
+          <Skeleton variant="circle" width={64} height={64} />
+          <Skeleton width="58%" height={20} />
+          <Skeleton width="42%" height={14} />
+          <div className="flex w-full justify-center gap-2 pt-2">
+            <Skeleton variant="rounded" width={88} height={36} />
+            <Skeleton variant="rounded" width={88} height={36} />
+          </div>
+        </div>
+        <div className="grid w-full grid-cols-2 gap-2">
+          {Array.from({ length: 4 }, (_, index) => (
+            <Skeleton key={index} variant="rounded" height={104} />
+          ))}
+        </div>
+        <div className="w-full space-y-3 pt-2">
+          <Skeleton width="38%" height={14} />
+          <Skeleton variant="rounded" height={42} />
+          <Skeleton variant="rounded" height={42} />
+        </div>
+      </div>
+    );
+  }
 
   // Empty state
   if (!selectedContact) {

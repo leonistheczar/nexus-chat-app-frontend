@@ -1,5 +1,7 @@
+import { PhoneInput } from "react-international-phone";
 import { useProfileSetupStore } from "../store/profileSetupStore";
 
+import "react-international-phone/style.css"
 export default function ContactStepFields() {
   const formData = useProfileSetupStore((state) => state.formData);
   const errors = useProfileSetupStore((state) => state.errors);
@@ -10,14 +12,11 @@ export default function ContactStepFields() {
       <label htmlFor="contact" className="text-sm font-medium text-text-700">
         Contact number
       </label>
-      <input
-        id="contact"
-        type="tel"
-        autoComplete="tel"
-        placeholder="+1 (555) 000-0000"
+      <PhoneInput 
+        defaultCountry="pk"
+        placeholder="+92 (300) 000-0000"
         value={formData.contact}
-        onChange={(event) => updateField("contact", event.target.value)}
-        className="input"
+        onChange={(value) => updateField("contact", value)}
       />
       {errors.contact ? (
         <p className="text-xs text-accent-500">{errors.contact}</p>

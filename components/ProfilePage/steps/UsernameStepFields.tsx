@@ -27,7 +27,7 @@ export default function UsernameStepFields() {
         <p className="text-xs text-accent-500">{errors.username}</p>
       ) : (
         <p className="text-xs text-text-400">
-          3–20 characters. Letters, numbers, and underscores only.
+          6–20 characters. Letters, numbers, and underscores only.
         </p>
       )}
     </div>

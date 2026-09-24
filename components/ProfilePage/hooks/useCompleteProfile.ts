@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { completeProfile } from "@/lib/api/completeProfile";
+import { completeProfile } from "@/lib/completeProfile";
 import { useProfileSetupStore } from "../store/profileSetupStore";
 
 export function useCompleteProfile() {

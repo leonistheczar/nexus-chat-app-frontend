@@ -26,7 +26,6 @@ export const useProfileSetupStore = create<ProfileSetupState>((set, get) => ({
     set((state) => {
       const errors = { ...state.errors };
       delete errors[field];
-
       return {
         formData: { ...state.formData, [field]: value },
         errors,
