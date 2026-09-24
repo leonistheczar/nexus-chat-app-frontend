@@ -9,7 +9,7 @@ import { useChatContacts } from "@/lib/providers/ChatUIProvider";
 import SettingsDropDown from "./DropDown/SettingsDropDown";
 import AddNew from "./AddNew/AddNew";
 import ThemeToggler from "@/components/SharedComponents/ThemeToggler";
-import { SyncLoader } from "react-spinners";
+import Skeleton from "@/components/SharedComponents/Skeleton";
 type ContactLeftProps = {
   contacts: Contact[];
   selectedContact: Contact | null;
@@ -182,10 +182,19 @@ function SidebarBody({
       <ul className="flex flex-col gap-y-2 px-2 overflow-auto scrollbar-thumb-primary-200">
         {isPending ? (
           <li
-            className="flex justify-center py-6"
+            className="space-y-2 py-2"
+            role="status"
             aria-label="Loading contacts"
           >
-            <SyncLoader size={10} color="var(--color-primary-500)" />
+            {Array.from({ length: 6 }, (_, index) => (
+              <div key={index} className="flex items-center gap-3 p-2">
+                <Skeleton variant="circle" width={48} height={48} />
+                <div className="min-w-0 flex-1 space-y-2">
+                  <Skeleton width="58%" height={14} />
+                  <Skeleton width="82%" height={12} />
+                </div>
+              </div>
+            ))}
           </li>
         ) : isError ? (
           <li className="px-2 py-4 text-sm text-center text-red-600" role="alert">

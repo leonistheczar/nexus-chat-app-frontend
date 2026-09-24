@@ -4,10 +4,19 @@ import { motion } from "framer-motion";
 import { Sparkles } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useProfileSetupStore } from "./store/profileSetupStore";
-
+import { parsePhoneNumber } from "libphonenumber-js/min";
 export default function ProfileSetupComplete() {
   const router = useRouter();
   const formData = useProfileSetupStore((state) => state.formData);
+  
+  // For International format
+  const formattedContact = (phone: string) => {
+    try {
+      return parsePhoneNumber(phone).formatInternational();
+    } catch {
+      return formData.contact;
+    }
+  };
 
   const handleGoToChat = () => {
     router.push("/chat");
@@ -19,7 +28,7 @@ export default function ProfileSetupComplete() {
         initial={{ opacity: 0, scale: 0.96 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.4 }}
-        className="w-full max-w-lg rounded-2xl border border-primary-100 bg-background-50 p-8 shadow-lg shadow-primary-100/40 text-center space-y-6"
+        className="w-full max-w-lg rounded-2xl border border-primary-100 bg-primary-100/60 p-8 shadow-lg shadow-primary-100/40 text-center space-y-6"
       >
         <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary-500 text-white">
           <Sparkles className="h-7 w-7" />
@@ -53,7 +62,9 @@ export default function ProfileSetupComplete() {
           </p>
           <p>
             <span className="text-text-500">Contact:</span>{" "}
-            <span className="font-medium text-text-700">{formData.contact}</span>
+            <span className="font-medium text-text-700">
+              {formattedContact(formData.contact)}
+            </span>
           </p>
         </div>
 

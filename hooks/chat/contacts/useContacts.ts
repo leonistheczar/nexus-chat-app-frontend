@@ -1,5 +1,5 @@
 "use client";
-import { fetchContacts } from "@/lib/api/fetchContacts";
+import { fetchContacts } from "@/lib/fetchContacts";
 import { useQuery } from "@tanstack/react-query";
 
 export default function useContacts() {

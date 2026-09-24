@@ -10,19 +10,21 @@ import NewUser from "@/components/ChatPage/ContactsLeft/AddNew/NewUser";
 import NewGroup from "@/components/ChatPage/ContactsLeft/AddNew/NewGroup";
 import ConfirmationDialog from "@/components/shared/ConfirmationDialog";
 import { AnimatePresence, motion } from "framer-motion";
-import { SignOutButton, useAuth, useUser } from "@clerk/nextjs";
+import { SignOutButton } from "@clerk/nextjs";
 import useContacts from "@/hooks/chat/contacts/useContacts";
-import { getAuth } from "@clerk/nextjs/server";
 
 export default function ChatClient() {
   // Calling "contacts" from "useQuery hook"
   const { data: contacts, isPending, isError } = useContacts();
   // Provider states for UI
   const { showContacts, setShowContacts, open, setOpen } = useChatContacts();
-  const [selectedContactId, setSelectedContactId] = useState<number | null>(null);
+  const [selectedContactId, setSelectedContactId] = useState<number | null>(
+    null,
+  );
   const [showProfileOnTablet, setShowProfileOnTablet] = useState(false);
 
-  const selectedContact = contacts?.find(({ id }) => id === selectedContactId) ?? null;
+  const selectedContact =
+    contacts?.find(({ id }) => id === selectedContactId) ?? null;
 
   // Reset profile view when selecting a new contact
   const handleContactSelect = (contact: Contact) => {
@@ -32,7 +34,7 @@ export default function ChatClient() {
 
   // Handle avatar click for tablet
   const handleAvatarClick = () => {
-    if(window.innerWidth < 1024){
+    if (window.innerWidth < 1024) {
       setShowProfileOnTablet(true);
     }
   };
@@ -48,18 +50,18 @@ export default function ChatClient() {
       <NewUser onContactSelect={handleContactSelect} />
       <NewGroup />
       <Settings />
-      <SignOutButton redirectUrl="/">  
-      <ConfirmationDialog
-        isOpen={open}
-        setOpen={setOpen}
-        title="Logout"
-        description="Are you sure you want to logout from your account?"
-        confirmText="Logout"
-        onCancel={() => setOpen(false)}
-        onConfirm={() => {
-          window.location.href = "/";
-        }}
-      />
+      <SignOutButton redirectUrl="/">
+        <ConfirmationDialog
+          isOpen={open}
+          setOpen={setOpen}
+          title="Logout"
+          description="Are you sure you want to logout from your account?"
+          confirmText="Logout"
+          onCancel={() => setOpen(false)}
+          onConfirm={() => {
+            window.location.href = "/";
+          }}
+        />
       </SignOutButton>
 
       {/* Contact List Sidebar */}
@@ -90,6 +92,7 @@ export default function ChatClient() {
               <UserProfileRight
                 selectedContact={selectedContact}
                 onBack={handleBackToChat}
+                isPending={isPending}
               />
             </motion.div>
           </AnimatePresence>
@@ -112,10 +115,10 @@ export default function ChatClient() {
             </motion.div>
           </AnimatePresence>
         ) : (
-          // No animation for empty state
           <div className="h-full">
             <MainChat
               selectedContact={selectedContact}
+              isContactsPending={isPending}
               showContacts={showContacts}
               setShowContacts={setShowContacts}
               onAvatarClick={handleAvatarClick}
@@ -126,7 +129,10 @@ export default function ChatClient() {
 
       {/* User Profile - Always visible */}
       <section className="hidden lg:block lg:col-span-1 min-w-0">
-        <UserProfileRight selectedContact={selectedContact} />
+        <UserProfileRight
+          selectedContact={selectedContact}
+          isPending={isPending}
+        />
       </section>
     </div>
   );

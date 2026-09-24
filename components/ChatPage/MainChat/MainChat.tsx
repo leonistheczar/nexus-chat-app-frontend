@@ -8,9 +8,11 @@ import MessageList from "./MessageList";
 import MessageInput from "./MessageInput";
 import EmptyState from "./EmptyState";
 import ConfirmationDialog from "@/components/shared/ConfirmationDialog";
+import Skeleton from "@/components/SharedComponents/Skeleton";
 
 type MainChatProps = {
   selectedContact: Contact | null;
+  isContactsPending?: boolean;
   showContacts: boolean;
   setShowContacts: React.Dispatch<React.SetStateAction<boolean>>;
   onAvatarClick?: () => void;
@@ -26,6 +28,7 @@ const currentUser: User = {
 
 export default function MainChat({
   selectedContact,
+  isContactsPending = false,
   showContacts,
   setShowContacts,
   onAvatarClick,
@@ -121,7 +124,38 @@ export default function MainChat({
   return (
     <>
       <AnimatePresence>
-        {!selectedContact ? (
+        {!selectedContact && isContactsPending ? (
+          <motion.div
+            key="loading"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="h-dvh flex flex-col gap-6 border-r border-background-300 p-4 sm:p-6"
+            role="status"
+            aria-label="Loading conversations"
+            aria-busy="true"
+          >
+            <div className="flex items-center gap-3 border-b border-background-200 pb-4">
+              <Skeleton variant="circle" width={40} height={40} />
+              <div className="min-w-0 flex-1 space-y-2">
+                <Skeleton width="42%" />
+                <Skeleton width="26%" height={12} />
+              </div>
+            </div>
+            <div className="flex flex-1 flex-col justify-end gap-4 py-4">
+              <Skeleton variant="rounded" width="66%" height={48} />
+              <Skeleton
+                variant="rounded"
+                width="56%"
+                height={48}
+                className="self-end"
+              />
+              <Skeleton variant="rounded" width="62%" height={48} />
+            </div>
+            <Skeleton variant="rounded" height={48} />
+          </motion.div>
+        ) : !selectedContact ? (
           <motion.div
             key="empty"
             initial={{ opacity: 0 }}
@@ -153,8 +187,20 @@ export default function MainChat({
 
             <div id="chat" className="flex flex-col flex-1 justify-end min-h-0">
               {isLoading ? (
-                <div className="flex-1 flex items-center justify-center">
-                  <div className="w-8 h-8 border-2 border-primary-300 border-t-primary-600 rounded-full animate-spin" />
+                <div
+                  className="flex flex-1 flex-col justify-end gap-4 p-4"
+                  role="status"
+                  aria-label="Loading messages"
+                  aria-busy="true"
+                >
+                  <Skeleton variant="rounded" width="68%" height={52} />
+                  <Skeleton
+                    variant="rounded"
+                    width="54%"
+                    height={48}
+                    className="self-end"
+                  />
+                  <Skeleton variant="rounded" width="60%" height={48} />
                 </div>
               ) : (
                 <>

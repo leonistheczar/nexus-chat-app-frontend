@@ -25,8 +25,8 @@ export function validateProfileStep(
 
     if (!username) {
       errors.username = "Username is required.";
-    } else if (username.length < 3) {
-      errors.username = "Username must be at least 3 characters.";
+    } else if (username.length < 6) {
+      errors.username = "Username must be at least 6 characters.";
     } else if (username.length > 20) {
       errors.username = "Username must be 20 characters or fewer.";
     } else if (!/^[a-zA-Z0-9_]+$/.test(username)) {
