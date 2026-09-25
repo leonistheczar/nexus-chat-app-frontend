@@ -7,6 +7,7 @@ export function validateProfileStep(
   const errors: ProfileFormErrors = {};
 
   if (step === 1) {
+    // Validation for name
     if (!data.firstName.trim()) {
       errors.firstName = "First name is required.";
     } else if (data.firstName.trim().length < 2) {
@@ -21,6 +22,7 @@ export function validateProfileStep(
   }
 
   if (step === 2) {
+    // Validation for username
     const username = data.username.trim();
 
     if (!username) {
@@ -35,6 +37,7 @@ export function validateProfileStep(
   }
 
   if (step === 3) {
+    // Validation for contact
     const contact = data.contact.trim();
 
     if (!contact) {

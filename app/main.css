@@ -157,3 +157,16 @@ html[data-chat-font-size="small"] {
 html[data-chat-font-size="large"] {
   font-size: 106.25%;
 }
+
+/* Custom styles for contact field (/profile) */
+#phone-field button, #phone-field input{
+  border-color: var(--color-background-500);
+  padding: 0.75rem;
+}
+#phone-field button{
+  background: var(--color-background-50);
+}
+#phone-field input{
+  background: var(--color-background-50);
+  color: var(--color-text-900);
+}

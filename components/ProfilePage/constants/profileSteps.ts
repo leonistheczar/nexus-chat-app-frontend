@@ -1,4 +1,4 @@
-import { AtSign, Phone, User } from "lucide-react";
+import { AtSign, CircleCheckBig, Phone, User } from "lucide-react";
 
 export const PROFILE_STEPS = [
   {
@@ -22,6 +22,13 @@ export const PROFILE_STEPS = [
     description: "We'll use this to help you connect with people you know.",
     icon: Phone,
   },
+  {
+    id: 4, 
+    label: "Success",
+    title: "Profile Completed",
+    description: "Required information for the profile has completed, enjoy chatting.",
+    icon: CircleCheckBig 
+  }  
 ] as const;
 
 export const INITIAL_PROFILE_FORM_DATA = {

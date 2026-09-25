@@ -16,7 +16,7 @@ export default function ProfileSetupClient() {
   }
 
   return (
-    <section className=" bg-background-50 px-4 py-10">
+    <section className=" bg-primary-50 px-4 py-10 h-full">
       <div className="">
         <ThemeToggler />
       </div>
