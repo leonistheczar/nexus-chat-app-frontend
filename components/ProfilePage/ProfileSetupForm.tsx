@@ -40,7 +40,7 @@ export default function ProfileSetupForm() {
   };
 
   return (
-    <div className="rounded-2xl bg-accent-50 p-6 sm:p-8 shadow-md space-y-8">
+    <div className="rounded-2xl bg-secondary-50 p-6 sm:p-8 shadow-md space-y-8">
       <StepProgress currentStep={currentStep} />
 
       <form onSubmit={handleSubmit} className="space-y-6">

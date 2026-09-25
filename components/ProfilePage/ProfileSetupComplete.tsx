@@ -41,7 +41,7 @@ export default function ProfileSetupComplete() {
           <p className="text-sm text-text-500">
             Welcome to Nexus,{" "}
             <span className="font-medium text-text-700">
-              {formData.firstName}
+              {`${formData.firstName} ${formData.lastName}`}
             </span>
             . Your account is ready for conversations.
           </p>
