@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function HeroRight() {
   return (
-<div className="relative w-full aspect-square h-[calc(100vh-4rem)]">
+<div className="relative w-full aspect-square h-[calc(100vh-6rem)]">
   <Image
     src="/ui-photos/hero-banner.svg"
     alt="Hero Banner"
