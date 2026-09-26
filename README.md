@@ -12,28 +12,35 @@ Nexus is a modern chat platform focused on **clean UX, smooth interactions, and 
 
 ## ✨ Highlights
 
-* 💬 Modern chat workspace
-* 👥 Contact and conversation management
-* 👤 Multi-step profile setup
-* 🔐 Authentication-ready architecture
-* 🌓 Dark / light / system themes
-* 📱 Responsive desktop, tablet, and mobile UI
-* 🎞️ Smooth UI animations
-* 🧩 Modular feature-based architecture
-* ⚡ TanStack Query for server-state management
-* 🗃️ Zustand for client-side state
-* 🔌 Dedicated API integration layer
-* 🚀 Designed for real-time messaging and scalable backend integration
+- 💬 Modern chat workspace
+- 👥 Contact and conversation management
+- 👤 Multi-step profile setup
+- 🔐 Authentication-ready architecture
+- 🌓 Dark / light / system themes
+- 📱 Responsive desktop, tablet, and mobile UI
+- 🎞️ Smooth UI animations
+- 🧩 Modular feature-based architecture
+- ⚡ TanStack Query for server-state management
+- 🗃️ Zustand for client-side state
+- 🔌 Dedicated API integration layer
+- 🚀 Designed for real-time messaging and scalable backend integration
 
 ---
 
 ## 📸 Preview
 
+<p align="center>
+      <img
+    src="./docs/media/nexus-demo.gif"
+    alt="Nexus demo"
+    width="900"
+  />
+</p>
 > Screenshots and demo links will be added as the project evolves.
 
 | Public Experience | Chat Workspace |
 | :---------------: | :------------: |
-|   *Coming soon*   |  *Coming soon* |
+|   _Coming soon_   | _Coming soon_  |
 
 ---
 
@@ -130,20 +137,20 @@ nexus-frontend/
 
 ### State & Data
 
-| Technology             | Purpose                      |
-| ---------------------- | ---------------------------- |
+| Technology              | Purpose                      |
+| ----------------------- | ---------------------------- |
 | ⚡ TanStack React Query | Server state and API caching |
-| 🐻 Zustand             | Client-side/global UI state  |
-| 🔗 Axios               | HTTP client                  |
+| 🐻 Zustand              | Client-side/global UI state  |
+| 🔗 Axios                | HTTP client                  |
 
 ### UI & Utilities
 
-| Technology     | Purpose          |
-| -------------- | ---------------- |
-| 🎨 next-themes | Theme management |
+| Technology      | Purpose          |
+| --------------- | ---------------- |
+| 🎨 next-themes  | Theme management |
 | ✨ lucide-react | Icons            |
-| 🎯 react-icons | Additional icons |
-| 🧹 ESLint      | Code quality     |
+| 🎯 react-icons  | Additional icons |
+| 🧹 ESLint       | Code quality     |
 
 ### Planned Backend Stack
 
@@ -166,42 +173,42 @@ Zod
 
 #### 🌐 Public Experience
 
-* [x] Home page
-* [x] About page
-* [x] Features page
-* [x] Contact page
-* [x] Shared navbar and footer
-* [x] Responsive layouts
-* [x] Dark / light / system themes
-* [x] Animated sections
+- [x] Home page
+- [x] About page
+- [x] Features page
+- [x] Contact page
+- [x] Shared navbar and footer
+- [x] Responsive layouts
+- [x] Dark / light / system themes
+- [x] Animated sections
 
 #### 🔐 Authentication UI
 
-* [x] Sign in interface
-* [x] Sign up interface
-* [x] Sign in / sign up mode switching
-* [x] Query parameter based auth mode
-* [x] Animated transitions
+- [x] Sign in interface
+- [x] Sign up interface
+- [x] Sign in / sign up mode switching
+- [x] Query parameter based auth mode
+- [x] Animated transitions
 
 #### 💬 Chat Workspace
 
-* [x] Contacts sidebar
-* [x] Conversation panel
-* [x] User profile panel
-* [x] Responsive chat layout
-* [x] Message interaction UI
-* [x] Settings modal
-* [x] Add user flow
-* [x] Create group UI
-* [x] Logout confirmation
-* [x] Mobile/tablet interactions
+- [x] Contacts sidebar
+- [x] Conversation panel
+- [x] User profile panel
+- [x] Responsive chat layout
+- [x] Message interaction UI
+- [x] Settings modal
+- [x] Add user flow
+- [x] Create group UI
+- [x] Logout confirmation
+- [x] Mobile/tablet interactions
 
 #### 👤 Profile
 
-* [x] Multi-step profile setup
-* [x] Local validation
-* [x] Zustand-based step state
-* [x] Backend mutation scaffold
+- [x] Multi-step profile setup
+- [x] Local validation
+- [x] Zustand-based step state
+- [x] Backend mutation scaffold
 
 ---
 
@@ -211,15 +218,15 @@ The frontend is now transitioning from a **frontend-first prototype** toward a f
 
 Current focus:
 
-* [ ] Backend architecture
-* [ ] PostgreSQL database
-* [ ] Prisma ORM
-* [ ] Clerk integration
-* [ ] User persistence
-* [ ] Conversation APIs
-* [ ] Message APIs
-* [ ] Real-time messaging
-* [ ] Persistent message history
+- [ ] Backend architecture
+- [ ] PostgreSQL database
+- [ ] Prisma ORM
+- [ ] Clerk integration
+- [ ] User persistence
+- [ ] Conversation APIs
+- [ ] Message APIs
+- [ ] Real-time messaging
+- [ ] Persistent message history
 
 ---
 
@@ -227,67 +234,67 @@ Current focus:
 
 ### Phase 1. Backend Foundation
 
-* [ ] Express + TypeScript setup
-* [ ] Environment configuration
-* [ ] API architecture
-* [ ] Error handling
-* [ ] Request validation
-* [ ] Logging
+- [ ] Express + TypeScript setup
+- [ ] Environment configuration
+- [ ] API architecture
+- [ ] Error handling
+- [ ] Request validation
+- [ ] Logging
 
 ### Phase 2. Authentication & Users
 
-* [ ] Clerk integration
-* [ ] User synchronization
-* [ ] User profile API
-* [ ] User search
-* [ ] Authorization rules
+- [ ] Clerk integration
+- [ ] User synchronization
+- [ ] User profile API
+- [ ] User search
+- [ ] Authorization rules
 
 ### Phase 3. Messaging
 
-* [ ] Conversation API
-* [ ] Message API
-* [ ] Persistent message history
-* [ ] Cursor-based pagination
-* [ ] Message editing
-* [ ] Message deletion
-* [ ] Read / delivery status
+- [ ] Conversation API
+- [ ] Message API
+- [ ] Persistent message history
+- [ ] Cursor-based pagination
+- [ ] Message editing
+- [ ] Message deletion
+- [ ] Read / delivery status
 
 ### Phase 4. Real-Time Communication
 
-* [ ] WebSocket infrastructure
-* [ ] Real-time messages
-* [ ] Typing indicators
-* [ ] Online/offline presence
-* [ ] Read receipts
-* [ ] Real-time reactions
+- [ ] WebSocket infrastructure
+- [ ] Real-time messages
+- [ ] Typing indicators
+- [ ] Online/offline presence
+- [ ] Read receipts
+- [ ] Real-time reactions
 
 ### Phase 5. Groups
 
-* [ ] Group creation
-* [ ] Member management
-* [ ] Group roles
-* [ ] Admin permissions
-* [ ] Group settings
+- [ ] Group creation
+- [ ] Member management
+- [ ] Group roles
+- [ ] Admin permissions
+- [ ] Group settings
 
 ### Phase 6. Advanced Features
 
-* [ ] File attachments
-* [ ] Image/media sharing
-* [ ] Message reactions
-* [ ] Reply / thread support
-* [ ] Search
-* [ ] Notifications
-* [ ] Privacy settings
+- [ ] File attachments
+- [ ] Image/media sharing
+- [ ] Message reactions
+- [ ] Reply / thread support
+- [ ] Search
+- [ ] Notifications
+- [ ] Privacy settings
 
 ### Phase 7. Production
 
-* [ ] Unit testing
-* [ ] Integration testing
-* [ ] End-to-end testing
-* [ ] Performance optimization
-* [ ] Security hardening
-* [ ] Production deployment
-* [ ] Monitoring and observability
+- [ ] Unit testing
+- [ ] Integration testing
+- [ ] End-to-end testing
+- [ ] Performance optimization
+- [ ] Security hardening
+- [ ] Production deployment
+- [ ] Monitoring and observability
 
 ---
 
@@ -405,15 +412,15 @@ API endpoints will follow versioned routes such as:
 
 Nexus is being designed around several performance principles:
 
-* ⚡ Server-state caching with TanStack Query
-* 📄 Cursor-based pagination for message history
-* 🔄 Optimistic updates where appropriate
-* 📡 WebSockets for latency-sensitive events
-* 🧠 Minimal API payloads
-* 🗃️ Database indexing
-* 🧩 Component-level state isolation
-* ♻️ Cache updates instead of unnecessary refetching
-* 📦 Lazy loading where appropriate
+- ⚡ Server-state caching with TanStack Query
+- 📄 Cursor-based pagination for message history
+- 🔄 Optimistic updates where appropriate
+- 📡 WebSockets for latency-sensitive events
+- 🧠 Minimal API payloads
+- 🗃️ Database indexing
+- 🧩 Component-level state isolation
+- ♻️ Cache updates instead of unnecessary refetching
+- 📦 Lazy loading where appropriate
 
 ---
 
@@ -423,16 +430,16 @@ Security will be enforced primarily at the backend boundary.
 
 Planned measures include:
 
-* 🔐 Clerk-based authentication
-* 🛂 Server-side authorization
-* ✅ Request validation
-* 🚦 Rate limiting
-* 🔒 HTTPS / WSS in production
-* 🔑 Environment-based secrets
-* 📦 Request body limits
-* 🧹 Input sanitization
-* 🗄️ Parameterized database access through Prisma
-* 👥 Conversation and group membership checks
+- 🔐 Clerk-based authentication
+- 🛂 Server-side authorization
+- ✅ Request validation
+- 🚦 Rate limiting
+- 🔒 HTTPS / WSS in production
+- 🔑 Environment-based secrets
+- 📦 Request body limits
+- 🧹 Input sanitization
+- 🗄️ Parameterized database access through Prisma
+- 👥 Conversation and group membership checks
 
 > Frontend validation is treated as a UX feature, never as a security boundary.
 
@@ -442,9 +449,9 @@ Planned measures include:
 
 ### Prerequisites
 
-* Node.js 18+
-* pnpm, npm, yarn, or bun
-* Git
+- Node.js 18+
+- pnpm, npm, yarn, or bun
+- Git
 
 ### 1. Clone the repository
 
