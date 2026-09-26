@@ -13,7 +13,9 @@ import UsernameStepFields from "./steps/UsernameStepFields";
 export default function ProfileSetupForm() {
   const currentStep = useProfileSetupStore((state) => state.currentStep);
   const goToNextStep = useProfileSetupStore((state) => state.goToNextStep);
-  const goToPreviousStep = useProfileSetupStore((state) => state.goToPreviousStep);
+  const goToPreviousStep = useProfileSetupStore(
+    (state) => state.goToPreviousStep,
+  );
   const validateCurrentStep = useProfileSetupStore(
     (state) => state.validateCurrentStep,
   );
@@ -29,7 +31,7 @@ export default function ProfileSetupForm() {
     goToPreviousStep();
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = (event: React.SubmitEvent) => {
     event.preventDefault();
 
     if (!validateCurrentStep()) {
