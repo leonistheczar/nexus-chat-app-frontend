@@ -32,13 +32,7 @@ Nexus is a modern messaging platform focused on **clean UX, smooth interactions,
 
 ## 📸 Preview
 
-<p align="center">
-  <img
-    src="./media/nexus-demo.gif"
-    alt="Nexus application demo"
-    width="900"
-  />
-</p>
+<img width="900" height="473" alt="Image" src="https://github.com/user-attachments/assets/346c5287-4a2e-45bc-a6e0-3f95cdf0fc22" />
 
 The demo showcases the current frontend experience, including the public interface, authentication flow, profile setup, chat workspace, responsive layouts, and application interactions.
 
