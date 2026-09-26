@@ -2,55 +2,55 @@
 
 ### Modern real-time messaging platform built with Next.js and TypeScript
 
-Nexus is a modern chat platform focused on **clean UX, smooth interactions, and scalable architecture**. The frontend is built with Next.js and React, with a modular structure designed to integrate seamlessly with a production backend.
+Nexus is a modern messaging platform focused on **clean UX, smooth interactions, and scalable architecture**. The frontend is built with Next.js and React, with a modular structure designed to integrate with a production-ready backend.
 
 > 🚧 **Status:** Active Development
+>
 > 🎨 **Frontend:** UI and core user flows largely complete
+>
 > ⚙️ **Backend:** Integration in progress
 
 ---
 
 ## ✨ Highlights
 
-- 💬 Modern chat workspace
-- 👥 Contact and conversation management
-- 👤 Multi-step profile setup
-- 🔐 Authentication-ready architecture
-- 🌓 Dark / light / system themes
-- 📱 Responsive desktop, tablet, and mobile UI
-- 🎞️ Smooth UI animations
-- 🧩 Modular feature-based architecture
-- ⚡ TanStack Query for server-state management
-- 🗃️ Zustand for client-side state
-- 🔌 Dedicated API integration layer
-- 🚀 Designed for real-time messaging and scalable backend integration
+* 💬 Modern chat workspace
+* 👥 Contact and conversation management
+* 👤 Multi-step profile setup
+* 🔐 Clerk-based authentication
+* 🌓 Dark / light / system themes
+* 📱 Responsive desktop, tablet, and mobile UI
+* 🎞️ Smooth UI animations
+* 🧩 Modular feature-based architecture
+* ⚡ TanStack Query for server-state management
+* 🗃️ Zustand for client-side state
+* 🔌 Dedicated API integration layer
+* 🗄️ PostgreSQL database with Drizzle ORM
+* 🚀 Designed for real-time messaging and scalable backend integration
 
 ---
 
 ## 📸 Preview
 
-<p align="center>
-      <img
-    src="./docs/media/nexus-demo.gif"
-    alt="Nexus demo"
+<p align="center">
+  <img
+    src="./media/nexus-demo.gif"
+    alt="Nexus application demo"
     width="900"
   />
 </p>
-> Screenshots and demo links will be added as the project evolves.
 
-| Public Experience | Chat Workspace |
-| :---------------: | :------------: |
-|   _Coming soon_   | _Coming soon_  |
+The demo showcases the current frontend experience, including the public interface, authentication flow, profile setup, chat workspace, responsive layouts, and application interactions.
 
 ---
 
 ## 🏗️ Architecture
 
-Nexus follows a layered frontend architecture designed to keep UI, state, networking, and domain logic separated.
+Nexus follows a layered architecture designed to keep UI, state management, networking, and domain logic separated.
 
 ```text
 ┌──────────────────────────────────────────────┐
-│                  Next.js App                 │
+│                 Next.js App                  │
 ├──────────────────────────────────────────────┤
 │                                              │
 │   Pages / Layouts                            │
@@ -77,10 +77,10 @@ Nexus follows a layered frontend architecture designed to keep UI, state, networ
            ├── Authentication
            ├── Business Logic
            ├── WebSocket
-           └── Database
+           └── PostgreSQL
 ```
 
-The frontend is intentionally designed so backend services can be introduced without requiring major UI refactoring.
+The frontend is intentionally structured so backend services can be introduced without requiring major UI refactoring.
 
 ---
 
@@ -88,6 +88,7 @@ The frontend is intentionally designed so backend services can be introduced wit
 
 ```text
 nexus-frontend/
+
 │
 ├── app/
 │   ├── (public)/                  # Public routes and layouts
@@ -116,6 +117,9 @@ nexus-frontend/
 │   ├── assets/
 │   └── test-json-data/
 │
+├── docs/
+│   └── media/                     # README demos and documentation media
+│
 ├── package.json
 ├── tsconfig.json
 └── README.md
@@ -137,22 +141,22 @@ nexus-frontend/
 
 ### State & Data
 
-| Technology              | Purpose                      |
-| ----------------------- | ---------------------------- |
+| Technology             | Purpose                      |
+| ---------------------- | ---------------------------- |
 | ⚡ TanStack React Query | Server state and API caching |
-| 🐻 Zustand              | Client-side/global UI state  |
-| 🔗 Axios                | HTTP client                  |
+| 🐻 Zustand             | Client-side/global UI state  |
+| 🔗 Axios               | HTTP client                  |
 
 ### UI & Utilities
 
-| Technology      | Purpose          |
-| --------------- | ---------------- |
-| 🎨 next-themes  | Theme management |
+| Technology     | Purpose          |
+| -------------- | ---------------- |
+| 🎨 next-themes | Theme management |
 | ✨ lucide-react | Icons            |
-| 🎯 react-icons  | Additional icons |
-| 🧹 ESLint       | Code quality     |
+| 🎯 react-icons | Additional icons |
+| 🧹 ESLint      | Code quality     |
 
-### Planned Backend Stack
+### Backend
 
 ```text
 Node.js
@@ -160,9 +164,9 @@ Express
 TypeScript
 Clerk
 PostgreSQL
-Prisma
-WebSocket
+Drizzle ORM
 Zod
+WebSocket
 ```
 
 ---
@@ -173,60 +177,70 @@ Zod
 
 #### 🌐 Public Experience
 
-- [x] Home page
-- [x] About page
-- [x] Features page
-- [x] Contact page
-- [x] Shared navbar and footer
-- [x] Responsive layouts
-- [x] Dark / light / system themes
-- [x] Animated sections
+* [x] Home page
+* [x] About page
+* [x] Features page
+* [x] Contact page
+* [x] Shared navbar and footer
+* [x] Responsive layouts
+* [x] Dark / light / system themes
+* [x] Animated sections
 
-#### 🔐 Authentication UI
+#### 🔐 Authentication
 
-- [x] Sign in interface
-- [x] Sign up interface
-- [x] Sign in / sign up mode switching
-- [x] Query parameter based auth mode
-- [x] Animated transitions
+* [x] Clerk authentication
+* [x] Sign in / sign up flow
+* [x] Protected route handling
+* [x] Authenticated frontend-to-backend requests
+* [x] Authentication middleware on backend
 
 #### 💬 Chat Workspace
 
-- [x] Contacts sidebar
-- [x] Conversation panel
-- [x] User profile panel
-- [x] Responsive chat layout
-- [x] Message interaction UI
-- [x] Settings modal
-- [x] Add user flow
-- [x] Create group UI
-- [x] Logout confirmation
-- [x] Mobile/tablet interactions
+* [x] Contacts sidebar
+* [x] Conversation panel
+* [x] User profile panel
+* [x] Responsive chat layout
+* [x] Message interaction UI
+* [x] Settings modal
+* [x] Add user flow
+* [x] Create group UI
+* [x] Logout confirmation
+* [x] Mobile/tablet interactions
 
 #### 👤 Profile
 
-- [x] Multi-step profile setup
-- [x] Local validation
-- [x] Zustand-based step state
-- [x] Backend mutation scaffold
+* [x] Multi-step profile setup
+* [x] Local validation
+* [x] Zustand-based step state
+* [x] Backend mutation scaffold
+
+#### ⚙️ Backend Foundation
+
+* [x] Express + TypeScript setup
+* [x] Clerk middleware integration
+* [x] PostgreSQL database setup
+* [x] Drizzle ORM integration
+* [x] Database schema foundation
+* [x] Environment configuration
+* [x] Versioned API structure
 
 ---
 
 ## 🚧 In Progress
 
-The frontend is now transitioning from a **frontend-first prototype** toward a fully connected full-stack application.
+The project is transitioning from a **frontend-first prototype** toward a fully connected full-stack application.
 
 Current focus:
 
-- [ ] Backend architecture
-- [ ] PostgreSQL database
-- [ ] Prisma ORM
-- [ ] Clerk integration
-- [ ] User persistence
-- [ ] Conversation APIs
-- [ ] Message APIs
-- [ ] Real-time messaging
-- [ ] Persistent message history
+* [ ] User persistence
+* [ ] User profile API
+* [ ] User search
+* [ ] Conversation APIs
+* [ ] Message APIs
+* [ ] Persistent message history
+* [ ] Real-time messaging
+* [ ] WebSocket infrastructure
+* [ ] Authorization rules
 
 ---
 
@@ -234,67 +248,67 @@ Current focus:
 
 ### Phase 1. Backend Foundation
 
-- [ ] Express + TypeScript setup
-- [ ] Environment configuration
-- [ ] API architecture
-- [ ] Error handling
-- [ ] Request validation
-- [ ] Logging
+* [x] Express + TypeScript setup
+* [x] Environment configuration
+* [x] API architecture
+* [ ] Centralized error handling
+* [ ] Request validation
+* [ ] Logging
 
 ### Phase 2. Authentication & Users
 
-- [ ] Clerk integration
-- [ ] User synchronization
-- [ ] User profile API
-- [ ] User search
-- [ ] Authorization rules
+* [x] Clerk integration
+* [ ] User synchronization
+* [ ] User profile API
+* [ ] User search
+* [ ] Authorization rules
 
 ### Phase 3. Messaging
 
-- [ ] Conversation API
-- [ ] Message API
-- [ ] Persistent message history
-- [ ] Cursor-based pagination
-- [ ] Message editing
-- [ ] Message deletion
-- [ ] Read / delivery status
+* [ ] Conversation API
+* [ ] Message API
+* [ ] Persistent message history
+* [ ] Cursor-based pagination
+* [ ] Message editing
+* [ ] Message deletion
+* [ ] Read / delivery status
 
 ### Phase 4. Real-Time Communication
 
-- [ ] WebSocket infrastructure
-- [ ] Real-time messages
-- [ ] Typing indicators
-- [ ] Online/offline presence
-- [ ] Read receipts
-- [ ] Real-time reactions
+* [ ] WebSocket infrastructure
+* [ ] Real-time messages
+* [ ] Typing indicators
+* [ ] Online/offline presence
+* [ ] Read receipts
+* [ ] Real-time reactions
 
 ### Phase 5. Groups
 
-- [ ] Group creation
-- [ ] Member management
-- [ ] Group roles
-- [ ] Admin permissions
-- [ ] Group settings
+* [ ] Group creation
+* [ ] Member management
+* [ ] Group roles
+* [ ] Admin permissions
+* [ ] Group settings
 
 ### Phase 6. Advanced Features
 
-- [ ] File attachments
-- [ ] Image/media sharing
-- [ ] Message reactions
-- [ ] Reply / thread support
-- [ ] Search
-- [ ] Notifications
-- [ ] Privacy settings
+* [ ] File attachments
+* [ ] Image/media sharing
+* [ ] Message reactions
+* [ ] Reply / thread support
+* [ ] Search
+* [ ] Notifications
+* [ ] Privacy settings
 
 ### Phase 7. Production
 
-- [ ] Unit testing
-- [ ] Integration testing
-- [ ] End-to-end testing
-- [ ] Performance optimization
-- [ ] Security hardening
-- [ ] Production deployment
-- [ ] Monitoring and observability
+* [ ] Unit testing
+* [ ] Integration testing
+* [ ] End-to-end testing
+* [ ] Performance optimization
+* [ ] Security hardening
+* [ ] Production deployment
+* [ ] Monitoring and observability
 
 ---
 
@@ -322,7 +336,7 @@ API Client
 Nexus Backend
      │
      ▼
-Database
+PostgreSQL
 ```
 
 For real-time functionality:
@@ -341,7 +355,7 @@ TanStack Query Cache
 React UI
 ```
 
-This allows REST APIs to remain responsible for persistent application state while WebSockets handle real-time state synchronization.
+REST APIs remain responsible for persistent application state, while WebSockets are intended to handle real-time state synchronization.
 
 ---
 
@@ -349,12 +363,12 @@ This allows REST APIs to remain responsible for persistent application state whi
 
 Nexus uses **Clerk** for authentication.
 
-Clerk is responsible for identity and authentication, while Nexus will handle application-specific authorization and user data.
+Clerk is responsible for identity and authentication, while the Nexus backend handles application-specific authorization and user data.
 
 ```text
 Clerk
   │
-  │ User Identity
+  │ Authenticated Identity
   ▼
 Nexus Backend
   │
@@ -363,13 +377,13 @@ Nexus Backend
 Nexus Database
 ```
 
-The backend will use the authenticated Clerk user identity to associate requests with Nexus users.
+The backend uses the authenticated Clerk user identity to associate requests with Nexus users.
 
 ---
 
 ## 📡 API Communication
 
-All backend communication is isolated under:
+Backend communication is isolated under:
 
 ```text
 lib/api/
@@ -377,7 +391,7 @@ lib/api/
 
 This keeps networking concerns separate from UI components.
 
-Example:
+The intended API structure is:
 
 ```text
 lib/api/
@@ -387,7 +401,7 @@ lib/api/
 └── groups.ts
 ```
 
-The frontend will communicate with the backend using:
+The frontend communicates with the backend through:
 
 ```text
 HTTPS
@@ -397,7 +411,7 @@ REST API
 WebSocket
 ```
 
-API endpoints will follow versioned routes such as:
+API endpoints follow versioned routes such as:
 
 ```text
 /api/v1/users
@@ -412,34 +426,34 @@ API endpoints will follow versioned routes such as:
 
 Nexus is being designed around several performance principles:
 
-- ⚡ Server-state caching with TanStack Query
-- 📄 Cursor-based pagination for message history
-- 🔄 Optimistic updates where appropriate
-- 📡 WebSockets for latency-sensitive events
-- 🧠 Minimal API payloads
-- 🗃️ Database indexing
-- 🧩 Component-level state isolation
-- ♻️ Cache updates instead of unnecessary refetching
-- 📦 Lazy loading where appropriate
+* ⚡ Server-state caching with TanStack Query
+* 📄 Cursor-based pagination for message history
+* 🔄 Optimistic updates where appropriate
+* 📡 WebSockets for latency-sensitive events
+* 🧠 Minimal API payloads
+* 🗃️ Database indexing
+* 🧩 Component-level state isolation
+* ♻️ Cache updates instead of unnecessary refetching
+* 📦 Lazy loading where appropriate
 
 ---
 
 ## 🛡️ Security Principles
 
-Security will be enforced primarily at the backend boundary.
+Security is enforced primarily at the backend boundary.
 
-Planned measures include:
+Planned and implemented measures include:
 
-- 🔐 Clerk-based authentication
-- 🛂 Server-side authorization
-- ✅ Request validation
-- 🚦 Rate limiting
-- 🔒 HTTPS / WSS in production
-- 🔑 Environment-based secrets
-- 📦 Request body limits
-- 🧹 Input sanitization
-- 🗄️ Parameterized database access through Prisma
-- 👥 Conversation and group membership checks
+* 🔐 Clerk-based authentication
+* 🛂 Server-side authorization
+* ✅ Zod request validation
+* 🚦 Rate limiting
+* 🔒 HTTPS / WSS in production
+* 🔑 Environment-based secrets
+* 📦 Request body limits
+* 🧹 Input validation and sanitization
+* 🗄️ Parameterized database access through Drizzle ORM
+* 👥 Conversation and group membership checks
 
 > Frontend validation is treated as a UX feature, never as a security boundary.
 
@@ -449,15 +463,16 @@ Planned measures include:
 
 ### Prerequisites
 
-- Node.js 18+
-- pnpm, npm, yarn, or bun
-- Git
+* Node.js 18+
+* pnpm, npm, yarn, or bun
+* Git
 
 ### 1. Clone the repository
 
 ```bash
-git clone <repository-url>
-cd nexus-frontend
+git clone https://github.com/leonistheczar/nexus-chat-app-frontend.git
+
+cd nexus-chat-app-frontend
 ```
 
 ### 2. Install dependencies
@@ -482,15 +497,17 @@ Create:
 .env.local
 ```
 
-Backend integrations will require environment variables as development progresses.
+Configure the required environment variables for the current development setup.
 
-### 4. Start development server
+### 4. Start the development server
+
+Using pnpm:
 
 ```bash
 pnpm dev
 ```
 
-or:
+or npm:
 
 ```bash
 npm run dev
@@ -549,7 +566,7 @@ When contributing to Nexus:
 
 Nexus is being developed with a **frontend-first, backend-ready** approach.
 
-The goal isn't simply to make a chat interface that looks good. The project is intended to evolve into a complete full-stack system with:
+The goal isn't simply to create a chat interface that looks good. The project is intended to evolve into a complete full-stack system with:
 
 ```text
 Polished UI
@@ -576,11 +593,13 @@ Scalable backend
 | Public UI             | 🟢 Complete        |
 | Chat UI               | 🟢 Mostly Complete |
 | Profile UI            | 🟢 Mostly Complete |
-| Authentication UI     | 🟢 Complete        |
+| Authentication        | 🟢 Integrated      |
 | API Layer             | 🟡 Scaffolded      |
 | Backend               | 🟡 In Development  |
-| Database              | 🟡 Planned         |
-| Real-time messaging   | 🟡 Planned         |
+| PostgreSQL            | 🟡 Integrated      |
+| Drizzle ORM           | 🟡 Integrated      |
+| User persistence      | 🟡 In Development  |
+| Real-time messaging   | 🔴 Planned         |
 | Groups                | 🟡 UI scaffolded   |
 | Attachments           | 🔴 Planned         |
 | Production deployment | 🔴 Planned         |
