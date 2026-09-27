@@ -23,6 +23,10 @@ import { Contact } from "@/app/types/types";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import Image from "next/image";
 
+interface NewGroupProps {
+  contacts: Contact[];
+}
+
 interface GroupFormData {
   name: string;
   description: string;
@@ -31,9 +35,8 @@ interface GroupFormData {
   isPrivate: boolean;
 }
 
-export default function NewGroup() {
-  const { isCreateGroupOpen, setIsCreateGroupOpen, contacts } =
-    useChatContacts();
+export default function NewGroup({ contacts }: NewGroupProps) {
+  const { isCreateGroupOpen, setIsCreateGroupOpen } = useChatContacts();
   const groupModalRef = useClickOutside<HTMLDivElement>({
     enabled: isCreateGroupOpen,
     onOutsideClick: () => setIsCreateGroupOpen(false),

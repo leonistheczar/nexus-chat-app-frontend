@@ -20,7 +20,7 @@ export default function ProfileSetupForm() {
     (state) => state.validateCurrentStep,
   );
 
-  const { mutate: submitProfile, isPending } = useCompleteProfile();
+  const { mutate: submitProfile, isPending, error } = useCompleteProfile();
   const activeStep = PROFILE_STEPS[currentStep - 1];
 
   const handleNext = () => {
@@ -79,7 +79,7 @@ export default function ProfileSetupForm() {
             Back
           </button>
 
-          {currentStep < PROFILE_STEPS.length ? (
+          {currentStep < PROFILE_STEPS.length - 1 ? (
             <button
               type="button"
               onClick={handleNext}
@@ -99,6 +99,11 @@ export default function ProfileSetupForm() {
             </button>
           )}
         </div>
+        {error && (
+          <p className="text-sm text-accent-500" role="alert">
+            {error.message || "We couldn't save your profile. Please try again."}
+          </p>
+        )}
       </form>
     </div>
   );

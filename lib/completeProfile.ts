@@ -1,8 +1,29 @@
 import type { ProfileFormData } from "@/components/ProfilePage/types/profileForm";
+import { submitCurrentUserProfile } from "@/api/auth";
+import axios from "axios";
 
-export async function completeProfile(data: ProfileFormData): Promise<void> {
-  // TODO: wire to profile completion API when backend is ready
-  await new Promise((resolve) => setTimeout(resolve, 2000));
+export async function completeProfile(
+  data: ProfileFormData,
+  token: string,
+): Promise<void> {
+  const firstName = data.firstName.trim();
+  const lastName = data.lastName.trim();
 
-  void data;
+  try {
+    await submitCurrentUserProfile(
+      {
+        firstName,
+        lastName,
+        username: data.username.trim().toLowerCase(),
+        phoneE164: data.contact.trim(),
+        displayName: [firstName, lastName].filter(Boolean).join(" "),
+      },
+      token,
+    );
+  } catch (error) {
+    if (axios.isAxiosError<{ message?: string }>(error)) {
+      throw new Error(error.response?.data?.message ?? "Unable to save your profile.");
+    }
+    throw error;
+  }
 }

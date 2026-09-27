@@ -10,11 +10,15 @@ import { Contact } from "@/app/types/types";
 import { lockBodyScroll } from "@/lib/bodyScrollLock";
 
 interface NewUserProps {
+  contacts: Contact[];
   onContactSelect?: (contact: Contact) => void;
 }
 
-export default function NewUser({ onContactSelect }: NewUserProps) {
-  const { openNewUser, setOpenNewUser, contacts } = useChatContacts();
+export default function NewUser({
+  contacts,
+  onContactSelect,
+}: NewUserProps) {
+  const { openNewUser, setOpenNewUser } = useChatContacts();
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredContacts, setFilteredContacts] = useState<Contact[]>([]);
   const searchInputRef = useRef<HTMLInputElement>(null);

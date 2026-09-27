@@ -47,8 +47,11 @@ export default function ChatClient() {
   return (
     <div className="relative grid h-full grid-cols-1 md:grid-cols-[0.8fr_1.2fr] lg:grid-cols-[0.8fr_1.4fr_0.8fr] xl:grid-cols-[0.7fr_1.6fr_0.7fr]">
       {/* Modals and Overlays */}
-      <NewUser onContactSelect={handleContactSelect} />
-      <NewGroup />
+      <NewUser
+        contacts={contacts ?? []}
+        onContactSelect={handleContactSelect}
+      />
+      <NewGroup contacts={contacts ?? []} />
       <Settings />
       <SignOutButton redirectUrl="/">
         <ConfirmationDialog

@@ -15,6 +15,7 @@ export default function NameStepFields() {
           id="firstName"
           type="text"
           autoComplete="given-name"
+          required
           placeholder="John"
           value={formData.firstName}
           onChange={(event) => updateField("firstName", event.target.value)}

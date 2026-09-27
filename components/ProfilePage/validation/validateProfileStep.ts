@@ -13,12 +13,6 @@ export function validateProfileStep(
     } else if (data.firstName.trim().length < 2) {
       errors.firstName = "First name must be at least 2 characters.";
     }
-
-    if (!data.lastName.trim()) {
-      errors.lastName = "Last name is required.";
-    } else if (data.lastName.trim().length < 2) {
-      errors.lastName = "Last name must be at least 2 characters.";
-    }
   }
 
   if (step === 2) {
@@ -39,10 +33,9 @@ export function validateProfileStep(
   if (step === 3) {
     // Validation for contact
     const contact = data.contact.trim();
-
     if (!contact) {
       errors.contact = "Contact number is required.";
-    } else if (!/^\+?[\d\s()-]{7,20}$/.test(contact)) {
+    } else if (!/^\+[1-9]\d{7,14}$/.test(contact)) {
       errors.contact = "Enter a valid phone number.";
     }
   }
