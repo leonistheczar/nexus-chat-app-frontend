@@ -1,4 +1,5 @@
 "use client";
+import { useAuth } from "@clerk/nextjs";
 import Features from "./Features";
 import { HeroLeft } from "./HeroLeft";
 import HeroRight from "./HeroRight";

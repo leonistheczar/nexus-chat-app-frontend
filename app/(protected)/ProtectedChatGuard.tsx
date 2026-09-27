@@ -59,7 +59,6 @@ export default function ProtectedChatGuard({
 
         console.error("Current user has an unsupported profile status.");
         setState("error");
-        console.log(user);
       } catch (error: unknown) {
         if (cancelled) return;
 
