@@ -23,6 +23,7 @@ export default function ChatClient() {
   );
   const [showProfileOnTablet, setShowProfileOnTablet] = useState(false);
 
+  // Commented for actual data module, disable the current
   const selectedContact =
     contacts?.find(({ id }) => id === selectedContactId) ?? null;
 

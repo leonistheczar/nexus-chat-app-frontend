@@ -6,10 +6,11 @@ import { Eye, EyeOff, ShieldCheck, Trash2 } from "lucide-react";
 import { useState } from "react";
 import SettingsToggle from "./SettingsToggle";
 import { useUserPreferences } from "../userPreferencesStore";
-import LogOut from "../../shared/LogOut";
+import { SignOutButton } from "@clerk/nextjs";
+import ConfirmationDialog from "@/components/shared/ConfirmationDialog";
 
 export default function AccountSettings() {
-  const { setOpen, setOpenSettings} = useChatContacts();
+  const { setOpen, setOpenSettings, open } = useChatContacts();
   const { twoFactorEnabled, setTwoFactorEnabled } = useUserPreferences();
 
   const [currentPassword, setCurrentPassword] = useState("");
@@ -27,7 +28,11 @@ export default function AccountSettings() {
 
   const handlePasswordSave = () => {
     setPasswordAlert(null);
-    if (!currentPassword.trim() || !newPassword.trim() || !confirmPassword.trim()) {
+    if (
+      !currentPassword.trim() ||
+      !newPassword.trim() ||
+      !confirmPassword.trim()
+    ) {
       setPasswordAlert({
         variant: "warning",
         message: "Fill in all password fields before saving.",
@@ -63,9 +68,12 @@ export default function AccountSettings() {
       "Account deletion was requested. Connect your backend to complete this action.",
     );
   };
-
+  // Get the device info
+  const getBrowserInfo = navigator.userAgent.split(" ");
+  console.log(getBrowserInfo);
+  const getPlatformInfo = navigator.platform;
   return (
-    <div  className="text-sm space-y-8 max-w-xl">
+    <div className="text-sm space-y-8 max-w-xl">
       {passwordAlert && (
         <Alert
           variant={passwordAlert.variant}
@@ -73,9 +81,7 @@ export default function AccountSettings() {
           isVisible
         />
       )}
-      {deleteAlert && (
-        <Alert variant="info" message={deleteAlert} isVisible />
-      )}
+      {deleteAlert && <Alert variant="info" message={deleteAlert} isVisible />}
 
       <section className="space-y-4">
         <div className="flex items-center gap-2 text-text-900">
@@ -125,13 +131,19 @@ export default function AccountSettings() {
                 value={field.value}
                 onChange={(e) => field.setValue(e.target.value)}
                 autoComplete={
-                  field.id === "current-password" ? "current-password" : "new-password"
+                  field.id === "current-password"
+                    ? "current-password"
+                    : "new-password"
                 }
                 className="flex-1 bg-transparent outline-none text-text-900 border-b pb-4 tranisition focus:border-primary-300"
               />
               <span
                 role="button"
-                onClick={(e) => {e.preventDefault(); e.stopPropagation(); field.setShow((prev) => !prev)}}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  field.setShow((prev) => !prev);
+                }}
                 className="p-2 text-text-900/50 hover:text-text-900 cursor-pointer"
                 aria-label={field.show ? "Hide password" : "Show password"}
               >
@@ -162,25 +174,41 @@ export default function AccountSettings() {
         <div>
           <p className="text-sm font-medium text-text-900">Active session</p>
           <p className="mt-1 text-xs text-text-900/50">
-            This device · Windows · Current session
+            { `${getBrowserInfo} · ${getPlatformInfo} · `}
           </p>
         </div>
       </section>
 
       <section className="space-y-3 pt-2 border-t border-background-900/10">
-      <div className="w-fit"><LogOut setOpen={setOpen} setOpenSettings={setOpenSettings}></LogOut></div>
+        {/* <LogOut setOpen={setOpen} setOpenSettings={setOpenSettings}></LogOut> */}
+        <SignOutButton redirectUrl="/">
+          <ConfirmationDialog
+            isOpen={open}
+            setOpen={setOpen}
+            title="Logout"
+            description="Are you sure you want to logout from your account?"
+            confirmText="Logout"
+            onCancel={() => setOpen(false)}
+            onConfirm={() => {
+              window.location.href = "/";
+            }}
+          />
+        </SignOutButton>
 
         {!showDeleteConfirm && (
           <button
             type="button"
-            onClick={(e) => {e.stopPropagation(); setShowDeleteConfirm(true)}}  
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowDeleteConfirm(true);
+            }}
             className="flex items-center gap-2 px-4 py-2 rounded-lg text-red-500 bg-red-500/10 hover:bg-red-500/20 cursor-pointer"
           >
             <Trash2 className="w-4 h-4" />
             Delete account
           </button>
-        )} 
-        {showDeleteConfirm && ( 
+        )}
+        {showDeleteConfirm && (
           <div className="p-4 rounded-xl border border-red-500/30 bg-red-500/5 space-y-3">
             <p className="text-sm text-text-900 leading-relaxed">
               This permanently removes your account and chat history. This
