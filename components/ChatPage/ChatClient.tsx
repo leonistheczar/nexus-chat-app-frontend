@@ -10,10 +10,12 @@ import NewUser from "@/components/ChatPage/ContactsLeft/AddNew/NewUser";
 import NewGroup from "@/components/ChatPage/ContactsLeft/AddNew/NewGroup";
 import ConfirmationDialog from "@/components/shared/ConfirmationDialog";
 import { AnimatePresence, motion } from "framer-motion";
-import { SignOutButton } from "@clerk/nextjs";
+import { useClerk } from "@clerk/nextjs";
 import useContacts from "@/hooks/chat/contacts/useContacts";
 
 export default function ChatClient() {
+  const { signOut } = useClerk();
+
   // Calling "contacts" from "useQuery hook"
   const { data: contacts, isPending, isError } = useContacts();
   // Provider states for UI
@@ -54,19 +56,17 @@ export default function ChatClient() {
       />
       <NewGroup contacts={contacts ?? []} />
       <Settings />
-      <SignOutButton redirectUrl="/">
-        <ConfirmationDialog
-          isOpen={open}
-          setOpen={setOpen}
-          title="Logout"
-          description="Are you sure you want to logout from your account?"
-          confirmText="Logout"
-          onCancel={() => setOpen(false)}
-          onConfirm={() => {
-            window.location.href = "/";
-          }}
-        />
-      </SignOutButton>
+      <ConfirmationDialog
+        isOpen={open}
+        setOpen={setOpen}
+        title="Logout"
+        description="Are you sure you want to logout from your account?"
+        confirmText="Logout"
+        onCancel={() => setOpen(false)}
+        onConfirm={() => {
+          void signOut({ redirectUrl: "/" });
+        }}
+      />
 
       {/* Contact List Sidebar */}
       <section className="relative z-20 md:col-span-1 min-w-0">
