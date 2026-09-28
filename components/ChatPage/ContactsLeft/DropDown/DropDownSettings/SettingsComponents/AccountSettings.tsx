@@ -6,11 +6,10 @@ import { Eye, EyeOff, ShieldCheck, Trash2 } from "lucide-react";
 import { useState } from "react";
 import SettingsToggle from "./SettingsToggle";
 import { useUserPreferences } from "../userPreferencesStore";
-import { SignOutButton } from "@clerk/nextjs";
-import ConfirmationDialog from "@/components/shared/ConfirmationDialog";
+import LogOut from "../../shared/LogOut";
 
 export default function AccountSettings() {
-  const { setOpen, setOpenSettings, open } = useChatContacts();
+  const { setOpen, setOpenSettings,  } = useChatContacts();
   const { twoFactorEnabled, setTwoFactorEnabled } = useUserPreferences();
 
   const [currentPassword, setCurrentPassword] = useState("");
@@ -68,10 +67,6 @@ export default function AccountSettings() {
       "Account deletion was requested. Connect your backend to complete this action.",
     );
   };
-  // Get the device info
-  const getBrowserInfo = navigator.userAgent.split(" ");
-  console.log(getBrowserInfo);
-  const getPlatformInfo = navigator.platform;
   return (
     <div className="text-sm space-y-8 max-w-xl">
       {passwordAlert && (
@@ -171,30 +166,13 @@ export default function AccountSettings() {
           onChange={setTwoFactorEnabled}
         />
         <div className="h-px bg-background-900/20" />
-        <div>
-          <p className="text-sm font-medium text-text-900">Active session</p>
-          <p className="mt-1 text-xs text-text-900/50">
-            { `${getBrowserInfo} · ${getPlatformInfo} · `}
-          </p>
-        </div>
       </section>
 
-      <section className="space-y-3 pt-2 border-t border-background-900/10">
-        {/* <LogOut setOpen={setOpen} setOpenSettings={setOpenSettings}></LogOut> */}
-        <SignOutButton redirectUrl="/">
-          <ConfirmationDialog
-            isOpen={open}
-            setOpen={setOpen}
-            title="Logout"
-            description="Are you sure you want to logout from your account?"
-            confirmText="Logout"
-            onCancel={() => setOpen(false)}
-            onConfirm={() => {
-              window.location.href = "/";
-            }}
-          />
-        </SignOutButton>
-
+      <section className="space-y-3 pt-2 ">
+        <div className="flex items-center justify-around">
+          <div className="rounded-lg text-red-500 bg-red-500/10 hover:bg-red-500/20 cursor-pointer">
+        <LogOut setOpen={setOpen} setOpenSettings={setOpenSettings}></LogOut>
+          </div>
         {!showDeleteConfirm && (
           <button
             type="button"
@@ -208,6 +186,7 @@ export default function AccountSettings() {
             Delete account
           </button>
         )}
+        </div>
         {showDeleteConfirm && (
           <div className="p-4 rounded-xl border border-red-500/30 bg-red-500/5 space-y-3">
             <p className="text-sm text-text-900 leading-relaxed">
