@@ -1,5 +1,5 @@
 import ChatClient from "@/components/ChatPage/ChatClient";
-import { ChatContactsProvider } from "@/lib/providers/ChatUIProvider";
+import { ChatUIProvider } from "@/lib/providers/ChatUIProvider";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -8,8 +8,8 @@ export const metadata: Metadata = {
 };
 export default function ChatPage() {
   return (
-    <ChatContactsProvider>
+    <ChatUIProvider>
       <ChatClient />
-    </ChatContactsProvider>
+    </ChatUIProvider>
   )
 }

@@ -20,7 +20,7 @@ type ChatType = {
 const ChatContactsContext =
   createContext<ChatType | null>(null);
 
-export function ChatContactsProvider({
+export function ChatUIProvider({
   children,
 }: {
   children: React.ReactNode;
