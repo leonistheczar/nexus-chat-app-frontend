@@ -22,7 +22,7 @@ export function HeroLeft() {
   return (
     <div id="hero-content" className="flex flex-col gap-6">
       {/* Heading */}
-      <h1 className="text-3xl sm:text-5xl font-semibold leading-tight tracking-tight text-text-700 min-h-22 md:min-h-28 ">
+      <h1 className="text-2xl sm:text-3xl font-semibold leading-tight tracking-tight text-text-700 min-h-16 sm:min-h-28 lg:min-h-20">
         {line1}
         {line2 && (
           <>
@@ -37,7 +37,7 @@ export function HeroLeft() {
 
       {/* Subtitle */}
       <p
-        className={`text-base leading-relaxed text-text-800 max-w-md transition-all duration-500 ${
+        className={`text-sm sm:text-base leading-relaxed text-text-800 max-w-md transition-all duration-500 ${
           visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
         }`}
       >
@@ -53,7 +53,7 @@ export function HeroLeft() {
       >
         <Link
           href="/auth?mode=signup"
-          className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary-500 hover:bg-primary-600 text-primary-50 text-sm font-medium  transition-all"
+          className="group inline-flex text-[12px] items-center px-4 py-2 gap-2 md:px-5 md:py-2.5 md:text-sm rounded-lg bg-primary-500 hover:bg-primary-600 text-primary-50 font-medium transition-all"
         >
           Get started free
           <svg
