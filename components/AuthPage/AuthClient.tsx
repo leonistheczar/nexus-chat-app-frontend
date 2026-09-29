@@ -29,7 +29,7 @@ export default function AuthClient() {
   }
 
   return (
-    <section className="flex w-full flex-1 items-center justify-center bg-background-50 px-3 py-6 sm:px-6 sm:py-10">
+    <section className="flex w-full flex-1 items-center justify-center px-3 py-6 sm:px-6 sm:py-10">
       <div className="grid w-full max-w-5xl overflow-hidden rounded-3xl border border-background-200/80 bg-background-50/85 lg:grid-cols-[minmax(0,0.9fr)_minmax(22rem,1.1fr)]">
 
         {/* LEFT: Brand & Image */}

@@ -58,7 +58,7 @@ export default function FeaturesSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{once: true}}
           transition={{ duration: 0.5 }}
-          className="text-3xl sm:text-4xl font-bold text-primary-900"
+          className="text-xl sm:text-3xl font-bold text-primary-900"
         >
           Powerful Features for Modern Communication
         </motion.h2>
@@ -68,7 +68,7 @@ export default function FeaturesSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{once: true}}
           transition={{ delay: 0.1 }}
-          className="mt-4 text-primary-700 max-w-2xl mx-auto"
+          className="mt-4 text-primary-700 max-w-2xl mx-auto text-sm sm:text-md"
         >
           Nexus combines performance, security, and simplicity to deliver a
           next-generation chat experience.
@@ -86,9 +86,9 @@ export default function FeaturesSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{once: true}}
                 transition={{ delay: index * 0.1 }}
-                className="flex flex-col items-center p-6 rounded-2xl bg-accent-50/90 hover:shadow-md hover:-translate-y-1 transition-all border border-primary-100"
+                className="flex flex-col items-center p-3 md:p-6 rounded-2xl bg-accent-50 hover:shadow-md hover:-translate-y-1 transition-all border border-primary-100"
               >
-                <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-primary-100 mb-4">
+                <div className="md:w-12 md:h-12 flex items-center justify-center rounded-xl bg-primary-100 mb-4">
                   <Icon className="w-6 h-6 text-primary-700" />
                 </div>
 
