@@ -102,6 +102,31 @@ export const useUserPreferences = create<UserPreferencesState>()(
   ),
 );
 
+export function resetUserPreferences() {
+  useUserPreferences.setState({
+    enterToSend: true,
+    showMediaPreview: true,
+    autoDownloadMedia: false,
+    chatFontSize: "medium",
+
+    lastSeen: "contacts",
+    profilePhotoVisibility: "everyone",
+    aboutVisibility: "contacts",
+    readReceipts: true,
+
+    notificationsEnabled: true,
+    messageNotifications: true,
+    groupNotifications: true,
+    notificationPreview: true,
+    notificationSound: true,
+    emailNotifications: false,
+
+    twoFactorEnabled: false,
+  });
+  useUserPreferences.persist.clearStorage();
+  applyChatFontSize("medium");
+}
+
 export function applyChatFontSize(size: ChatFontSize) {
   if (typeof document === "undefined") return;
   document.documentElement.dataset.chatFontSize = size;
