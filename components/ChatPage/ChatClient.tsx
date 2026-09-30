@@ -12,6 +12,7 @@ import ConfirmationDialog from "@/components/shared/ConfirmationDialog";
 import { AnimatePresence, motion } from "framer-motion";
 import { useClerk } from "@clerk/nextjs";
 import useContacts from "@/hooks/chat/contacts/useContacts";
+import { resetUserPreferences } from "./ContactsLeft/DropDown/DropDownSettings/userPreferencesStore";
 
 export default function ChatClient() {
   const { signOut } = useClerk();
@@ -64,6 +65,7 @@ export default function ChatClient() {
         confirmText="Logout"
         onCancel={() => setOpen(false)}
         onConfirm={() => {
+          resetUserPreferences();
           void signOut({ redirectUrl: "/" });
         }}
       />
