@@ -12,10 +12,12 @@ import ConfirmationDialog from "@/components/shared/ConfirmationDialog";
 import { AnimatePresence, motion } from "framer-motion";
 import { useClerk } from "@clerk/nextjs";
 import useContacts from "@/hooks/chat/contacts/useContacts";
+import useCurrentUser from "@/hooks/useCurrentUser";
 import { resetUserPreferences } from "./ContactsLeft/DropDown/DropDownSettings/userPreferencesStore";
 
 export default function ChatClient() {
   const { signOut } = useClerk();
+  const { data: currentUser } = useCurrentUser();
 
   // Calling "contacts" from "useQuery hook"
   const { data: contacts, isPending, isError } = useContacts();
@@ -25,6 +27,17 @@ export default function ChatClient() {
     null,
   );
   const [showProfileOnTablet, setShowProfileOnTablet] = useState(false);
+  const [isSelfChat, setIsSelfChat] = useState(false);
+
+  const selfChatContact: Contact = {
+    id: -1,
+    first_name: currentUser?.firstName ?? "Notes",
+    last_name: currentUser?.lastName ?? "to self",
+    contact: "Private space for your notes",
+    profile_pic: currentUser?.avatarUrl ?? "",
+    message: "Only you can see these messages",
+    isContact: false,
+  };
 
   // Commented for actual data module, disable the current
   const selectedContact =
@@ -32,7 +45,14 @@ export default function ChatClient() {
 
   // Reset profile view when selecting a new contact
   const handleContactSelect = (contact: Contact) => {
+    setIsSelfChat(false);
     setSelectedContactId(contact.id);
+    setShowProfileOnTablet(false);
+  };
+
+  const handleSelfChatSelect = () => {
+    setIsSelfChat(true);
+    setSelectedContactId(selfChatContact.id);
     setShowProfileOnTablet(false);
   };
 
@@ -76,8 +96,10 @@ export default function ChatClient() {
           contacts={contacts ?? []}
           isPending={isPending}
           isError={isError}
-          selectedContact={selectedContact}
+          selectedContact={isSelfChat ? selfChatContact : selectedContact}
           onSelectContact={handleContactSelect}
+          onSelectSelfChat={handleSelfChatSelect}
+          isSelfChatSelected={isSelfChat}
           showContacts={showContacts}
           setShowContacts={setShowContacts}
           setOpen={setOpen}
@@ -96,7 +118,7 @@ export default function ChatClient() {
               className="h-full lg:hidden"
             >
               <UserProfileRight
-                selectedContact={selectedContact}
+                selectedContact={isSelfChat ? null : selectedContact}
                 onBack={handleBackToChat}
                 isPending={isPending}
               />
@@ -113,21 +135,23 @@ export default function ChatClient() {
               className="h-full"
             >
               <MainChat
-                selectedContact={selectedContact}
+                selectedContact={isSelfChat ? selfChatContact : selectedContact}
+                isSelfChat={isSelfChat}
                 showContacts={showContacts}
                 setShowContacts={setShowContacts}
-                onAvatarClick={handleAvatarClick}
+                onAvatarClick={isSelfChat ? undefined : handleAvatarClick}
               />
             </motion.div>
           </AnimatePresence>
         ) : (
           <div className="h-full">
             <MainChat
-              selectedContact={selectedContact}
+              selectedContact={isSelfChat ? selfChatContact : selectedContact}
+              isSelfChat={isSelfChat}
               isContactsPending={isPending}
               showContacts={showContacts}
               setShowContacts={setShowContacts}
-              onAvatarClick={handleAvatarClick}
+              onAvatarClick={isSelfChat ? undefined : handleAvatarClick}
             />
           </div>
         )}
@@ -136,7 +160,7 @@ export default function ChatClient() {
       {/* User Profile - Always visible */}
       <section className="hidden lg:block lg:col-span-1 min-w-0">
         <UserProfileRight
-          selectedContact={selectedContact}
+          selectedContact={isSelfChat ? null : selectedContact}
           isPending={isPending}
         />
       </section>

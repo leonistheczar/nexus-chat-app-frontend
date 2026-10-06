@@ -9,9 +9,18 @@ export type CreateUserProfilePayload = {
 };
 
 export type CurrentUser = {
-  profileStatus?: string;
+  id: string;
+  username: string;
+  firstName: string;
+  lastName: string | null;
+  displayName: string;
+  avatarUrl: string | null;
+  profileStatus: "incomplete" | "active" | "suspended" | "deleted";
+  lastSeenAt: string | null;
 };
-type CurrentUserResponse = CurrentUser | { data: CurrentUser };
+type CurrentUserResponse =
+  | (CurrentUser & { selfChat?: { id: string; lastMessageAt: string | null } | null })
+  | { data: CurrentUser; selfChat?: { id: string; lastMessageAt: string | null } | null };
 
 export const getCurrentUser = async (token: string): Promise<CurrentUser> => {
   const { data } = await api.get<CurrentUserResponse>("/users/me", {
