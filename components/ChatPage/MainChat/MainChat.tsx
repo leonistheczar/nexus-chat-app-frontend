@@ -3,6 +3,10 @@
 import { Contact, ChatMessage, User } from "@/app/types/types";
 import { useState, useEffect, useCallback } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useAuth } from "@clerk/nextjs";
+import { InfiniteData, useMutation, useQueryClient } from "@tanstack/react-query";
+import useSelfChatMessages, { selfChatMessagesKey } from "@/hooks/chat/self-chat/useSelfChatMessages";
+import { createSelfChatMessage, SelfChatMessagesPage } from "@/lib/selfChat";
 import ChatHeader from "./ChatHeader";
 import MessageList from "./MessageList";
 import MessageInput from "./MessageInput";
@@ -12,6 +16,7 @@ import Skeleton from "@/components/SharedComponents/Skeleton";
 
 type MainChatProps = {
   selectedContact: Contact | null;
+  isSelfChat?: boolean;
   isContactsPending?: boolean;
   showContacts: boolean;
   setShowContacts: React.Dispatch<React.SetStateAction<boolean>>;
@@ -28,6 +33,7 @@ const currentUser: User = {
 
 export default function MainChat({
   selectedContact,
+  isSelfChat = false,
   isContactsPending = false,
   showContacts,
   setShowContacts,
@@ -35,12 +41,39 @@ export default function MainChat({
 }: MainChatProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const [selectedMessage, setSelectedMessage] = useState<number | null>(null);
+  const [selectedMessage, setSelectedMessage] = useState<number | string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const { getToken } = useAuth();
+  const queryClient = useQueryClient();
+  const selfChatQuery = useSelfChatMessages(isSelfChat);
+  const sendSelfChatMessage = useMutation({
+    mutationFn: async (body: string) => {
+      const token = await getToken();
+      if (!token) throw new Error("Your session has expired. Please sign in again.");
+      return createSelfChatMessage(token, body);
+    },
+    onSuccess: (created) => {
+      queryClient.setQueryData<InfiniteData<SelfChatMessagesPage, string | undefined>>(
+        selfChatMessagesKey,
+        (cached) => {
+        if (!cached || cached.pages.length === 0) return cached;
+        const message = { ...created, editedAt: null, attachments: [] };
+        return {
+          ...cached,
+          pages: cached.pages.map((page, index) =>
+            index === 0 ? { ...page, data: [message, ...page.data] } : page,
+          ),
+        };
+      });
+    },
+  });
 
   // Initialize messages when contact changes
   useEffect(() => {
-    if (selectedContact) {
+    if (isSelfChat) {
+      setMessages([]);
+      setIsLoading(selfChatQuery.isPending);
+    } else if (selectedContact) {
       setIsLoading(true);
       
       // Simulate loading delay for smoother transition
@@ -74,12 +107,34 @@ export default function MainChat({
       setMessages([]);
       setIsLoading(false);
     }
-  }, [selectedContact?.id]);
+  }, [selectedContact?.id, isSelfChat, selfChatQuery.isPending]);
+
+  useEffect(() => {
+    if (!isSelfChat) return;
+    const serverMessages = selfChatQuery.data?.pages
+      .flatMap((page) => page.data)
+      .slice()
+      .reverse()
+      .map((message): ChatMessage => ({
+        id: message.id,
+        sender: currentUser,
+        content: message.body,
+        createdAt: new Date(message.createdAt),
+        isRead: true,
+      })) ?? [];
+    setMessages(serverMessages);
+    setIsLoading(selfChatQuery.isPending);
+  }, [isSelfChat, selfChatQuery.data, selfChatQuery.isPending]);
 
   // Handle send message
   const handleSendMessage = useCallback(
     async (content: string) => {
       if (!selectedContact) return;
+
+      if (isSelfChat) {
+        await sendSelfChatMessage.mutateAsync(content);
+        return;
+      }
 
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 100));
@@ -94,11 +149,11 @@ export default function MainChat({
 
       setMessages((prev) => [...prev, message]);
     },
-    [selectedContact]
+    [selectedContact, isSelfChat, sendSelfChatMessage]
   );
 
   // Handle delete message (shows confirmation)
-  const handleDeleteRequest = useCallback((messageId: number) => {
+  const handleDeleteRequest = useCallback((messageId: number | string) => {
     setSelectedMessage(messageId);
     setShowDeleteDialog(true);
   }, []);
@@ -204,16 +259,30 @@ export default function MainChat({
                 </div>
               ) : (
                 <>
+                  {isSelfChat && selfChatQuery.isError && (
+                    <p role="alert" className="px-4 py-2 text-sm text-red-600">
+                      Could not load your notes. {selfChatQuery.error.message}
+                    </p>
+                  )}
+                  {isSelfChat && sendSelfChatMessage.isError && (
+                    <p role="alert" className="px-4 py-2 text-sm text-red-600">
+                      Message could not be sent. {sendSelfChatMessage.error.message}
+                    </p>
+                  )}
                   <MessageList
                     messages={messages}
                     currentUserId={currentUser.id}
                     onDeleteMessage={handleDeleteRequest}
                     onCopyMessage={handleCopyMessage}
+                    canLoadOlder={isSelfChat && selfChatQuery.hasNextPage}
+                    isLoadingOlder={selfChatQuery.isFetchingNextPage}
+                    onLoadOlder={() => void selfChatQuery.fetchNextPage()}
+                    canDeleteMessages={!isSelfChat}
                   />
 
                   <MessageInput
                     onSendMessage={handleSendMessage}
-                    placeholder={`Message ${selectedContact.first_name}...`}
+                    placeholder={isSelfChat ? "Write a note to yourself..." : `Message ${selectedContact.first_name}...`}
                   />
                 </>
               )}

@@ -16,7 +16,7 @@ export type SignUpUser = {
   password: string
 }
 export interface ChatMessage {
-  id: number;
+  id: number | string;
   sender: User;
   content: string;
   createdAt?: Date;

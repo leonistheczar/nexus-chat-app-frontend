@@ -42,6 +42,9 @@ export default function MessageInput({
         if (textareaRef.current) {
           textareaRef.current.style.height = "auto";
         }
+      } catch {
+        // Keep the draft in place; the chat view reports the send error.
+        return;
       } finally {
         setIsSending(false);
       }

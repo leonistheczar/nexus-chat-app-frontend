@@ -1,7 +1,7 @@
 "use client";
 
 import { Contact } from "@/app/types/types";
-import { ChevronLeft, CirclePlus, EllipsisVertical } from "lucide-react";
+import { ChevronLeft, CirclePlus, EllipsisVertical, PencilLine } from "lucide-react";
 import { memo, useCallback, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -10,6 +10,7 @@ import SettingsDropDown from "./DropDown/SettingsDropDown";
 import AddNew from "./AddNew/AddNew";
 import ThemeToggler from "@/components/SharedComponents/ThemeToggler";
 import Skeleton from "@/components/SharedComponents/Skeleton";
+import useCurrentUser from "@/hooks/useCurrentUser";
 type ContactLeftProps = {
   contacts: Contact[];
   selectedContact: Contact | null;
@@ -19,6 +20,8 @@ type ContactLeftProps = {
   showContacts: boolean;
   setShowContacts: React.Dispatch<React.SetStateAction<boolean>>;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  onSelectSelfChat: () => void;
+  isSelfChatSelected: boolean;
 };
 
 const PRIORITY_COUNT = 10; // only avatars likely visible
@@ -88,6 +91,8 @@ type SidebarBodyProps = {
   openDrop: boolean;
   setOpenDrop: React.Dispatch<React.SetStateAction<boolean>>;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  onSelectSelfChat: () => void;
+  isSelfChatSelected: boolean;
 };
 type tabFilter = "All" | "Unread" | "Groups" | "Favorites";
 function SidebarBody({
@@ -102,10 +107,13 @@ function SidebarBody({
   openDrop,
   setOpenDrop,
   setOpen,
+  onSelectSelfChat,
+  isSelfChatSelected,
 }: SidebarBodyProps) {
   const [addNewDropDown, setAddNewDropDown] = useState(false);
   const { showContacts, setShowContacts } = useChatContacts();
   const [directTab, setDirectTab] = useState<tabFilter>("All");
+  const { data: currentUser } = useCurrentUser();
   // Tabs
   const directTabs: tabFilter[] = ["All", "Unread", "Groups", "Favorites"];
   return (
@@ -180,6 +188,24 @@ function SidebarBody({
         </ul>
       </div>
       <ul className="flex flex-col gap-y-2 px-2 overflow-auto scrollbar-thumb-primary-200">
+        <li>
+          <button
+            type="button"
+            onClick={() => {
+              onSelectSelfChat();
+              setShowContacts(false);
+            }}
+            className={`flex items-center text-left w-full gap-3 p-2 rounded-xl transition-colors cursor-pointer hover:bg-secondary-200/40 ${isSelfChatSelected ? "bg-secondary-200/50" : ""}`}
+          >
+            <div className="w-12 h-12 shrink-0 overflow-hidden rounded-full bg-primary-200 flex items-center justify-center text-lg font-semibold text-primary-700">
+              <PencilLine size={21} />
+            </div>
+            <div className="min-w-0">
+              <p className="font-medium truncate">{`${currentUser?.displayName} (You)`}</p>
+              <p className="text-[12px] text-text-600 truncate">Only you can see these messages</p>
+            </div>
+          </button>
+        </li>
         {isPending ? (
           <li
             className="space-y-2 py-2"
@@ -230,6 +256,8 @@ export default function ContactLeft({
   showContacts,
   setShowContacts,
   setOpen,
+  onSelectSelfChat,
+  isSelfChatSelected,
 }: ContactLeftProps) {
   const [search, setSearch] = useState("");
   const [openDrop, setOpenDrop] = useState(false);
@@ -272,6 +300,8 @@ export default function ContactLeft({
           openDrop={openDrop}
           setOpenDrop={setOpenDrop}
           setOpen={setOpen}
+          onSelectSelfChat={onSelectSelfChat}
+          isSelfChatSelected={isSelfChatSelected}
         />
       </div>
 
@@ -295,6 +325,8 @@ export default function ContactLeft({
             openDrop={openDrop}
             setOpenDrop={setOpenDrop}
             setOpen={setOpen}
+            onSelectSelfChat={onSelectSelfChat}
+            isSelfChatSelected={isSelfChatSelected}
           />
         </aside>
       </div>

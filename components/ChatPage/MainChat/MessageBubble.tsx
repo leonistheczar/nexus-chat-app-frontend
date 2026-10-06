@@ -10,8 +10,9 @@ import { AnimatePresence, motion } from "framer-motion";
 type MessageBubbleProps = {
   message: ChatMessage;
   isCurrentUser: boolean;
-  onDelete: (messageId: number) => void;
+  onDelete: (messageId: number | string) => void;
   onCopy: (content: string) => void;
+  canDelete?: boolean;
 };
 
 export default function MessageBubble({
@@ -19,6 +20,7 @@ export default function MessageBubble({
   isCurrentUser,
   onDelete,
   onCopy,
+  canDelete = true,
 }: MessageBubbleProps) {
   const [showMenu, setShowMenu] = useState(false);
   const menuRef =  useClickOutside<HTMLDivElement>({
@@ -90,7 +92,7 @@ export default function MessageBubble({
                   <span>Copy Message</span>
                 </button>
                 
-                {isCurrentUser && (
+                {isCurrentUser && canDelete && (
                   <button
                     className="w-full flex items-center gap-x-2 text-left p-2 rounded-lg text-sm text-red-500 hover:bg-red-500/10 transition-colors cursor-pointer"
                     onClick={() => {
