@@ -4,7 +4,7 @@ export type CreateUserProfilePayload = {
   firstName: string;
   lastName: string;
   username: string;
-  phoneE164: string;
+  phone_e164: string;
   displayName: string;
 };
 
@@ -14,6 +14,8 @@ export type CurrentUser = {
   firstName: string;
   lastName: string | null;
   displayName: string;
+  phone_e164: string | null;
+  email: string | null;
   avatarUrl: string | null;
   profileStatus: "incomplete" | "active" | "suspended" | "deleted";
   lastSeenAt: string | null;

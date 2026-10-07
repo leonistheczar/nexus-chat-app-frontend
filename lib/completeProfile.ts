@@ -15,7 +15,7 @@ export async function completeProfile(
         firstName,
         lastName,
         username: data.username.trim().toLowerCase(),
-        phoneE164: data.contact.trim(),
+        phone_e164: data.phone_e164.trim(),
         displayName: [firstName, lastName].filter(Boolean).join(" "),
       },
       token,

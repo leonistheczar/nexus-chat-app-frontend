@@ -1,7 +1,8 @@
 "use client";
 
 import { useClickOutside } from "@/hooks/useClickOutside";
-import { useUser } from "@clerk/nextjs";
+import useCurrentUser from "@/hooks/useCurrentUser";
+import { parsePhoneNumberFromString } from "libphonenumber-js/min";
 import { Camera, Copy, CopyCheck, Pencil, UserRound } from "lucide-react";
 import { useState, useRef, useEffect, useCallback } from "react";
 
@@ -121,10 +122,14 @@ function EditableField({ label, value, onChange, showCopy = false }: EditableFie
 }
 
 export default function ProfileSettings() {
-  const user = useUser();
-  const [name, setName] = useState(user.user?.fullName);
-  const [email, setEmail] = useState(user.user?.primaryEmailAddress?.emailAddress);
-  const [phone, setPhone] = useState(user.user?.primaryPhoneNumber?.phoneNumber);
+  const { data: user } = useCurrentUser();
+  const internationalFormatPhone = user?.phone_e164
+    ? parsePhoneNumberFromString(user.phone_e164)?.formatInternational() ?? user.phone_e164
+    : "";
+  const [name, setName] = useState(user?.displayName);
+  const [email, setEmail] = useState(user?.email);
+  const [editedPhone, setEditedPhone] = useState<string | null>(null);
+  const phone = editedPhone ?? internationalFormatPhone;
   const [isSaving, setIsSaving] = useState(false);
   const [avatarError, setAvatarError] = useState(false);
 
@@ -185,7 +190,7 @@ export default function ProfileSettings() {
           <EditableField
             label="Phone"
             value={phone ?? ""}
-            onChange={setPhone}
+            onChange={setEditedPhone}
             showCopy
           />
         </div>

@@ -14,7 +14,7 @@ export default function ProfileSetupComplete() {
     try {
       return parsePhoneNumber(phone).formatInternational();
     } catch {
-      return formData.contact;
+      return formData.phone_e164;
     }
   };
 
@@ -63,7 +63,7 @@ export default function ProfileSetupComplete() {
           <p>
             <span className="text-text-500">Contact:</span>{" "}
             <span className="font-medium text-text-700">
-              {formattedContact(formData.contact)}
+              {formattedContact(formData.phone_e164)}
             </span>
           </p>
         </div>
