@@ -114,6 +114,9 @@ function SidebarBody({
   const { showContacts, setShowContacts } = useChatContacts();
   const [directTab, setDirectTab] = useState<tabFilter>("All");
   const { data: currentUser } = useCurrentUser();
+  const getInitials = (firstName: string, lastName: string) => {
+    return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
+  };
   // Tabs
   const directTabs: tabFilter[] = ["All", "Unread", "Groups", "Favorites"];
   return (
@@ -197,8 +200,22 @@ function SidebarBody({
             }}
             className={`flex items-center text-left w-full gap-3 p-2 rounded-xl transition-colors cursor-pointer hover:bg-secondary-200/40 ${isSelfChatSelected ? "bg-secondary-200/50" : ""}`}
           >
-            <div className="w-12 h-12 shrink-0 overflow-hidden rounded-full bg-primary-200 flex items-center justify-center text-lg font-semibold text-primary-700">
-              <PencilLine size={21} />
+            <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-primary-200">
+              {selectedContact && selectedContact.profile_pic ? (
+                <Image
+                  src={selectedContact.profile_pic}
+                  alt={`${selectedContact.first_name} ${selectedContact.last_name}`}
+                  fill
+                  className="rounded-full object-cover"
+                  sizes="40px"
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center">
+                  <span className="text-sm font-medium text-primary-600">
+                    {getInitials(selectedContact?.first_name ?? "", selectedContact?.last_name ?? "")}
+                  </span>
+                </div>
+              )}
             </div>
             <div className="min-w-0">
               <p className="font-medium truncate">{`${currentUser?.displayName} (You)`}</p>
