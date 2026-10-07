@@ -33,7 +33,7 @@ export default function ChatClient() {
     id: -1,
     first_name: currentUser?.firstName ?? "Notes",
     last_name: currentUser?.lastName ?? "to self",
-    contact: "Private space for your notes",
+    contact: "Private space for yourself",
     profile_pic: currentUser?.avatarUrl ?? "",
     message: "Only you can see these messages",
     isContact: false,

@@ -1,8 +1,37 @@
 "use client";
 
 import { ChatMessage } from "@/app/types/types";
-import { useEffect, useRef } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import MessageBubble from "./MessageBubble";
+
+const getLocalDayKey = (date?: Date) => {
+  if (!date || Number.isNaN(date.getTime())) return null;
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}/${month}/${day}`;
+};
+
+const formatDayLabel = (date: Date) => {
+  const today = new Date();
+  const todayKey = getLocalDayKey(today);
+  const dateKey = getLocalDayKey(date);
+
+  if (dateKey === todayKey) return "Today";
+
+  const yesterday = new Date(today);
+  yesterday.setDate(yesterday.getDate() - 1);
+  if (dateKey === getLocalDayKey(yesterday)) return "Yesterday";
+
+  return new Intl.DateTimeFormat(undefined, {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  }).format(date);
+};
 
 type MessageListProps = {
   messages: ChatMessage[];
@@ -60,18 +89,34 @@ export default function MessageList({
           {isLoadingOlder ? "Loading older notes..." : "Load older notes"}
         </button>
       )}
-      {messages.map((message) => {
+      {messages.map((message, index) => {
         const isCurrentUser = message.sender.id === currentUserId;
+        const dayKey = getLocalDayKey(message.createdAt);
+        const previousDayKey = getLocalDayKey(messages[index - 1]?.createdAt);
+        const showDaySeparator = dayKey !== null && dayKey !== previousDayKey;
+        const dayLabel = message.createdAt ? formatDayLabel(message.createdAt) : null;
 
         return (
-          <MessageBubble
-            key={message.id}
-            message={message}
-            isCurrentUser={isCurrentUser}
-            onDelete={onDeleteMessage}
-            onCopy={onCopyMessage}
-            canDelete={canDeleteMessages}
-          />
+          <Fragment key={message.id}>
+            {showDaySeparator && dayLabel && (
+              <div
+                className="flex justify-center py-1"
+                role="separator"
+                aria-label={dayLabel}
+              >
+                <span className="rounded-full bg-accent-100/40 px-3 py-1 text-xs text-text-600 shadow-sm">
+                  {dayLabel}
+                </span>
+              </div>
+            )}
+            <MessageBubble
+              message={message}
+              isCurrentUser={isCurrentUser}
+              onDelete={onDeleteMessage}
+              onCopy={onCopyMessage}
+              canDelete={canDeleteMessages}
+            />
+          </Fragment>
         );
       })}
       <div ref={chatEndRef} />
