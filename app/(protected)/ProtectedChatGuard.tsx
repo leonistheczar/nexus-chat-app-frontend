@@ -1,17 +1,18 @@
 "use client";
 
 import { getCurrentUser } from "@/api/auth";
-import { useAuth } from "@clerk/nextjs";
+import { useAuth, useClerk } from "@clerk/nextjs";
 import axios from "axios";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-type GuardState = "checking" | "ready" | "error";
+type GuardState = "checking" | "ready" | "error" | "deleted";
 
 export default function ProtectedChatGuard({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const { getToken, isLoaded, isSignedIn } = useAuth();
+  const { signOut } = useClerk();
   const pathname = usePathname();
   const router = useRouter();
   const [state, setState] = useState<GuardState>("checking");
@@ -45,6 +46,10 @@ export default function ProtectedChatGuard({
             return;
           }
           setState("ready");
+          return;
+        }
+        if (user.profileStatus === "deleted") {
+          setState("deleted");
           return;
         }
 
@@ -87,19 +92,18 @@ export default function ProtectedChatGuard({
 
   if (!isLoaded || !isSignedIn || state === "checking") {
     return (
-      <main
+      <section
         aria-busy="true"
         aria-label="Checking your account"
         className="grid h-screen place-items-center"
       >
         <div className="size-8 animate-spin rounded-full border-4 border-primary-300 border-t-primary-700" />
-      </main>
+      </section>
     );
   }
 
   if (state === "error") {
     return (
-      <main className="grid h-screen place-items-center px-4">
         <section className="max-w-md text-center" role="alert">
           <h1 className="text-lg font-semibold">
             We couldn’t load your profile
@@ -115,7 +119,25 @@ export default function ProtectedChatGuard({
             Try again
           </button>
         </section>
-      </main>
+    );
+  }
+  if (state === "deleted") {
+    return (
+      <section className="grid h-screen place-items-center px-4">
+        <div className="max-w-md text-center" role="alert">
+          <h1 className="text-lg font-semibold">Account unavailable</h1>
+          <p className="mt-2 text-sm text-text-500">
+            This account has been deleted and can no longer access Nexus.
+          </p>
+          <button
+            className="mt-5 rounded-lg bg-primary-700 px-4 py-2 text-sm font-medium text-white"
+            onClick={() => void signOut({ redirectUrl: "/" })}
+            type="button"
+          >
+            Sign out
+          </button>
+        </div>
+      </section>
     );
   }
 
