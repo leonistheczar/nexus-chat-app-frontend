@@ -191,6 +191,7 @@ function SidebarBody({
         </ul>
       </div>
       <ul className="flex flex-col gap-y-2 px-2 overflow-auto scrollbar-thumb-primary-200">
+        {/* Self chat */}
         <li>
           <button
             type="button"
@@ -201,10 +202,10 @@ function SidebarBody({
             className={`flex items-center text-left w-full gap-3 p-2 rounded-xl transition-colors cursor-pointer hover:bg-secondary-200/40 ${isSelfChatSelected ? "bg-secondary-200/50" : ""}`}
           >
             <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-primary-200">
-              {selectedContact && selectedContact.profile_pic ? (
+              {currentUser?.avatarUrl ? (
                 <Image
-                  src={selectedContact.profile_pic}
-                  alt={`${selectedContact.first_name} ${selectedContact.last_name}`}
+                  src={currentUser.avatarUrl}
+                  alt={currentUser.displayName}
                   fill
                   className="rounded-full object-cover"
                   sizes="40px"
@@ -212,7 +213,7 @@ function SidebarBody({
               ) : (
                 <div className="flex h-full w-full items-center justify-center">
                   <span className="text-sm font-medium text-primary-600">
-                    {getInitials(selectedContact?.first_name ?? "", selectedContact?.last_name ?? "")}
+                    {getInitials(currentUser?.firstName ?? "", currentUser?.lastName ?? "")}
                   </span>
                 </div>
               )}
