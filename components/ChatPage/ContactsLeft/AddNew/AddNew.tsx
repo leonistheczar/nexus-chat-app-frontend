@@ -45,7 +45,7 @@ export default function AddNew({ addNewDropDown, setAddNewDropDown }: AddNewProp
             duration: 0.15,
             ease: "easeOut",
           }}
-          className="absolute z-99 mt-2 -right-8 lg:left-0 w-56 bg-secondary-100 px-3 py-4 rounded-xl flex flex-col gap-y-1 shadow-md"
+          className="absolute text-sm font-medium z-99 mt-2 -right-8 lg:left-0 w-56 bg-secondary-100 px-3 py-4 rounded-xl flex flex-col gap-y-1 shadow-md"
         >
             <button className="p-2 flex w-full self-stretch gap-x-2 items-center hover:cursor-pointer hover:bg-primary-300/50 rounded-lg"
             onClick={()=> {setOpenNewUser(true); setAddNewDropDown(false)}}><UserPlus size={18} /><p>Add New User</p></button>

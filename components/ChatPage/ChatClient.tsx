@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { Contact } from "@/app/types/types";
 import ContactLeft from "@/components/ChatPage/ContactsLeft/ContactLeft";
 import MainChat from "@/components/ChatPage/MainChat/MainChat";
@@ -14,6 +14,7 @@ import { useClerk } from "@clerk/nextjs";
 import useContacts from "@/hooks/chat/contacts/useContacts";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import { resetUserPreferences } from "./ContactsLeft/DropDown/DropDownSettings/userPreferencesStore";
+import NotificationsOverview from "@/components/ChatPage/ContactsLeft/DropDown/DropDownSettings/Notifications/NotificationsOverview";
 
 export default function ChatClient() {
   const { signOut } = useClerk();
@@ -28,72 +29,90 @@ export default function ChatClient() {
   );
   const [showProfileOnTablet, setShowProfileOnTablet] = useState(false);
   const [isSelfChat, setIsSelfChat] = useState(false);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const notificationTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const contactList = useMemo(() => contacts ?? [], [contacts]);
 
-  const selfChatContact: Contact = {
-    id: -1,
-    first_name: currentUser?.firstName ?? "Notes",
-    last_name: currentUser?.lastName ?? "to self",
-    contact: "Private space for yourself",
-    profile_pic: currentUser?.avatarUrl ?? "",
-    message: "Only you can see these messages",
-    isContact: false,
-  };
+  const openNotifications = useCallback((trigger: HTMLButtonElement) => {
+    notificationTriggerRef.current = trigger;
+    setNotificationsOpen(true);
+  }, []);
+  const closeNotifications = useCallback(() => {
+    setNotificationsOpen(false);
+    notificationTriggerRef.current?.focus();
+  }, []);
+
+  const selfChatContact = useMemo<Contact>(
+    () => ({
+      id: -1,
+      first_name: currentUser?.firstName ?? "Notes",
+      last_name: currentUser?.lastName ?? "to self",
+      contact: "Private space for yourself",
+      profile_pic: currentUser?.avatarUrl ?? "",
+      message: "Only you can see these messages",
+      isContact: false,
+    }),
+    [currentUser?.avatarUrl, currentUser?.firstName, currentUser?.lastName],
+  );
 
   // Commented for actual data module, disable the current
   const selectedContact =
-    contacts?.find(({ id }) => id === selectedContactId) ?? null;
+    contactList.find(({ id }) => id === selectedContactId) ?? null;
 
   // Reset profile view when selecting a new contact
-  const handleContactSelect = (contact: Contact) => {
+  const handleContactSelect = useCallback((contact: Contact) => {
     setIsSelfChat(false);
     setSelectedContactId(contact.id);
     setShowProfileOnTablet(false);
-  };
+  }, []);
 
-  const handleSelfChatSelect = () => {
+  const handleSelfChatSelect = useCallback(() => {
     setIsSelfChat(true);
     setSelectedContactId(selfChatContact.id);
     setShowProfileOnTablet(false);
-  };
+  }, [selfChatContact.id]);
 
   // Handle avatar click for tablet
-  const handleAvatarClick = () => {
+  const handleAvatarClick = useCallback(() => {
     if (window.innerWidth < 1024) {
       setShowProfileOnTablet(true);
     }
-  };
+  }, []);
 
   // Handle back from profile on tablet
-  const handleBackToChat = () => {
+  const handleBackToChat = useCallback(() => {
     setShowProfileOnTablet(false);
-  };
+  }, []);
+  const handleLogoutCancel = useCallback(() => setOpen(false), [setOpen]);
+  const handleLogoutConfirm = useCallback(() => {
+    resetUserPreferences();
+    void signOut({ redirectUrl: "/" });
+  }, [signOut]);
 
   return (
     <div className="relative grid h-full grid-cols-1 md:grid-cols-[0.8fr_1.2fr] lg:grid-cols-[0.8fr_1.4fr_0.8fr] xl:grid-cols-[0.7fr_1.6fr_0.7fr]">
       {/* Modals and Overlays */}
-      <NewUser
-        contacts={contacts ?? []}
-        onContactSelect={handleContactSelect}
-      />
-      <NewGroup contacts={contacts ?? []} />
+      <NewUser />
+      <NewGroup contacts={contactList} />
       <Settings />
+      <NotificationsOverview
+        open={notificationsOpen}
+        onClose={closeNotifications}
+      />
       <ConfirmationDialog
         isOpen={open}
         setOpen={setOpen}
         title="Logout"
         description="Are you sure you want to logout from your account?"
         confirmText="Logout"
-        onCancel={() => setOpen(false)}
-        onConfirm={() => {
-          resetUserPreferences();
-          void signOut({ redirectUrl: "/" });
-        }}
+        onCancel={handleLogoutCancel}
+        onConfirm={handleLogoutConfirm}
       />
 
       {/* Contact List Sidebar */}
       <section className="relative z-20 md:col-span-1 min-w-0">
         <ContactLeft
-          contacts={contacts ?? []}
+          contacts={contactList}
           isPending={isPending}
           isError={isError}
           selectedContact={isSelfChat ? selfChatContact : selectedContact}
@@ -103,6 +122,7 @@ export default function ChatClient() {
           showContacts={showContacts}
           setShowContacts={setShowContacts}
           setOpen={setOpen}
+          onOpenNotifications={openNotifications}
         />
       </section>
 

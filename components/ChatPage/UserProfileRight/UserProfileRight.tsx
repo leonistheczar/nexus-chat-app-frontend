@@ -17,7 +17,7 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import Image from "next/image";
-import { useState, useCallback } from "react";
+import { memo, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Skeleton from "@/components/SharedComponents/Skeleton";
 
@@ -84,7 +84,7 @@ const dangerFeatures = [
   },
 ];
 
-export default function UserProfileRight({
+function UserProfileRight({
   selectedContact,
   isPending = false,
   onBack,
@@ -340,3 +340,5 @@ export default function UserProfileRight({
     </div>
   );
 }
+
+export default memo(UserProfileRight);

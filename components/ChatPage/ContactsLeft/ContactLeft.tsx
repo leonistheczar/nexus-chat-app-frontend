@@ -1,14 +1,13 @@
 "use client";
 
 import { Contact } from "@/app/types/types";
-import { ChevronLeft, CirclePlus, EllipsisVertical, PencilLine } from "lucide-react";
+import { Bell, ChevronLeft, CirclePlus, EllipsisVertical } from "lucide-react";
 import { memo, useCallback, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useChatContacts } from "@/lib/providers/ChatUIProvider";
 import SettingsDropDown from "./DropDown/SettingsDropDown";
 import AddNew from "./AddNew/AddNew";
-import ThemeToggler from "@/components/SharedComponents/ThemeToggler";
 import Skeleton from "@/components/SharedComponents/Skeleton";
 import useCurrentUser from "@/hooks/useCurrentUser";
 type ContactLeftProps = {
@@ -22,6 +21,7 @@ type ContactLeftProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   onSelectSelfChat: () => void;
   isSelfChatSelected: boolean;
+  onOpenNotifications: (trigger: HTMLButtonElement) => void;
 };
 
 const PRIORITY_COUNT = 10; // only avatars likely visible
@@ -93,6 +93,7 @@ type SidebarBodyProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   onSelectSelfChat: () => void;
   isSelfChatSelected: boolean;
+  onOpenNotifications: (trigger: HTMLButtonElement) => void;
 };
 type tabFilter = "All" | "Unread" | "Groups" | "Favorites";
 function SidebarBody({
@@ -109,6 +110,7 @@ function SidebarBody({
   setOpen,
   onSelectSelfChat,
   isSelfChatSelected,
+  onOpenNotifications,
 }: SidebarBodyProps) {
   const [addNewDropDown, setAddNewDropDown] = useState(false);
   const { showContacts, setShowContacts } = useChatContacts();
@@ -129,28 +131,44 @@ function SidebarBody({
       >
         <ChevronLeft size={16} className="text-text-600" />
       </button>
-      <div className="flex justify-between items-center px-4 py-2">
+      <div className="flex justify-between items-center p-3 ">
         <h1 className="text-xl font-semibold"> Nexus</h1>
-        <div className="flex items-center gap-x-2 scale-90">
-          <ThemeToggler />
+        <div className="flex shrink-0 items-center gap-x-1">
+          <motion.button
+            type="button"
+            aria-label="Open notifications"
+            aria-haspopup="dialog"
+            onClick={(event) => onOpenNotifications(event.currentTarget)}
+            className="grid p-1 place-items-center cursor-pointer rounded-full transition-colors hover:bg-primary-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+          >
+            <Bell size={21}/>
+          </motion.button>
+
           <div className="relative">
             <motion.button
+              type="button"
+              aria-label="Add a contact or group"
+              aria-expanded={addNewDropDown}
               onClick={() => setAddNewDropDown((prev) => !prev)}
-              className="cursor-pointer hover:bg-primary-200 p-1.5 rounded-full transition-all"
+              className="grid p-1 place-items-center cursor-pointer rounded-full transition-colors hover:bg-primary-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
             >
-              <CirclePlus />
+              <CirclePlus size={21} />
             </motion.button>
             <AddNew
               addNewDropDown={addNewDropDown}
               setAddNewDropDown={setAddNewDropDown}
             />
           </div>
+
           <div className="relative">
             <motion.button
+              type="button"
+              aria-label="Open settings menu"
+              aria-expanded={openDrop}
               onClick={() => setOpenDrop((prev) => !prev)}
-              className="hover:cursor-pointer hover:bg-primary-200 p-1.5 rounded-full transition-all"
+              className="grid p-1 place-items-center cursor-pointer rounded-full transition-colors bg-primary-200 hover:bg-primary-300/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
             >
-              <EllipsisVertical />
+              <EllipsisVertical size={21}  />
             </motion.button>
             <SettingsDropDown
               openDrop={openDrop}
@@ -173,12 +191,12 @@ function SidebarBody({
       </div>
       {/* Direct Tabs */}
       <div className="p-2">
-        <ul className="flex gap-1">
+        <ul className="flex items-center justify-center gap-x-2">
           {directTabs.map((tab) => (
-            <li key={tab} className="flex-1">
+            <li key={tab} className="flex-1 text-xs font-medium">
               <button
                 onClick={() => setDirectTab(tab)}
-                className={`w-full flex items-center justify-center gap-2 px-3 py-2 border border-slate-800/20 rounded-full text-sm font-medium transition-all cursor-pointer ${
+                className={`w-full flex items-center justify-center p-2 border border-background-700/20 rounded-full transition-all cursor-pointer ${
                   directTab === tab
                     ? "bg-primary-300/60 text-text-800 shadow-sm"
                     : "text-text-600 hover:bg-primary-400/20 hover:text-text-800"
@@ -265,7 +283,7 @@ function SidebarBody({
 }
 
 // Main component
-export default function ContactLeft({
+function ContactLeft({
   contacts,
   selectedContact,
   isPending,
@@ -276,6 +294,7 @@ export default function ContactLeft({
   setOpen,
   onSelectSelfChat,
   isSelfChatSelected,
+  onOpenNotifications,
 }: ContactLeftProps) {
   const [search, setSearch] = useState("");
   const [openDrop, setOpenDrop] = useState(false);
@@ -320,6 +339,7 @@ export default function ContactLeft({
           setOpen={setOpen}
           onSelectSelfChat={onSelectSelfChat}
           isSelfChatSelected={isSelfChatSelected}
+          onOpenNotifications={onOpenNotifications}
         />
       </div>
 
@@ -345,9 +365,12 @@ export default function ContactLeft({
             setOpen={setOpen}
             onSelectSelfChat={onSelectSelfChat}
             isSelfChatSelected={isSelfChatSelected}
+            onOpenNotifications={onOpenNotifications}
           />
         </aside>
       </div>
     </>
   );
 }
+
+export default memo(ContactLeft);
