@@ -6,6 +6,7 @@ import React from "react";
 import { useChatContacts } from "../../../../lib/providers/ChatUIProvider";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import LogOut from "@/components/ChatPage/ContactsLeft/DropDown/shared/LogOut"
+import ThemeToggler from "@/components/SharedComponents/ThemeToggler";
 type DropDownTypes = {
   openDrop: boolean, 
   setOpen: React.Dispatch<React.SetStateAction<boolean>>, 
@@ -43,7 +44,7 @@ export default function SettingsDropDown({openDrop, setOpen, setOpenDrop}: DropD
               duration: 0.15,
               ease: "easeOut",
             }}
-            className="absolute z-99 -right-4 lg:left-0 mt-2 w-48 bg-secondary-100 px-3 py-4 rounded-xl flex flex-col gap-y-1 shadow-md"
+            className="absolute font-medium text-sm z-99 -right-4 lg:left-0 mt-2 w-48 bg-secondary-100 px-3 py-4 rounded-xl flex flex-col gap-y-1 shadow-md"
           >
             <motion.button
               className="p-2 flex w-full self-stretch gap-x-2 items-center hover:cursor-pointer hover:bg-primary-300/50 rounded-lg"
@@ -60,7 +61,6 @@ export default function SettingsDropDown({openDrop, setOpen, setOpenDrop}: DropD
               <MessageSquare size={18} />
               <span>Mark all as read</span>
             </motion.button>
-
             <div className="w-full h-px bg-slate-800/40 my-1" />
 
             <LogOut setOpen={setOpen} setOpenDrop={setOpenDrop} />

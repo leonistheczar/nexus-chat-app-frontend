@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { Sun, Moon } from "lucide-react";
 
-export default function ThemeToggle() {
+export default function ThemeToggle({ compact = false }: { compact?: boolean }) {
   const { setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -22,16 +22,17 @@ export default function ThemeToggle() {
 
   return (
     <button
+      type="button"
+      aria-label={`Switch to ${isDark ? "light" : "dark"} theme`}
+      aria-pressed={isDark}
       onClick={toggleTheme}
-      className="
-        relative w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center
-        rounded-full bg-primary-200 overflow-hidden
-        transition-all hover:cursor-pointer hover:bg-primary-300
-      "
+      className={`relative flex shrink-0 items-center justify-center rounded-full bg-primary-200 overflow-hidden transition-all hover:cursor-pointer hover:bg-primary-300 ${
+        compact ? "w-6 h-6" : "w-8 h-8 sm:w-10 sm:h-10"
+      }`}
     >
       {/* Sun */}
       <Sun
-        size={18}
+        size={compact ? 14 : 18}
         className={`
           absolute transition-all duration-500 ease-in-out delay-150
           ${isDark
@@ -42,7 +43,7 @@ export default function ThemeToggle() {
 
       {/* Moon */}
       <Moon
-        size={18}
+        size={compact ? 14 : 18}
         className={`
           absolute transition-all duration-500 ease-in-out delay-150
           ${isDark

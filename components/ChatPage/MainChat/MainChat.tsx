@@ -1,7 +1,7 @@
 "use client";
 
 import { Contact, ChatMessage, User } from "@/app/types/types";
-import { useState, useEffect, useCallback } from "react";
+import { memo, useState, useEffect, useCallback } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAuth } from "@clerk/nextjs";
 import { InfiniteData, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -31,7 +31,7 @@ const currentUser: User = {
   profilePic: "",
 };
 
-export default function MainChat({
+function MainChat({
   selectedContact,
   isSelfChat = false,
   isContactsPending = false,
@@ -308,3 +308,5 @@ export default function MainChat({
     </>
   );
 }
+
+export default memo(MainChat);
