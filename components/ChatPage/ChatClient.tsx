@@ -157,6 +157,7 @@ export default function ChatClient() {
               <MainChat
                 selectedContact={isSelfChat ? selfChatContact : selectedContact}
                 isSelfChat={isSelfChat}
+                conversationId={isSelfChat ? currentUser?.selfChat?.id ?? null : null}
                 showContacts={showContacts}
                 setShowContacts={setShowContacts}
                 onAvatarClick={isSelfChat ? undefined : handleAvatarClick}
@@ -168,6 +169,7 @@ export default function ChatClient() {
             <MainChat
               selectedContact={isSelfChat ? selfChatContact : selectedContact}
               isSelfChat={isSelfChat}
+              conversationId={isSelfChat ? currentUser?.selfChat?.id ?? null : null}
               isContactsPending={isPending}
               showContacts={showContacts}
               setShowContacts={setShowContacts}

@@ -19,10 +19,11 @@ export type CurrentUser = {
   avatarUrl: string | null;
   profileStatus: "incomplete" | "active" | "suspended" | "deleted";
   lastSeenAt: string | null;
+  selfChat: { id: string; lastMessageAt: string | null } | null;
 };
 type CurrentUserResponse =
-  | (CurrentUser & { selfChat?: { id: string; lastMessageAt: string | null } | null })
-  | { data: CurrentUser; selfChat?: { id: string; lastMessageAt: string | null } | null };
+  | (Omit<CurrentUser, "selfChat"> & { selfChat?: CurrentUser["selfChat"] })
+  | { data: Omit<CurrentUser, "selfChat">; selfChat?: CurrentUser["selfChat"] };
 
 export const getCurrentUser = async (token: string): Promise<CurrentUser> => {
   const { data } = await api.get<CurrentUserResponse>("/users/me", {
@@ -32,7 +33,8 @@ export const getCurrentUser = async (token: string): Promise<CurrentUser> => {
   });
 
   // Support both a direct user payload and an API response wrapped in `data`.
-  return "data" in data ? data.data : data;
+  const user = "data" in data ? data.data : data;
+  return { ...user, selfChat: data.selfChat ?? null };
 };
 
 export const submitCurrentUserProfile = async (

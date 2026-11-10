@@ -157,6 +157,15 @@ html[data-chat-font-size="small"] {
 html[data-chat-font-size="large"] {
   font-size: 106.25%;
 }
+::webkit-scrollbar {
+  width: 0.5rem;
+}
+::webkit-scrollbar-track {
+  background: var(--color-background-50);
+}
+::webkit-scrollbar-thumb {
+  background: var(--color-background-300);
+}
 
 /* Custom styles for contact field (/profile) */
 #phone-field button, #phone-field input{

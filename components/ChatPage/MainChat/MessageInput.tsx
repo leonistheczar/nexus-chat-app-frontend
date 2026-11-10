@@ -8,12 +8,14 @@ type MessageInputProps = {
   onSendMessage: (content: string) => void;
   placeholder?: string;
   disabled?: boolean;
+  maxLength?: number;
 };
 
 export default function MessageInput({
   onSendMessage,
   placeholder = "Type a message...",
   disabled = false,
+  maxLength = 10_000,
 }: MessageInputProps) {
   const [message, setMessage] = useState("");
   const [isSending, setIsSending] = useState(false);
@@ -77,13 +79,14 @@ export default function MessageInput({
         rows={1}
         placeholder={placeholder}
         disabled={disabled}
+        maxLength={maxLength}
         className="w-full text-sm focus:outline-none p-3 resize-none overflow-y-auto bg-transparent disabled:opacity-50 disabled:cursor-not-allowed"
         aria-label="Type a message"
       />
       <button
         title="Send message"
         type="submit"
-        disabled={!message.trim() || disabled}
+        disabled={!message.trim() || disabled || isSending}
         className="relative right-2 bg-primary-200 p-2 rounded-full transition-all duration-100 hover:bg-primary-300/80 hover:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isSending ? (

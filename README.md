@@ -499,6 +499,11 @@ Create:
 
 Configure the required environment variables for the current development setup.
 
+Set `NEXT_PUBLIC_SOCKET_URL` to the backend origin used by Socket.IO, for example
+`http://localhost:8000` in development or the backend's `https://` origin in
+production. It must be an origin without the `/api/v1` REST path. When omitted,
+the app derives the socket origin from `NEXT_PUBLIC_DEVELOPMENT_BASE_URL`.
+
 ### 4. Start the development server
 
 Using pnpm:

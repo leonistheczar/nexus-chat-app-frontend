@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import ProtectedChatGuard from "./ProtectedChatGuard";
+import { MessageSocketProvider } from "@/lib/providers/MessageSocketProvider";
 
 export const metadata: Metadata = {
   title: {
@@ -45,7 +46,9 @@ export default function ProtectedChatLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <ProtectedChatGuard>
-      <main className="h-screen">{children}</main>
+      <MessageSocketProvider>
+        <main className="h-screen">{children}</main>
+      </MessageSocketProvider>
     </ProtectedChatGuard>
   );
 }

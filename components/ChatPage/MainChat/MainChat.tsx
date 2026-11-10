@@ -3,10 +3,9 @@
 import { Contact, ChatMessage, User } from "@/app/types/types";
 import { memo, useState, useEffect, useCallback } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useAuth } from "@clerk/nextjs";
-import { InfiniteData, useMutation, useQueryClient } from "@tanstack/react-query";
-import useSelfChatMessages, { selfChatMessagesKey } from "@/hooks/chat/self-chat/useSelfChatMessages";
-import { createSelfChatMessage, SelfChatMessagesPage } from "@/lib/selfChat";
+import { useMutation } from "@tanstack/react-query";
+import useConversationMessages from "@/hooks/chat/useConversationMessages";
+import type { TextMessageEvent } from "@/lib/socket/messageSocket";
 import ChatHeader from "./ChatHeader";
 import MessageList from "./MessageList";
 import MessageInput from "./MessageInput";
@@ -17,6 +16,7 @@ import Skeleton from "@/components/SharedComponents/Skeleton";
 type MainChatProps = {
   selectedContact: Contact | null;
   isSelfChat?: boolean;
+  conversationId?: string | null;
   isContactsPending?: boolean;
   showContacts: boolean;
   setShowContacts: React.Dispatch<React.SetStateAction<boolean>>;
@@ -34,6 +34,7 @@ const currentUser: User = {
 function MainChat({
   selectedContact,
   isSelfChat = false,
+  conversationId = null,
   isContactsPending = false,
   showContacts,
   setShowContacts,
@@ -43,36 +44,21 @@ function MainChat({
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [selectedMessage, setSelectedMessage] = useState<number | string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const { getToken } = useAuth();
-  const queryClient = useQueryClient();
-  const selfChatQuery = useSelfChatMessages(isSelfChat);
+  const selfChatQuery = useConversationMessages(isSelfChat ? conversationId : null);
   const sendSelfChatMessage = useMutation({
-    mutationFn: async (body: string) => {
-      const token = await getToken();
-      if (!token) throw new Error("Your session has expired. Please sign in again.");
-      return createSelfChatMessage(token, body);
-    },
-    onSuccess: (created) => {
-      queryClient.setQueryData<InfiniteData<SelfChatMessagesPage, string | undefined>>(
-        selfChatMessagesKey,
-        (cached) => {
-        if (!cached || cached.pages.length === 0) return cached;
-        const message = { ...created, editedAt: null, attachments: [] };
-        return {
-          ...cached,
-          pages: cached.pages.map((page, index) =>
-            index === 0 ? { ...page, data: [message, ...page.data] } : page,
-          ),
-        };
-      });
-    },
+    mutationFn: selfChatQuery.sendMessage,
   });
 
   // Initialize messages when contact changes
   useEffect(() => {
     if (isSelfChat) {
       setMessages([]);
-      setIsLoading(selfChatQuery.isPending);
+      setIsLoading(
+        selfChatQuery.connected &&
+          Boolean(conversationId) &&
+          !selfChatQuery.joined &&
+          !selfChatQuery.joinError,
+      );
     } else if (selectedContact) {
       setIsLoading(true);
       
@@ -107,7 +93,7 @@ function MainChat({
       setMessages([]);
       setIsLoading(false);
     }
-  }, [selectedContact?.id, isSelfChat, selfChatQuery.isPending]);
+  }, [selectedContact?.id, isSelfChat, selfChatQuery.isPending, selfChatQuery.joined]);
 
   useEffect(() => {
     if (!isSelfChat) return;
@@ -115,7 +101,7 @@ function MainChat({
       .flatMap((page) => page.data)
       .slice()
       .reverse()
-      .map((message): ChatMessage => ({
+      .map((message: TextMessageEvent): ChatMessage => ({
         id: message.id,
         sender: currentUser,
         content: message.body,
@@ -123,8 +109,13 @@ function MainChat({
         isRead: true,
       })) ?? [];
     setMessages(serverMessages);
-    setIsLoading(selfChatQuery.isPending);
-  }, [isSelfChat, selfChatQuery.data, selfChatQuery.isPending]);
+    setIsLoading(
+      selfChatQuery.connected &&
+        Boolean(conversationId) &&
+        !selfChatQuery.joined &&
+        !selfChatQuery.joinError,
+    );
+  }, [isSelfChat, selfChatQuery.data, selfChatQuery.isPending, selfChatQuery.joined]);
 
   // Handle send message
   const handleSendMessage = useCallback(
@@ -264,6 +255,33 @@ function MainChat({
                       Could not load your notes. {selfChatQuery.error.message}
                     </p>
                   )}
+                  {isSelfChat && selfChatQuery.joinError && (
+                    <p role="alert" className="px-4 py-2 text-sm text-red-600">
+                      Could not open your notes. {selfChatQuery.joinError}
+                    </p>
+                  )}
+                  {isSelfChat && !conversationId && (
+                    <p role="alert" className="px-4 py-2 text-sm text-red-600">
+                      Your self chat is not available for this account yet.
+                    </p>
+                  )}
+                  {isSelfChat && selfChatQuery.isError &&
+                    "code" in selfChatQuery.error &&
+                    selfChatQuery.error.code === "INVALID_CURSOR" && (
+                      <button
+                        type="button"
+                        className="mx-4 my-2 self-start text-sm text-primary-700 underline"
+                        onClick={() => void selfChatQuery.restartHistory()}
+                      >
+                        Refresh message history
+                      </button>
+                    )}
+                  {isSelfChat && !selfChatQuery.connected && (
+                    <p role="status" className="px-4 py-2 text-sm text-text-500">
+                      {selfChatQuery.connectionError ??
+                        "Reconnecting to chat… Your unsent draft will stay in the composer."}
+                    </p>
+                  )}
                   {isSelfChat && sendSelfChatMessage.isError && (
                     <p role="alert" className="px-4 py-2 text-sm text-red-600">
                       Message could not be sent. {sendSelfChatMessage.error.message}
@@ -282,6 +300,8 @@ function MainChat({
 
                   <MessageInput
                     onSendMessage={handleSendMessage}
+                    disabled={isSelfChat && (!selfChatQuery.connected || !selfChatQuery.joined)}
+                    maxLength={10_000}
                     placeholder={isSelfChat ? "Write a note to yourself..." : `Message ${selectedContact.first_name}...`}
                   />
                 </>
